@@ -3203,6 +3203,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0ca7f28ccb769ec48a3b715855f75245, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  SpriteChild: {fileID: 1582085604}
   rigid: {fileID: 0}
   coll: {fileID: 0}
   PlayerCam: {fileID: 1258141020}
@@ -4228,6 +4229,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0ca7f28ccb769ec48a3b715855f75245, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  SpriteChild: {fileID: 1019901282}
   rigid: {fileID: 0}
   coll: {fileID: 0}
   PlayerCam: {fileID: 2096618025}
