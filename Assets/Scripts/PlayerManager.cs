@@ -131,6 +131,14 @@ public class PlayerManager: MonoBehaviour
     }
 
     private void CharacterMove() {
+<<<<<<< HEAD
+=======
+        float vert = Input.GetAxis("Vertical");
+        float hori = Input.GetAxis("Horizontal");
+
+        TargetObject.SightChange((int)hori);
+
+>>>>>>> parent of 3cf564b (2024-05-31)
         if (isAiming) return;
         // if (!isMovable) return;
 
@@ -173,6 +181,18 @@ public class PlayerManager: MonoBehaviour
             TargetObject.GetComponent<PlayerScript>().playerCam.SetActive(true);
             isAiming = false;
         }
+<<<<<<< HEAD
         
+=======
+
+
+    }
+
+    private void CharacterAimRotate()
+    {
+        if (!isAiming) return;
+
+
+>>>>>>> parent of 3cf564b (2024-05-31)
     }
 }

@@ -61,5 +61,32 @@ public class PlayerScript : MonoBehaviour
     }
 
 
+<<<<<<< HEAD
+=======
+    public void SightChange(int direction)
+    {
+        Vector3 scaleVec = SpriteChild.localScale;
+        Vector3 rotateVec = PlayerAimCam.transform.rotation.eulerAngles;
+        Debug.Log(rotateVec);
+        if (direction == 1)
+        {
+            scaleVec.x = Mathf.Abs(scaleVec.x);
+            // rotateVec.x = Mathf.Abs(rotateVec.x);
+
+            SpriteChild.localScale = scaleVec;
+            // PlayerAimCam.transform.localScale = camVec;
+        }
+        else if (direction == -1)
+        {
+            scaleVec.x = -Mathf.Abs(scaleVec.x);
+            // camVec.x = -Mathf.Abs(camVec.x);
+
+            SpriteChild.localScale = scaleVec;
+            // PlayerAimCam.transform.localScale = camVec;
+        }
+
+    }
+
+>>>>>>> parent of 3cf564b (2024-05-31)
 
 }
