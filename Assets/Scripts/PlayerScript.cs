@@ -4,9 +4,6 @@ using UnityEngine;
 
 public class PlayerScript : MonoBehaviour
 {
-    [Header("Character Info")]
-    [SerializeField] Transform SpriteChild;
-
     [Header("Character Physics")]
     [SerializeField] Rigidbody rigid;
     [SerializeField] CapsuleCollider coll;
@@ -63,33 +60,6 @@ public class PlayerScript : MonoBehaviour
         }
     }
 
-    private void AimingCheck() { 
-        
-    }
-
-    public void SightChange(int direction)
-    {
-        Vector3 scaleVec = SpriteChild.localScale;
-        Vector3 rotateVec = PlayerAimCam.transform.rotation.eulerAngles;
-        Debug.Log(rotateVec);
-        if (direction == 1)
-        {
-            scaleVec.x = Mathf.Abs(scaleVec.x);
-            // rotateVec.x = Mathf.Abs(rotateVec.x);
-
-            SpriteChild.localScale = scaleVec;
-            // PlayerAimCam.transform.localScale = camVec;
-        }
-        else if (direction == -1)
-        {
-            scaleVec.x = -Mathf.Abs(scaleVec.x);
-            // camVec.x = -Mathf.Abs(camVec.x);
-
-            SpriteChild.localScale = scaleVec;
-            // PlayerAimCam.transform.localScale = camVec;
-        }
-
-    }
 
 
 }

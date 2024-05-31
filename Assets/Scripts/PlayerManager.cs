@@ -76,8 +76,7 @@ public class PlayerManager: MonoBehaviour
         CharacterExchange();
         CharacterMove();
         CharacterJump();
-        CharacterAimMode();
-        CharacterAimRotate();
+        CharacterAim();
     }
 
 
@@ -132,13 +131,11 @@ public class PlayerManager: MonoBehaviour
     }
 
     private void CharacterMove() {
-        float vert = Input.GetAxis("Vertical");
-        float hori = Input.GetAxis("Horizontal");
-
-        TargetObject.SightChange((int)hori);
-
         if (isAiming) return;
         // if (!isMovable) return;
+
+        float vert = Input.GetAxis("Vertical");
+        float hori = Input.GetAxis("Horizontal");
 
         Vector3 moveDir = Vector3.zero;
         moveDir.x = hori * moveSpeed;
@@ -154,7 +151,7 @@ public class PlayerManager: MonoBehaviour
         }
     }
 
-    private void CharacterAimMode()
+    private void CharacterAim()
     {
         //// exchange icon cool time change
         //exCurCool -= Time.deltaTime;
@@ -176,14 +173,6 @@ public class PlayerManager: MonoBehaviour
             TargetObject.GetComponent<PlayerScript>().playerCam.SetActive(true);
             isAiming = false;
         }
-
-
-    }
-
-    private void CharacterAimRotate()
-    {
-        if (!isAiming) return;
-
-
+        
     }
 }
