@@ -12,16 +12,33 @@ public class PlayerScript : MonoBehaviour
     [SerializeField] CapsuleCollider coll;
     [SerializeField] GameObject PlayerCam;  // Cinemachine Object
     [SerializeField] GameObject PlayerAimCam;  // Cinemachine Object
+    [SerializeField]
+    public GameObject playerCam
+    { 
+        get {
+            PlayerAimCam.SetActive(false);
+            return PlayerCam; 
+        }
+        set { PlayerCam = value; }
+    }
+
+    public GameObject playerAimCam
+    {
+        get {
+            PlayerCam.SetActive(false);
+            return PlayerAimCam; 
+        }
+        set { PlayerCam = value; }
+    }
+
     [SerializeField] bool isGround;
-    public GameObject playerCam { get {PlayerAimCam.SetActive(false); return PlayerCam;} set { PlayerCam = value; }}
-    public GameObject playerAimCam { get {PlayerCam.SetActive(false); return PlayerAimCam;} set { PlayerCam = value; }}
-    public bool GroundCheck { get {return isGround;} set {isGround = value;} }
+    [SerializeField] public bool GroundCheck
+    { get { return isGround; } set { isGround = value; } }
 
     [Header("Character Control")]
     [SerializeField] bool isSelect;
-    [SerializeField] bool isLeft;
-    public bool CharacterSelect { get { return isSelect; } set { isSelect = value; } }
-    public bool DirectionCheck { get { return isLeft; } set { isLeft = value; } }
+    public bool CharacterSelect
+    { get { return isSelect; } set { isSelect = value; } }
 
     // Start is called before the first frame update
     void Start()
@@ -53,35 +70,26 @@ public class PlayerScript : MonoBehaviour
     public void SightChange(int direction)
     {
         Vector3 scaleVec = SpriteChild.localScale;
-        // Vector3 rotateVec = PlayerAimCam.transform.rotation.eulerAngles;
-        if (direction == 1 && isLeft)
+        Vector3 rotateVec = PlayerAimCam.transform.rotation.eulerAngles;
+        Debug.Log(rotateVec);
+        if (direction == 1)
         {
-            isLeft = false;
             scaleVec.x = Mathf.Abs(scaleVec.x);
-            // rotateVec.y = 90f;
+            // rotateVec.x = Mathf.Abs(rotateVec.x);
 
             SpriteChild.localScale = scaleVec;
-            // PlayerAimCam.transform.rotation = Quaternion.Euler(rotateVec);
+            // PlayerAimCam.transform.localScale = camVec;
         }
-        else if (direction == -1 && !isLeft)
+        else if (direction == -1)
         {
-            isLeft = true;
             scaleVec.x = -Mathf.Abs(scaleVec.x);
-            // rotateVec.y = -90f;
+            // camVec.x = -Mathf.Abs(camVec.x);
 
             SpriteChild.localScale = scaleVec;
-            // PlayerAimCam.transform.rotation = Quaternion.Euler(rotateVec);
+            // PlayerAimCam.transform.localScale = camVec;
         }
 
     }
 
-    public GameObject GetAimCameraObject() {
-        return PlayerAimCam;
-    }
-
-    public GameObject GetCameraObject()
-    {
-        return PlayerCam;
-    }
 
 }
