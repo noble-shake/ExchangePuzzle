@@ -9,16 +9,33 @@ public class PlayerScript : MonoBehaviour
     [SerializeField] CapsuleCollider coll;
     [SerializeField] GameObject PlayerCam;  // Cinemachine Object
     [SerializeField] GameObject PlayerAimCam;  // Cinemachine Object
+    [SerializeField]
+    public GameObject playerCam
+    { 
+        get {
+            PlayerAimCam.SetActive(false);
+            return PlayerCam; 
+        }
+        set { PlayerCam = value; }
+    }
+
+    public GameObject playerAimCam
+    {
+        get {
+            PlayerCam.SetActive(false);
+            return PlayerAimCam; 
+        }
+        set { PlayerCam = value; }
+    }
+
     [SerializeField] bool isGround;
-    public GameObject playerCam { get {PlayerAimCam.SetActive(false); return PlayerCam;} set { PlayerCam = value; }}
-    public GameObject playerAimCam { get {PlayerCam.SetActive(false); return PlayerAimCam;} set { PlayerCam = value; }}
-    public bool GroundCheck { get {return isGround;} set {isGround = value;} }
+    [SerializeField] public bool GroundCheck
+    { get { return isGround; } set { isGround = value; } }
 
     [Header("Character Control")]
     [SerializeField] bool isSelect;
-    [SerializeField] bool isLeft;
-    public bool CharacterSelect { get { return isSelect; } set { isSelect = value; } }
-    public bool DirectionCheck { get { return isLeft; } set { isLeft = value; } }
+    public bool CharacterSelect
+    { get { return isSelect; } set { isSelect = value; } }
 
     // Start is called before the first frame update
     void Start()
