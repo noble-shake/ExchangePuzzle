@@ -4,38 +4,24 @@ using UnityEngine;
 
 public class PlayerScript : MonoBehaviour
 {
+    [Header("Character Info")]
+    [SerializeField] Transform SpriteChild;
+
     [Header("Character Physics")]
     [SerializeField] Rigidbody rigid;
     [SerializeField] CapsuleCollider coll;
     [SerializeField] GameObject PlayerCam;  // Cinemachine Object
     [SerializeField] GameObject PlayerAimCam;  // Cinemachine Object
-    [SerializeField]
-    public GameObject playerCam
-    { 
-        get {
-            PlayerAimCam.SetActive(false);
-            return PlayerCam; 
-        }
-        set { PlayerCam = value; }
-    }
-
-    public GameObject playerAimCam
-    {
-        get {
-            PlayerCam.SetActive(false);
-            return PlayerAimCam; 
-        }
-        set { PlayerCam = value; }
-    }
-
     [SerializeField] bool isGround;
-    [SerializeField] public bool GroundCheck
-    { get { return isGround; } set { isGround = value; } }
+    public GameObject playerCam { get {PlayerAimCam.SetActive(false); return PlayerCam;} set { PlayerCam = value; }}
+    public GameObject playerAimCam { get {PlayerCam.SetActive(false); return PlayerAimCam;} set { PlayerCam = value; }}
+    public bool GroundCheck { get {return isGround;} set {isGround = value;} }
 
     [Header("Character Control")]
     [SerializeField] bool isSelect;
-    public bool CharacterSelect
-    { get { return isSelect; } set { isSelect = value; } }
+    [SerializeField] bool isLeft;
+    public bool CharacterSelect { get { return isSelect; } set { isSelect = value; } }
+    public bool DirectionCheck { get { return isLeft; } set { isLeft = value; } }
 
     // Start is called before the first frame update
     void Start()
@@ -60,33 +46,42 @@ public class PlayerScript : MonoBehaviour
         }
     }
 
+    private void AimingCheck() { 
+        
+    }
 
-<<<<<<< HEAD
-=======
     public void SightChange(int direction)
     {
         Vector3 scaleVec = SpriteChild.localScale;
-        Vector3 rotateVec = PlayerAimCam.transform.rotation.eulerAngles;
-        Debug.Log(rotateVec);
-        if (direction == 1)
+        // Vector3 rotateVec = PlayerAimCam.transform.rotation.eulerAngles;
+        if (direction == 1 && isLeft)
         {
+            isLeft = false;
             scaleVec.x = Mathf.Abs(scaleVec.x);
-            // rotateVec.x = Mathf.Abs(rotateVec.x);
+            // rotateVec.y = 90f;
 
             SpriteChild.localScale = scaleVec;
-            // PlayerAimCam.transform.localScale = camVec;
+            // PlayerAimCam.transform.rotation = Quaternion.Euler(rotateVec);
         }
-        else if (direction == -1)
+        else if (direction == -1 && !isLeft)
         {
+            isLeft = true;
             scaleVec.x = -Mathf.Abs(scaleVec.x);
-            // camVec.x = -Mathf.Abs(camVec.x);
+            // rotateVec.y = -90f;
 
             SpriteChild.localScale = scaleVec;
-            // PlayerAimCam.transform.localScale = camVec;
+            // PlayerAimCam.transform.rotation = Quaternion.Euler(rotateVec);
         }
 
     }
 
->>>>>>> parent of 3cf564b (2024-05-31)
+    public GameObject GetAimCameraObject() {
+        return PlayerAimCam;
+    }
+
+    public GameObject GetCameraObject()
+    {
+        return PlayerCam;
+    }
 
 }
