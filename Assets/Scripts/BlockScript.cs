@@ -23,6 +23,9 @@ public class BlockScript : MonoBehaviour
     [SerializeField] Vector3 WarpDirection;
     [SerializeField] BlockScript ConnectedBlockObject;
 
+    [Header("External Setup")]
+    [SerializeField] int OwnerPlayerID = -1;
+
 
     void Start()
     {
@@ -61,17 +64,24 @@ public class BlockScript : MonoBehaviour
 
         if (ConnectedBlockObject == null) return;
 
-        // dimension prefab
-        // collider on/off
+        openDimenstion();
+    }
+
+    public void openDimenstion()
+    {
+        
+        if (WarpDirection == Vector3.zero) return;
+        Debug.Log(WarpDirection);
         blockColl.enabled = false;
         dimensionCollObj.SetActive(true);
     }
 
     public void shutDownDimension() 
     {
+        OwnerPlayerID = -1;
         blockColl.enabled = true;
-        isConnected = false;
-        ConnectedBlockObject = null;
+        WarpDirection = Vector3.zero;
+        UnSyncronizeBlock();
         changeColorFromPlayer(-1);
         dimensionCollObj.SetActive(false);
     }
@@ -80,12 +90,20 @@ public class BlockScript : MonoBehaviour
         return ConnectedBlockObject.transform.position + WarpDirection;
     }
 
-    public void SynchronizeBlocks(BlockScript _otherBlock) {
+    public void SynchronizeBlock(BlockScript _otherBlock) {
         ConnectedBlockObject = _otherBlock;
+        isConnected = true;
+    }
+
+    public void UnSyncronizeBlock()
+    {
+        ConnectedBlockObject = null;
+        isConnected = false;
     }
 
     public void TriggerOnDimensionObject(Collider other) {
         Debug.Log("Collider");
+        // plaeyer warped
     }
 
     public void hitFromPortalBullet(PortalBullet bullet) 
@@ -93,7 +111,17 @@ public class BlockScript : MonoBehaviour
         // check direction
 
         int playerID = bullet.pid;
-        shutDownDimension();
+        // shutDownDimension();
+
+        if (OwnerPlayerID == -1)
+        {
+            OwnerPlayerID = playerID;
+        }
+        else if (OwnerPlayerID == playerID)
+        { 
+            shutDownDimension();
+        }
+
 
         if (isConnected) 
         {

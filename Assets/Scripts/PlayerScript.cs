@@ -6,6 +6,8 @@ public class PlayerScript : MonoBehaviour
 {
     [Header("Character Info")]
     [SerializeField] Transform SpriteChild;
+    [SerializeField] Transform Muzzle;
+    public Transform ShotPoint { get { return Muzzle; } }
 
     [Header("Character Physics")]
     [SerializeField] Rigidbody rigid;
@@ -44,10 +46,6 @@ public class PlayerScript : MonoBehaviour
         {
             isGround = false;
         }
-    }
-
-    private void AimingCheck() { 
-        
     }
 
     public void SightChange(int direction)

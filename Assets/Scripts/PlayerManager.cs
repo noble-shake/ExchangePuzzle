@@ -25,6 +25,7 @@ public class PlayerManager: MonoBehaviour
     [SerializeField] Camera mainCam;
     [SerializeField] GameObject CurrentAimCam;
     [SerializeField] GameObject ChracterPortrait;
+    [SerializeField] GameObject BulletPrefab;
 
     [Header("Player Control")]
     [SerializeField] float moveSpeed;
@@ -46,6 +47,7 @@ public class PlayerManager: MonoBehaviour
     [Header("Player Object")]
     [SerializeField] PlayerScript Player1Object;
     [SerializeField] PlayerScript Player2Object;
+    [SerializeField] int curPlayerID;
     [SerializeField] PlayerScript TargetObject;
     [SerializeField] Rigidbody rigid;
 
@@ -71,6 +73,7 @@ public class PlayerManager: MonoBehaviour
         Player2Object.GetComponent<Rigidbody>().mass = 1000f;
         TargetObject = Player1Object;
         CurrentAimCam = Player1Object.GetComponent<PlayerScript>().GetAimCameraObject();
+        curPlayerID = 0;
         rigid = Player1Object.GetComponent<Rigidbody>();
     }
 
@@ -88,9 +91,19 @@ public class PlayerManager: MonoBehaviour
         CharacterJump();
         CharacterAimMode();
         CharacterAimRotate();
+        CharacterShoot();
     }
 
+    private void CharacterShoot()
+    {
+        if (!isAiming) return;
 
+        if (Input.GetMouseButtonDown(0))
+        {
+            GameObject go = Instantiate(BulletPrefab, TargetObject.ShotPoint.position + new Vector3(0,0.6f), CurrentAimCam.transform.rotation);
+            go.GetComponent<PortalBullet>().SetBulletInspector(curPlayerID);
+        }
+    }
 
     private void CharacterExchange()
     {
@@ -115,6 +128,7 @@ public class PlayerManager: MonoBehaviour
             // Character Controller Change
             if (isFirstChar)
             {
+                curPlayerID = 1;
                 Player1Object.GetComponent<PlayerScript>().playerCam.SetActive(false);
                 Player1Object.GetComponent<PlayerScript>().CharacterSelect = false; // isSelect On/Off
                 Player2Object.GetComponent<PlayerScript>().playerCam.SetActive(true);
@@ -127,6 +141,7 @@ public class PlayerManager: MonoBehaviour
             }
             else
             {
+                curPlayerID = 0;
                 Player1Object.GetComponent<PlayerScript>().playerCam.SetActive(true);
                 Player1Object.GetComponent<PlayerScript>().CharacterSelect = false;
                 Player2Object.GetComponent<PlayerScript>().playerCam.SetActive(false);

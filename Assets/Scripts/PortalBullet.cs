@@ -13,6 +13,7 @@ public class PortalBullet : MonoBehaviour
     [SerializeField] int PlayerID;
     [SerializeField] public int pid { get { return PlayerID; } set { PlayerID = value; } }
     [SerializeField] CapsuleCollider bulletColl;
+    [SerializeField] float bulletSpeed;
 
     // Start is called before the first frame update
     void Start()
@@ -38,19 +39,26 @@ public class PortalBullet : MonoBehaviour
         }
     }
 
+
     // Update is called once per frame
     void Update()
     {
-        
+        transform.position = transform.position + transform.forward * Time.deltaTime * bulletSpeed;
     }
 
     private void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("block"))
         {
+            Vector3 collisionPoint = other.ClosestPoint(transform.position);
+            Vector3 collisionNormal = transform.position - collisionPoint;
+            // Debug.Log(collisionPoint);
+            // Debug.Log(collisionNormal);
             // change Block
-            BlockScript go = other.GetComponent<BlockScript>();
 
+            GameManager.instance.RegistryBlock(other.gameObject, pid);
+            BlockScript go = other.GetComponent<BlockScript>();
+            go.createDimension(collisionNormal);
 
             Destroy(gameObject);
         }

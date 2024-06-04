@@ -66,6 +66,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8697bf41343c0054f8ef89b24d59a8fd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ParentObj: {fileID: 0}
+  coll: {fileID: 0}
 --- !u!1 &2478682459584260093
 GameObject:
   m_ObjectHideFlags: 0
@@ -81,7 +83,7 @@ GameObject:
   - component: {fileID: -5930548280183108677}
   m_Layer: 6
   m_Name: Block
-  m_TagString: Untagged
+  m_TagString: block
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -189,6 +191,9 @@ MonoBehaviour:
   blockMat: {fileID: 2100000, guid: 748a52e884c8309478a5725b0b3f3027, type: 2}
   currentMat: {fileID: 0}
   meshRenderer: {fileID: 0}
-  isConnected: 0
-  blockColl: {fileID: 0}
+  blockColl: {fileID: 3047448973597202001}
   dimensionCollObj: {fileID: 466330429538255196}
+  isConnected: 0
+  WarpDirection: {x: 0, y: 0, z: 0}
+  ConnectedBlockObject: {fileID: 0}
+  OwnerPlayerID: -1

@@ -598,7 +598,8 @@ Transform:
   m_LocalPosition: {x: 0.3, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 0.35, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 1964745848}
   m_Father: {fileID: 1534004075}
   m_RootOrder: -1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -2971,7 +2972,8 @@ Transform:
   m_LocalPosition: {x: 0.3, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 0.35, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 1965322145}
   m_Father: {fileID: 1911652985}
   m_RootOrder: -1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -3478,7 +3480,7 @@ GameObject:
   - component: {fileID: 1534004076}
   m_Layer: 3
   m_Name: Player2
-  m_TagString: Untagged
+  m_TagString: player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -3496,6 +3498,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   SpriteChild: {fileID: 1582085604}
+  Muzzle: {fileID: 1964745848}
   rigid: {fileID: 0}
   coll: {fileID: 0}
   PlayerCam: {fileID: 1258141020}
@@ -3625,6 +3628,7 @@ MonoBehaviour:
   mainCam: {fileID: 0}
   CurrentAimCam: {fileID: 0}
   ChracterPortrait: {fileID: 0}
+  BulletPrefab: {fileID: 815871323286568419, guid: 1885fb470c0d95741971d50a8419f821, type: 3}
   moveSpeed: 5
   jumpForce: 5
   isMovable: 0
@@ -3640,6 +3644,7 @@ MonoBehaviour:
   rotateSpeed: 300
   Player1Object: {fileID: 1911652984}
   Player2Object: {fileID: 1534004074}
+  curPlayerID: 0
   TargetObject: {fileID: 0}
   rigid: {fileID: 0}
 --- !u!4 &1535625152
@@ -4513,7 +4518,7 @@ GameObject:
   - component: {fileID: 1911652986}
   m_Layer: 3
   m_Name: Player1
-  m_TagString: Untagged
+  m_TagString: player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -4531,6 +4536,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   SpriteChild: {fileID: 1019901282}
+  Muzzle: {fileID: 1965322145}
   rigid: {fileID: 0}
   coll: {fileID: 0}
   PlayerCam: {fileID: 2096618025}
@@ -4926,6 +4932,68 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 6729704498446742227, guid: 5b4592f1b8bfa114d86f7eddc06463f3, type: 3}
   m_PrefabInstance: {fileID: 1897022274}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1964745847
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1964745848}
+  m_Layer: 3
+  m_Name: Muzzle
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1964745848
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1964745847}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0.4, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 186706592}
+  m_RootOrder: -1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1965322144
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1965322145}
+  m_Layer: 3
+  m_Name: Muzzle
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1965322145
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1965322144}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0.4, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1378486934}
+  m_RootOrder: -1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &1989313128
 PrefabInstance:
   m_ObjectHideFlags: 0
