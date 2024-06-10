@@ -60,7 +60,32 @@ public class BlockScript : MonoBehaviour
 
     public void createDimension(Vector3 _norm) 
     {
-        WarpDirection = _norm;
+        Vector3 DimensionPostion;
+
+        if (Mathf.Abs(_norm.x) > Mathf.Abs(_norm.y))
+        {
+            if (_norm.x > 0)
+            {
+                DimensionPostion = Vector3.left / 2;
+            }
+            else
+            {
+                DimensionPostion = Vector3.right / 2;
+            }
+        }
+        else
+        {
+            if (_norm.y < 0)
+            {
+                DimensionPostion = Vector3.down / 2;
+            }
+            else
+            {
+                DimensionPostion = Vector3.up/ 2;
+            }
+        }
+
+        WarpDirection = DimensionPostion;
 
         if (ConnectedBlockObject == null) return;
 
@@ -73,6 +98,7 @@ public class BlockScript : MonoBehaviour
         if (WarpDirection == Vector3.zero) return;
         Debug.Log(WarpDirection);
         blockColl.enabled = false;
+        dimensionCollObj.transform.position += WarpDirection; 
         dimensionCollObj.SetActive(true);
     }
 
@@ -80,6 +106,7 @@ public class BlockScript : MonoBehaviour
     {
         OwnerPlayerID = -1;
         blockColl.enabled = true;
+        dimensionCollObj.transform.position = transform.position;
         WarpDirection = Vector3.zero;
         UnSyncronizeBlock();
         changeColorFromPlayer(-1);
@@ -87,7 +114,7 @@ public class BlockScript : MonoBehaviour
     }
 
     public Vector3 WarpToOtherSide() { 
-        return ConnectedBlockObject.transform.position + WarpDirection;
+        return dimensionCollObj.transform.position;
     }
 
     public void SynchronizeBlock(BlockScript _otherBlock) {
@@ -104,6 +131,8 @@ public class BlockScript : MonoBehaviour
     public void TriggerOnDimensionObject(Collider other) {
         Debug.Log("Collider");
         // plaeyer warped
+        Vector3 TargetPos = ConnectedBlockObject.GetComponent<BlockScript>().WarpToOtherSide();
+        other.transform.position = TargetPos;
     }
 
     public void hitFromPortalBullet(PortalBullet bullet) 

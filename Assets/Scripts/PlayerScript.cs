@@ -6,6 +6,7 @@ public class PlayerScript : MonoBehaviour
 {
     [Header("Character Info")]
     [SerializeField] Transform SpriteChild;
+    [SerializeField] Transform AimTracer;
     [SerializeField] Transform Muzzle;
     public Transform ShotPoint { get { return Muzzle; } }
 
@@ -51,23 +52,28 @@ public class PlayerScript : MonoBehaviour
     public void SightChange(int direction)
     {
         Vector3 scaleVec = SpriteChild.localScale;
+        Vector3 scaleAimVec = AimTracer.localScale;
         // Vector3 rotateVec = PlayerAimCam.transform.rotation.eulerAngles;
         if (direction == 1 && isLeft)
         {
             isLeft = false;
             scaleVec.x = Mathf.Abs(scaleVec.x);
+            scaleAimVec.x = Mathf.Abs(scaleAimVec.x);
             // rotateVec.y = 90f;
 
             SpriteChild.localScale = scaleVec;
+            AimTracer.localScale = scaleAimVec;
             // PlayerAimCam.transform.rotation = Quaternion.Euler(rotateVec);
         }
         else if (direction == -1 && !isLeft)
         {
             isLeft = true;
             scaleVec.x = -Mathf.Abs(scaleVec.x);
+            scaleAimVec.x = -Mathf.Abs(scaleAimVec.x);
             // rotateVec.y = -90f;
 
             SpriteChild.localScale = scaleVec;
+            AimTracer.localScale = scaleAimVec;
             // PlayerAimCam.transform.rotation = Quaternion.Euler(rotateVec);
         }
 

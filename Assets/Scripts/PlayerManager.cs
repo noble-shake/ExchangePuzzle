@@ -100,7 +100,7 @@ public class PlayerManager: MonoBehaviour
 
         if (Input.GetMouseButtonDown(0))
         {
-            GameObject go = Instantiate(BulletPrefab, TargetObject.ShotPoint.position + new Vector3(0,0.6f), CurrentAimCam.transform.rotation);
+            GameObject go = Instantiate(BulletPrefab, TargetObject.ShotPoint.position, CurrentAimCam.transform.rotation);
             go.GetComponent<PortalBullet>().SetBulletInspector(curPlayerID);
         }
     }
@@ -206,12 +206,14 @@ public class PlayerManager: MonoBehaviour
             aimCurCool = aimCool;
             TargetObject.GetComponent<PlayerScript>().playerAimCam.SetActive(true);
             isAiming = true;
+            GameManager.instance.PlayerUIChange();
         }
         else if (Input.GetKeyDown(KeyCode.Z) && isAiming)
         {
             aimCurCool = aimCool;
             TargetObject.GetComponent<PlayerScript>().playerCam.SetActive(true);
             isAiming = false;
+            GameManager.instance.PlayerUIChange();
         }
 
 

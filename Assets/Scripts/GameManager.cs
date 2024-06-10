@@ -9,6 +9,8 @@ public class GameManager : MonoBehaviour
     public static GameManager instance;
 
     [Header("Game UI")]
+    [SerializeField] GameObject PlayUI;
+    [SerializeField] GameObject AimUI;
     [SerializeField] GameObject PauseUI;
     [SerializeField] GameObject WarpConnectBlock1;
     [SerializeField] GameObject WarpConnectBlock2;
@@ -54,6 +56,19 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    public void PlayerUIChange() {
+        if (PlayUI.activeSelf)
+        {
+            PlayUI.SetActive(false);
+            AimUI.SetActive(true);
+        }
+        else
+        {
+            PlayUI.SetActive(true);
+            AimUI.SetActive(false);
+        }
+    }
+
     public void RegistryBlock(GameObject _block, int _playerID)
     {
         switch (_playerID)
@@ -65,6 +80,7 @@ public class GameManager : MonoBehaviour
                     WarpBlock1 = null;
                 }
                 WarpBlock1 = _block;
+                WarpBlock1.GetComponent<BlockScript>().changeColorFromPlayer(0);
                 if (WarpBlock2 != null)
                 {
                     WarpBlock1.GetComponent<BlockScript>().SynchronizeBlock(WarpBlock2.GetComponent<BlockScript>());
@@ -80,6 +96,7 @@ public class GameManager : MonoBehaviour
                     WarpBlock2 = null;
                 }
                 WarpBlock2 = _block;
+                WarpBlock2.GetComponent<BlockScript>().changeColorFromPlayer(1);
                 if (WarpBlock1 != null)
                 {
                     WarpBlock1.GetComponent<BlockScript>().SynchronizeBlock(WarpBlock2.GetComponent<BlockScript>());
