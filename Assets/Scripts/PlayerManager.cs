@@ -173,6 +173,8 @@ public class PlayerManager: MonoBehaviour
         
 
         if (isAiming) return;
+        if (TargetObject.PassedCheck) return;
+
         // if (!isMovable) return;
 
         Vector3 moveDir = Vector3.zero;

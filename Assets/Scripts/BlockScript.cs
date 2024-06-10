@@ -66,22 +66,22 @@ public class BlockScript : MonoBehaviour
         {
             if (_norm.x > 0)
             {
-                DimensionPostion = Vector3.left / 2;
+                DimensionPostion = Vector3.right; // 2;
             }
             else
             {
-                DimensionPostion = Vector3.right / 2;
+                DimensionPostion = Vector3.left; // 2;
             }
         }
         else
         {
             if (_norm.y < 0)
             {
-                DimensionPostion = Vector3.down / 2;
+                DimensionPostion = Vector3.down; // 2;
             }
             else
             {
-                DimensionPostion = Vector3.up/ 2;
+                DimensionPostion = Vector3.up; // 2;
             }
         }
 
@@ -96,9 +96,8 @@ public class BlockScript : MonoBehaviour
     {
         
         if (WarpDirection == Vector3.zero) return;
-        Debug.Log(WarpDirection);
         blockColl.enabled = false;
-        dimensionCollObj.transform.position += WarpDirection; 
+        dimensionCollObj.transform.position = transform.position + WarpDirection; 
         dimensionCollObj.SetActive(true);
     }
 
@@ -117,6 +116,11 @@ public class BlockScript : MonoBehaviour
         return dimensionCollObj.transform.position;
     }
 
+    public Vector3 getWarpDirection()
+    {
+        return WarpDirection;
+    }
+
     public void SynchronizeBlock(BlockScript _otherBlock) {
         ConnectedBlockObject = _otherBlock;
         isConnected = true;
@@ -129,10 +133,114 @@ public class BlockScript : MonoBehaviour
     }
 
     public void TriggerOnDimensionObject(Collider other) {
-        Debug.Log("Collider");
+
+
         // plaeyer warped
+        if (!other.GetComponent<PlayerScript>().passedCheck()) return;
+
         Vector3 TargetPos = ConnectedBlockObject.GetComponent<BlockScript>().WarpToOtherSide();
         other.transform.position = TargetPos;
+        // Debug.Log(TargetPos);
+
+        Vector3 currentRigid = other.GetComponent<Rigidbody>().velocity;
+
+        Vector3 TargetWarpDirection = ConnectedBlockObject.GetComponent<BlockScript>().getWarpDirection();
+
+        Debug.Log(WarpDirection);
+        Debug.Log(TargetWarpDirection);
+
+        if (WarpDirection == Vector3.up && TargetWarpDirection == Vector3.up)
+        {
+            currentRigid = -currentRigid;
+            other.GetComponent<Rigidbody>().velocity = Vector3.zero;
+            other.GetComponent<Rigidbody>().AddForce(currentRigid + Vector3.up * 1f, ForceMode.Impulse);
+        }
+        else if (WarpDirection == Vector3.down && TargetWarpDirection == Vector3.up)
+        {
+            // currentRigid = -currentRigid;
+            other.GetComponent<Rigidbody>().velocity = Vector3.zero;
+            other.GetComponent<Rigidbody>().AddForce(currentRigid + Vector3.up * 1f, ForceMode.Impulse);
+        }
+        else if (WarpDirection == Vector3.left && TargetWarpDirection == Vector3.up)
+        {
+            // currentRigid = -currentRigid;
+            other.GetComponent<Rigidbody>().velocity = Vector3.zero;
+            other.GetComponent<Rigidbody>().AddForce(currentRigid + Vector3.up * 1f, ForceMode.Impulse);
+        }
+        else if (WarpDirection == Vector3.right && TargetWarpDirection == Vector3.up)
+        {
+            // currentRigid = -currentRigid;
+            other.GetComponent<Rigidbody>().velocity = Vector3.zero;
+            other.GetComponent<Rigidbody>().AddForce(currentRigid + Vector3.up * 1f, ForceMode.Impulse);
+        }
+        else if (WarpDirection == Vector3.up && TargetWarpDirection == Vector3.down)
+        {
+            
+            other.GetComponent<Rigidbody>().velocity = Vector3.zero;
+            other.GetComponent<Rigidbody>().AddForce(currentRigid + Vector3.down * 1f, ForceMode.Impulse);
+        }
+        else if (WarpDirection == Vector3.down && TargetWarpDirection == Vector3.down)
+        {
+            currentRigid = -currentRigid;
+            other.GetComponent<Rigidbody>().velocity = Vector3.zero;
+            other.GetComponent<Rigidbody>().AddForce(currentRigid + Vector3.down * 1f, ForceMode.Impulse);
+        }
+        else if (WarpDirection == Vector3.left && TargetWarpDirection == Vector3.down)
+        {
+            other.GetComponent<Rigidbody>().velocity = Vector3.zero;
+            other.GetComponent<Rigidbody>().AddForce(currentRigid + Vector3.down * 1f, ForceMode.Impulse);
+        }
+        else if (WarpDirection == Vector3.right && TargetWarpDirection == Vector3.down)
+        {
+            other.GetComponent<Rigidbody>().velocity = Vector3.zero;
+            other.GetComponent<Rigidbody>().AddForce(currentRigid + Vector3.down * 1f, ForceMode.Impulse);
+        }
+        else if (WarpDirection == Vector3.up && TargetWarpDirection == Vector3.left)
+        {
+            // currentRigid = -currentRigid;
+            other.GetComponent<Rigidbody>().velocity = Vector3.zero;
+            other.GetComponent<Rigidbody>().AddForce(currentRigid + Vector3.left * 1f, ForceMode.Impulse);
+        }
+        else if (WarpDirection == Vector3.down && TargetWarpDirection == Vector3.left)
+        {
+            currentRigid = -currentRigid;
+            other.GetComponent<Rigidbody>().velocity = Vector3.zero;
+            other.GetComponent<Rigidbody>().AddForce(currentRigid + Vector3.left * 1f, ForceMode.Impulse);
+        }
+        else if (WarpDirection == Vector3.left && TargetWarpDirection == Vector3.left)
+        {
+            currentRigid = -currentRigid;
+            other.GetComponent<Rigidbody>().velocity = Vector3.zero;
+            other.GetComponent<Rigidbody>().AddForce(currentRigid + Vector3.left * 1f, ForceMode.Impulse);
+        }
+        else if (WarpDirection == Vector3.right && TargetWarpDirection == Vector3.left)
+        {
+            // currentRigid = -currentRigid;
+            other.GetComponent<Rigidbody>().velocity = Vector3.zero;
+            other.GetComponent<Rigidbody>().AddForce(currentRigid + Vector3.left * 1f, ForceMode.Impulse);
+        }
+        else if (WarpDirection == Vector3.up && TargetWarpDirection == Vector3.right)
+        {
+            
+            currentRigid.x = Mathf.Abs(currentRigid.y) * 9.81f;
+            currentRigid.y = 1f;
+            other.GetComponent<Rigidbody>().velocity = Vector3.zero;
+
+            Debug.Log(currentRigid);
+            other.GetComponent<Rigidbody>().AddForce(currentRigid + Vector3.right * 1f, ForceMode.Impulse);
+        }
+        else if (WarpDirection == Vector3.down && TargetWarpDirection == Vector3.right)
+        {
+        }
+        else if (WarpDirection == Vector3.left && TargetWarpDirection == Vector3.right)
+        {
+        }
+        else if (WarpDirection == Vector3.right && TargetWarpDirection == Vector3.right)
+        {
+
+        }
+
+        // passedCurTime = passedTime;
     }
 
     public void hitFromPortalBullet(PortalBullet bullet) 

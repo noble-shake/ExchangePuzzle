@@ -3894,6 +3894,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0ca7f28ccb769ec48a3b715855f75245, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  passedTime: 0.3
+  passedCurTime: 0
   SpriteChild: {fileID: 885913010}
   AimTracer: {fileID: 862204025}
   Muzzle: {fileID: 1964745848}
@@ -4032,7 +4034,7 @@ MonoBehaviour:
   jumpForce: 5
   isMovable: 0
   isFirstChar: 1
-  exCool: 1.8
+  exCool: 0.3
   exCurCool: 0
   mouseSensivity: 150
   isAiming: 0
@@ -5172,6 +5174,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0ca7f28ccb769ec48a3b715855f75245, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  passedTime: 0.3
+  passedCurTime: 0
   SpriteChild: {fileID: 1868818496}
   AimTracer: {fileID: 699263728}
   Muzzle: {fileID: 1965322145}

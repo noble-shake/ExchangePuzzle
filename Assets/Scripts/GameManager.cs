@@ -88,6 +88,11 @@ public class GameManager : MonoBehaviour
                     WarpBlock1.GetComponent<BlockScript>().openDimenstion();
                     WarpBlock2.GetComponent<BlockScript>().openDimenstion();
                 }
+                if (WarpBlock1 == WarpBlock2)
+                {
+                    WarpBlock2.GetComponent<BlockScript>().shutDownDimension();
+                    WarpBlock2 = null;
+                }
                 break;
             case 1:
                 if (WarpBlock2 != null)
@@ -103,6 +108,12 @@ public class GameManager : MonoBehaviour
                     WarpBlock2.GetComponent<BlockScript>().SynchronizeBlock(WarpBlock1.GetComponent<BlockScript>());
                     WarpBlock1.GetComponent<BlockScript>().openDimenstion();
                     WarpBlock2.GetComponent<BlockScript>().openDimenstion();
+                }
+
+                if (WarpBlock1 == WarpBlock2)
+                {
+                    WarpBlock1.GetComponent<BlockScript>().shutDownDimension();
+                    WarpBlock1 = null;
                 }
                 break;
         }

@@ -193,6 +193,8 @@ MonoBehaviour:
   meshRenderer: {fileID: 0}
   blockColl: {fileID: 3047448973597202001}
   dimensionCollObj: {fileID: 466330429538255196}
+  passedTime: 0.3
+  passedCurTime: 0
   isConnected: 0
   WarpDirection: {x: 0, y: 0, z: 0}
   ConnectedBlockObject: {fileID: 0}
