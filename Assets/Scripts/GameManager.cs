@@ -31,6 +31,7 @@ public class GameManager : MonoBehaviour
 
     void Start()
     {
+        PlayUI.SetActive(true);
         Cursor.lockState = CursorLockMode.Locked;
         PauseUI.SetActive(false);
     }
@@ -117,25 +118,6 @@ public class GameManager : MonoBehaviour
                 }
                 break;
         }
-    }
-
-    public void WaprConnect(GameObject _block, int _playerID)
-    {
-
-        // GameObject target = _playerID == 0 ? WarpConnectBlock1 : WarpConnectBlock2;
-        //if (target == null)
-        //{
-        //    // color change;
-        //    // direction check;
-        //}
-        //else
-        //{
-        //    // target block reset;
-        //    // target parent check;
-        //    // color change;
-        //    // direction check;
-        //}
-
     }
 
 }

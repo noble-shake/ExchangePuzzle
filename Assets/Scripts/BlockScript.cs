@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -8,6 +9,16 @@ public class BlockScript : MonoBehaviour
     // make connection with collider changed
     // player owner
     // block connection on/off
+    [Header("Block Inspector")]
+    [SerializeField] BlockType blockType;
+
+    [Header("Moving Type Block Setting")]
+    [SerializeField] bool MoveInverse;
+    [SerializeField] float MoveSpeed;
+    [SerializeField] Vector3 moveToPos;
+    [SerializeField] List<GameObject> MovePoints;
+    [SerializeField] Queue<Vector3> MoveQueue;
+
     [Header("Block Material Setup")]
     [SerializeField] Color originColor;
     [SerializeField] Material blockMat;
@@ -17,6 +28,7 @@ public class BlockScript : MonoBehaviour
     [Header("Block Collider Setup")]
     [SerializeField] BoxCollider blockColl;
     [SerializeField] GameObject dimensionCollObj;
+    [SerializeField] GameObject dimensionCollRenderObj;
 
     [Header("Portal Functions")]
     [SerializeField] bool isConnected;
@@ -34,11 +46,52 @@ public class BlockScript : MonoBehaviour
         meshRenderer.material = Instantiate(blockMat);
         currentMat = meshRenderer.material;
         dimensionCollObj.SetActive(false);
+
+        if (blockType == BlockType.Moving)
+        {
+            MoveQueue = new Queue<Vector3>();
+        }
     }
 
     void Update()
     {
+        BlockMoving();
+    }
 
+    private void BlockMoving()
+    {
+        if (blockType != BlockType.Moving) return;
+
+        if (MoveQueue.Count == 0 && !MoveInverse)
+        {
+            int mCount = MovePoints.Count;
+            for (int inum = 0; inum < mCount; inum++)
+            {
+                MoveQueue.Enqueue(MovePoints[inum].transform.position);
+            }
+            MoveInverse = true;
+            moveToPos = MoveQueue.Dequeue();
+        }
+        else if (MoveQueue.Count == 0 && MoveInverse)
+        {
+            int mCount = MovePoints.Count;
+            for (int inum = mCount; inum > 0; inum--)
+            {
+                MoveQueue.Enqueue(MovePoints[inum - 1].transform.position);
+            }
+            MoveInverse = false;
+            moveToPos = MoveQueue.Dequeue();
+        }
+
+        if (MoveQueue.Count != 0)
+        {
+            if (Vector3.Distance(moveToPos, transform.position) < 0.001f)
+            {
+                moveToPos = MoveQueue.Dequeue();
+            }
+
+            transform.position = Vector3.MoveTowards(transform.position, moveToPos, MoveSpeed * Time.deltaTime);
+        }
     }
 
     public void changeColorFromPlayer(int _playerID) {
@@ -96,16 +149,22 @@ public class BlockScript : MonoBehaviour
     {
         
         if (WarpDirection == Vector3.zero) return;
-        blockColl.enabled = false;
-        dimensionCollObj.transform.position = transform.position + WarpDirection; 
+        // blockColl.enabled = false;
+        dimensionCollObj.transform.position = transform.position + WarpDirection / 2f; 
         dimensionCollObj.SetActive(true);
+
+        if (WarpDirection == Vector3.left || WarpDirection == Vector3.right)
+        {
+            dimensionCollRenderObj.transform.rotation = Quaternion.Euler(0, 0, 90);
+        }
     }
 
     public void shutDownDimension() 
     {
         OwnerPlayerID = -1;
-        blockColl.enabled = true;
+        // blockColl.enabled = true;
         dimensionCollObj.transform.position = transform.position;
+        dimensionCollRenderObj.transform.rotation = transform.rotation;
         WarpDirection = Vector3.zero;
         UnSyncronizeBlock();
         changeColorFromPlayer(-1);

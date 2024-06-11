@@ -23,6 +23,7 @@ public class PlayerManager: MonoBehaviour
 
     [Header("External Setup")]
     [SerializeField] Camera mainCam;
+    [SerializeField] GameObject CurrentArms;
     [SerializeField] GameObject CurrentAimCam;
     [SerializeField] GameObject ChracterPortrait;
     [SerializeField] GameObject BulletPrefab;
@@ -164,11 +165,11 @@ public class PlayerManager: MonoBehaviour
 
         if(hori != 0)
         {
-            if (hori == 1 && TargetObject.DirectionCheck || hori == -1 && !TargetObject.DirectionCheck)
+            if (hori > 0.5f && TargetObject.DirectionCheck || hori < -0.5f && !TargetObject.DirectionCheck)
             {
                 rotateTime = 90f;
             }
-            TargetObject.SightChange((int)hori); 
+            TargetObject.SightChange(hori); 
         }
         
 
@@ -252,6 +253,16 @@ public class PlayerManager: MonoBehaviour
         // Character, Camera
         // transform.rotation = Quaternion.Euler(0f, rotateValue.y, 0f);
         CurrentAimCam.transform.rotation = Quaternion.Euler(rotateValue.x, rotateValue.y, 0f);
+
+        if (!TargetObject.GetComponent<PlayerScript>().DirectionCheck)
+        {
+            TargetObject.GetComponent<PlayerScript>().CharacterArm.rotation = Quaternion.Euler(0f, 0f, -rotateValue.x);
+        }
+        else
+        {
+            TargetObject.GetComponent<PlayerScript>().CharacterArm.rotation = Quaternion.Euler(0f, 0f, rotateValue.x);
+        }
+        
 
     }
 }

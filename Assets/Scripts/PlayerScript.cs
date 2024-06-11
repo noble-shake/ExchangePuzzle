@@ -9,6 +9,7 @@ public class PlayerScript : MonoBehaviour
     [SerializeField] Transform AimTracer;
     [SerializeField] Transform Muzzle;
     public Transform ShotPoint { get { return Muzzle; } }
+    public Transform CharacterArm { get { return AimTracer; } }
 
     [Header("Character Physics")]
     [SerializeField] Rigidbody rigid;
@@ -81,12 +82,12 @@ public class PlayerScript : MonoBehaviour
         }
     }
 
-    public void SightChange(int direction)
+    public void SightChange(float direction)
     {
         Vector3 scaleVec = SpriteChild.localScale;
         Vector3 scaleAimVec = AimTracer.localScale;
         // Vector3 rotateVec = PlayerAimCam.transform.rotation.eulerAngles;
-        if (direction == 1 && isLeft)
+        if (direction > 0.5 && isLeft)
         {
             isLeft = false;
             scaleVec.x = Mathf.Abs(scaleVec.x);
@@ -97,7 +98,7 @@ public class PlayerScript : MonoBehaviour
             AimTracer.localScale = scaleAimVec;
             // PlayerAimCam.transform.rotation = Quaternion.Euler(rotateVec);
         }
-        else if (direction == -1 && !isLeft)
+        else if (direction < -0.5 && !isLeft)
         {
             isLeft = true;
             scaleVec.x = -Mathf.Abs(scaleVec.x);

@@ -166,7 +166,7 @@ GameObject:
   - component: {fileID: 3047448973597202001}
   - component: {fileID: -5930548280183108677}
   m_Layer: 6
-  m_Name: Block
+  m_Name: MovingBlock
   m_TagString: block
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -271,6 +271,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: de5292ca55d40bb408e1f22b843d1283, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  blockType: 1
+  MoveInverse: 0
+  MoveSpeed: 5
+  moveToPos: {x: 0, y: 0, z: 0}
+  MovePoints: []
   originColor: {r: 0, g: 0, b: 0, a: 0}
   blockMat: {fileID: 2100000, guid: 748a52e884c8309478a5725b0b3f3027, type: 2}
   currentMat: {fileID: 0}
