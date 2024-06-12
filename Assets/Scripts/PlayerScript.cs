@@ -7,6 +7,8 @@ public class PlayerScript : MonoBehaviour
     [Header("Character Info")]
     [SerializeField] Transform SpriteChild;
     [SerializeField] Transform AimTracer;
+    [SerializeField] Transform AimModel;
+    [SerializeField] float defaultAimModelPos;
     [SerializeField] Transform Muzzle;
     public Transform ShotPoint { get { return Muzzle; } }
     public Transform CharacterArm { get { return AimTracer; } }
@@ -37,6 +39,7 @@ public class PlayerScript : MonoBehaviour
     void Start()
     {
         PlayerAimCam.SetActive(false);
+        defaultAimModelPos = AimModel.transform.position.z;
     }
 
     // Update is called once per frame
@@ -96,6 +99,7 @@ public class PlayerScript : MonoBehaviour
 
             SpriteChild.localScale = scaleVec;
             AimTracer.localScale = scaleAimVec;
+            GunModelSightSwap();
             // PlayerAimCam.transform.rotation = Quaternion.Euler(rotateVec);
         }
         else if (direction < -0.5 && !isLeft)
@@ -107,9 +111,30 @@ public class PlayerScript : MonoBehaviour
 
             SpriteChild.localScale = scaleVec;
             AimTracer.localScale = scaleAimVec;
+            GunModelSightSwap();
             // PlayerAimCam.transform.rotation = Quaternion.Euler(rotateVec);
         }
 
+        if(!PlayerAimCam.activeSelf)
+        {
+                GunModelReset();
+
+        }
+
+    }
+
+    public void GunModelSightSwap()
+    {
+        Vector3 SightChange = AimModel.transform.position;
+        SightChange.z = -SightChange.z;
+        AimModel.transform.position = SightChange;
+    }
+
+    public void GunModelReset()
+    {
+        Vector3 SightChange = AimModel.transform.position;
+        SightChange.z = defaultAimModelPos;
+        AimModel.transform.position = SightChange;
     }
 
     public GameObject GetAimCameraObject() {

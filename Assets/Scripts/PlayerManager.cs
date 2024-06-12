@@ -1,6 +1,8 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.Burst.CompilerServices;
+using Unity.VisualScripting;
 using UnityEditor.SceneManagement;
 using UnityEngine;
 using UnityEngine.UI;
@@ -98,10 +100,16 @@ public class PlayerManager: MonoBehaviour
     private void CharacterShoot()
     {
         if (!isAiming) return;
-
         if (Input.GetMouseButtonDown(0))
         {
-            GameObject go = Instantiate(BulletPrefab, TargetObject.ShotPoint.position, CurrentAimCam.transform.rotation);
+            if (Physics.Raycast(CurrentAimCam.transform.position, CurrentAimCam.transform.forward, out RaycastHit hit, 10f, LayerMask.GetMask("Ground")))
+            {
+
+                TargetObject.ShotPoint.transform.LookAt(hit.point);
+            }
+
+
+            GameObject go = Instantiate(BulletPrefab, TargetObject.ShotPoint.position, TargetObject.ShotPoint.rotation);
             go.GetComponent<PortalBullet>().SetBulletInspector(curPlayerID);
         }
     }
@@ -169,11 +177,12 @@ public class PlayerManager: MonoBehaviour
             {
                 rotateTime = 90f;
             }
-            TargetObject.SightChange(hori); 
+            TargetObject.SightChange(hori);
         }
         
 
         if (isAiming) return;
+
         if (TargetObject.PassedCheck) return;
 
         // if (!isMovable) return;
@@ -217,6 +226,7 @@ public class PlayerManager: MonoBehaviour
             TargetObject.GetComponent<PlayerScript>().playerCam.SetActive(true);
             isAiming = false;
             GameManager.instance.PlayerUIChange();
+            TargetObject.GunModelReset();
         }
 
 
