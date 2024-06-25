@@ -254,13 +254,14 @@ GameObject:
   m_Component:
   - component: {fileID: 35667217}
   - component: {fileID: 35667218}
+  - component: {fileID: 35667219}
   m_Layer: 0
   m_Name: GeneratePoint2
   m_TagString: Untagged
   m_Icon: {fileID: -5442936267250999957, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &35667217
 Transform:
   m_ObjectHideFlags: 0
@@ -298,6 +299,19 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &35667219
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 35667216}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c12099c5c0ad4e247922a8fd3987abc1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  OwnPlayer: {fileID: 1534004073}
 --- !u!4 &36209228 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 6729704498446742227, guid: ce3d451c92069d44ca3cbed355318208, type: 3}
@@ -3743,13 +3757,14 @@ GameObject:
   m_Component:
   - component: {fileID: 383366257}
   - component: {fileID: 383366258}
+  - component: {fileID: 383366259}
   m_Layer: 0
   m_Name: GeneratePoint1
   m_TagString: Untagged
   m_Icon: {fileID: -5442936267250999957, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &383366257
 Transform:
   m_ObjectHideFlags: 0
@@ -3787,6 +3802,19 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &383366259
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 383366256}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c12099c5c0ad4e247922a8fd3987abc1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  OwnPlayer: {fileID: 1911652983}
 --- !u!1001 &386337233
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -15548,6 +15576,8 @@ MonoBehaviour:
   Camera2: {fileID: 144893985}
   Player1: {fileID: 1911652983}
   Player2: {fileID: 1534004073}
+  GenerateEffect1: {fileID: 383366256}
+  GenerateEffect2: {fileID: 35667216}
   delays: []
 --- !u!1001 &1643796966
 PrefabInstance:

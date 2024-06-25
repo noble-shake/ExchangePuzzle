@@ -14,7 +14,14 @@ public class PlayerGenerateEffect : MonoBehaviour
 
     private void OnEnable()
     {
-        
+        Invoke("GeneratePlayer", 2f);
+    }
+
+    public void GeneratePlayer()
+    { 
+        OwnPlayer.transform.position = transform.position;
+        OwnPlayer.SetActive(true);
+        gameObject.SetActive(false);
     }
 
     // Update is called once per frame

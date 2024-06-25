@@ -29,6 +29,8 @@ public class PlayerScript : MonoBehaviour
     public bool GroundCheck { get {return isGround;} set {isGround = value;} }
     public bool PassedCheck { get { return isPassed; } }
 
+    public Rigidbody GetRigidbody { get { return rigid; } }
+
     [Header("Character Control")]
     [SerializeField] bool isSelect;
     [SerializeField] bool isLeft;

@@ -37,6 +37,8 @@ public class PlayerManager: MonoBehaviour
     [SerializeField] bool isMovable;
     [SerializeField] bool isFirstChar;
 
+    public float PlayerSpeed { get { return moveSpeed; } set { moveSpeed = value; } }
+
     [SerializeField] float exCool;
     [SerializeField] float exCurCool;
 
