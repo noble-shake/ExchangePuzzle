@@ -39,18 +39,29 @@ public class BlockScript : MonoBehaviour
     [SerializeField] int OwnerPlayerID = -1;
 
 
+    public BlockType getBlockType()
+    {
+        return blockType;
+    }
+
     void Start()
     {
-        originColor = blockMat.color;
-        meshRenderer = GetComponent<MeshRenderer>();
-        meshRenderer.material = Instantiate(blockMat);
-        currentMat = meshRenderer.material;
-        dimensionCollObj.SetActive(false);
+        if (blockType == BlockType.Normal || blockType == BlockType.Moving)
+        {
+            originColor = blockMat.color;
+            meshRenderer = GetComponent<MeshRenderer>();
+            meshRenderer.material = Instantiate(blockMat);
+            currentMat = meshRenderer.material;
+            
+        }
+
 
         if (blockType == BlockType.Moving)
         {
             MoveQueue = new Queue<Vector3>();
         }
+
+        dimensionCollObj.SetActive(false);
     }
 
     void Update()
@@ -111,6 +122,11 @@ public class BlockScript : MonoBehaviour
         }
     }
 
+    public void changeColorFromSwitch(Color _color)
+    {
+        GetComponent<MeshRenderer>().material.color = _color;
+    }
+
     public void createDimension(Vector3 _norm) 
     {
         Vector3 DimensionPostion;
@@ -150,7 +166,7 @@ public class BlockScript : MonoBehaviour
         
         if (WarpDirection == Vector3.zero) return;
         // blockColl.enabled = false;
-        dimensionCollObj.transform.position = transform.position + WarpDirection / 2f; 
+        dimensionCollObj.transform.position = transform.position + WarpDirection / 1.3f; 
         dimensionCollObj.SetActive(true);
 
         if (WarpDirection == Vector3.left || WarpDirection == Vector3.right)
@@ -193,7 +209,6 @@ public class BlockScript : MonoBehaviour
 
     public void TriggerOnDimensionObject(Collider other) {
 
-
         // plaeyer warped
         if (!other.GetComponent<PlayerScript>().passedCheck()) return;
 
@@ -207,6 +222,27 @@ public class BlockScript : MonoBehaviour
 
         Debug.Log(WarpDirection);
         Debug.Log(TargetWarpDirection);
+
+        /*
+         UP UP
+        DOWN UP
+        LEFT UP
+        RIGHT UP
+
+        UP DOWN
+        DOWN DOWN
+        LEFT DOWN
+        RIGHT DOWN
+
+
+         */
+
+        switch (WarpDirection)
+        {
+
+        }
+
+
 
         if (WarpDirection == Vector3.up && TargetWarpDirection == Vector3.up)
         {
@@ -224,7 +260,7 @@ public class BlockScript : MonoBehaviour
         {
             // currentRigid = -currentRigid;
             other.GetComponent<Rigidbody>().velocity = Vector3.zero;
-            other.GetComponent<Rigidbody>().AddForce(currentRigid + Vector3.up * 1f, ForceMode.Impulse);
+            other.GetComponent<Rigidbody>().AddForce(currentRigid + Vector3.up * 2f, ForceMode.Impulse);
         }
         else if (WarpDirection == Vector3.right && TargetWarpDirection == Vector3.up)
         {
@@ -256,20 +292,29 @@ public class BlockScript : MonoBehaviour
         }
         else if (WarpDirection == Vector3.up && TargetWarpDirection == Vector3.left)
         {
-            // currentRigid = -currentRigid;
+            currentRigid.x = -Mathf.Abs(currentRigid.y) * 1.2f;
+            currentRigid.y = 1f;
             other.GetComponent<Rigidbody>().velocity = Vector3.zero;
+
+            Debug.Log(currentRigid);
             other.GetComponent<Rigidbody>().AddForce(currentRigid + Vector3.left * 1f, ForceMode.Impulse);
         }
         else if (WarpDirection == Vector3.down && TargetWarpDirection == Vector3.left)
         {
-            currentRigid = -currentRigid;
+            currentRigid.x = Mathf.Abs(currentRigid.y) * 3.81f;
+            currentRigid.y = 1f;
             other.GetComponent<Rigidbody>().velocity = Vector3.zero;
+
+            Debug.Log(currentRigid);
             other.GetComponent<Rigidbody>().AddForce(currentRigid + Vector3.left * 1f, ForceMode.Impulse);
         }
         else if (WarpDirection == Vector3.left && TargetWarpDirection == Vector3.left)
         {
-            currentRigid = -currentRigid;
+            currentRigid.x = -Mathf.Abs(currentRigid.y) * 2f;
+            currentRigid.y = 1f;
             other.GetComponent<Rigidbody>().velocity = Vector3.zero;
+
+            Debug.Log(currentRigid);
             other.GetComponent<Rigidbody>().AddForce(currentRigid + Vector3.left * 1f, ForceMode.Impulse);
         }
         else if (WarpDirection == Vector3.right && TargetWarpDirection == Vector3.left)
@@ -301,38 +346,4 @@ public class BlockScript : MonoBehaviour
 
         // passedCurTime = passedTime;
     }
-
-    public void hitFromPortalBullet(PortalBullet bullet) 
-    {
-        // check direction
-
-        int playerID = bullet.pid;
-        // shutDownDimension();
-
-        if (OwnerPlayerID == -1)
-        {
-            OwnerPlayerID = playerID;
-        }
-        else if (OwnerPlayerID == playerID)
-        { 
-            shutDownDimension();
-        }
-
-
-        if (isConnected) 
-        {
-            // already connected
-            
-        }
-
-        // other change already allocated
-        
-
-        // no allocated
-
-
-        changeColorFromPlayer(playerID);
-
-    }
-
 }

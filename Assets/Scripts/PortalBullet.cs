@@ -1,3 +1,4 @@
+using Cinemachine;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -5,9 +6,11 @@ using UnityEngine;
 public class PortalBullet : MonoBehaviour
 {
     [Header("External Setup")]
-    [SerializeField] MeshRenderer m_Renderer;
-    [SerializeField] Material ReferenceMat;
-    [SerializeField] Material BulletMat;
+    [SerializeField] Camera mainCam;
+    [SerializeField] GameObject SpriteObject;
+    [SerializeField] SpriteRenderer sprRenderer;
+    [SerializeField] Sprite Player1BulletSprite;
+    [SerializeField] Sprite Player2BulletSprite;
 
     [Header("Owner Setup")]
     [SerializeField] int PlayerID;
@@ -18,12 +21,10 @@ public class PortalBullet : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        m_Renderer = GetComponent<MeshRenderer>();
-        m_Renderer.material = Instantiate(ReferenceMat);
-        BulletMat = m_Renderer.material;
-        BulletMat.color = BlockColoring.GetBlockColor(BlockColorTag.Normal);
+        mainCam = Camera.main;
+        // sprRenderer = SpriteObject.GetComponent<SpriteRenderer>();
 
-        Destroy(gameObject, 5f);
+        Destroy(gameObject, 10f);
     }
 
     public void SetBulletInspector(int _PlayerID)
@@ -31,10 +32,10 @@ public class PortalBullet : MonoBehaviour
         PlayerID = _PlayerID;
         switch (_PlayerID) {
             case 0:
-                BulletMat.color = BlockColoring.GetBlockColor(BlockColorTag.Player1);
+                sprRenderer.sprite = Player1BulletSprite;
                 break;
             case 1:
-                BulletMat.color = BlockColoring.GetBlockColor(BlockColorTag.Player2);
+                sprRenderer.sprite = Player2BulletSprite;
                 break;
         }
     }
@@ -43,6 +44,9 @@ public class PortalBullet : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        // SpriteObject.transform.LookAt(mainCam.transform.position);
+        SpriteObject.transform.forward = mainCam.transform.forward;
+
         transform.position = transform.position + transform.forward * Time.deltaTime * bulletSpeed;
     }
 
@@ -50,17 +54,34 @@ public class PortalBullet : MonoBehaviour
     {
         if (other.CompareTag("block"))
         {
-            Vector3 collisionPoint = other.ClosestPoint(transform.position);
-            Vector3 collisionNormal = transform.position - collisionPoint;
-            // Debug.Log(collisionPoint);
-            // Debug.Log(collisionNormal);
-            // change Block
+            if (other.GetComponent<BlockScript>().getBlockType() == BlockType.Normal || other.GetComponent<BlockScript>().getBlockType() == BlockType.Moving)
+            {
+                Vector3 collisionPoint = other.ClosestPoint(transform.position);
+                Vector3 collisionNormal = transform.position - collisionPoint;
+                // Debug.Log(collisionPoint);
+                // Debug.Log(collisionNormal);
+                // change Block
 
-            GameManager.instance.RegistryBlock(other.gameObject, pid);
-            BlockScript go = other.GetComponent<BlockScript>();
-            go.createDimension(collisionNormal);
+                GameManager.instance.RegistryBlock(other.gameObject, pid);
+                BlockScript go = other.GetComponent<BlockScript>();
+                go.createDimension(collisionNormal);
 
-            Destroy(gameObject);
+                Destroy(gameObject);
+            }
+            else if (other.GetComponent<BlockScript>().getBlockType() == BlockType.NonChanged || other.GetComponent<BlockScript>().getBlockType() == BlockType.NonChangedMoving)
+            {
+                Destroy(gameObject);
+            }
+            else if (other.GetComponent<BlockScript>().getBlockType() == BlockType.Passed)
+            {
+                // not Activated.
+            }
+            else 
+            {
+                Destroy(gameObject);
+            }
+
+
         }
     }
 }

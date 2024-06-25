@@ -5,6 +5,7 @@ using UnityEngine;
 public class PlayerScript : MonoBehaviour
 {
     [Header("Character Info")]
+    [SerializeField] PlayerTag playerTag;
     [SerializeField] Transform SpriteChild;
     [SerializeField] Transform AimTracer;
     [SerializeField] Transform AimModel;
@@ -12,6 +13,7 @@ public class PlayerScript : MonoBehaviour
     [SerializeField] Transform Muzzle;
     public Transform ShotPoint { get { return Muzzle; } }
     public Transform CharacterArm { get { return AimTracer; } }
+    public PlayerTag player { get { return playerTag; } }
 
     [Header("Character Physics")]
     [SerializeField] Rigidbody rigid;

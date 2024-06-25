@@ -22,6 +22,7 @@ public class PlayerManager: MonoBehaviour
 
 
     public static PlayerManager instance;
+    private SequenceManager sequenceInstance;
 
     [Header("External Setup")]
     [SerializeField] Camera mainCam;
@@ -83,12 +84,16 @@ public class PlayerManager: MonoBehaviour
     void Start()
     {
         StageInit();
-        
+        sequenceInstance = SequenceManager.instance;
+
+
     }
 
 
     void Update()
     {
+        if (sequenceInstance.SequenceProcessing) return;
+
         CharacterExchange();
         CharacterMove();
         CharacterJump();
@@ -102,7 +107,7 @@ public class PlayerManager: MonoBehaviour
         if (!isAiming) return;
         if (Input.GetMouseButtonDown(0))
         {
-            if (Physics.Raycast(CurrentAimCam.transform.position, CurrentAimCam.transform.forward, out RaycastHit hit, 10f, LayerMask.GetMask("Ground")))
+            if (Physics.Raycast(CurrentAimCam.transform.position, CurrentAimCam.transform.forward, out RaycastHit hit, Mathf.Infinity, LayerMask.GetMask("Ground")))
             {
 
                 TargetObject.ShotPoint.transform.LookAt(hit.point);
@@ -213,7 +218,7 @@ public class PlayerManager: MonoBehaviour
 
         if (aimCurCool > 0f) return;
 
-        if (Input.GetKeyDown(KeyCode.Z) && TargetObject.GroundCheck && !isAiming)
+        if (Input.GetKeyDown(KeyCode.Z) && !isAiming)
         {
             aimCurCool = aimCool;
             TargetObject.GetComponent<PlayerScript>().playerAimCam.SetActive(true);
@@ -275,4 +280,23 @@ public class PlayerManager: MonoBehaviour
         
 
     }
+
+    public void PlayerGenerate(int _gen)
+    {
+        switch (_gen)
+        {
+            case 0:
+                Player1Object.gameObject.SetActive(true);
+                break;
+            case 1:
+                Player2Object.gameObject.SetActive(true);
+                break;
+            case 2:
+                Player2Object.gameObject.SetActive(true);
+                Player1Object.gameObject.SetActive(true);
+                break;
+        }
+
+    }
+
 }

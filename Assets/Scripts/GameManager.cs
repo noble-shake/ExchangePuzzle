@@ -8,7 +8,14 @@ public class GameManager : MonoBehaviour
 {
     public static GameManager instance;
 
+    [SerializeField] TutorialSequence1 seq;
+
+    [Header("External Setup")]
+    [SerializeField] List<GoalScript> goals;
+
     [Header("Game UI")]
+    [SerializeField] GameObject StageStartUI;
+    [SerializeField] GameObject StageEndUI;
     [SerializeField] GameObject PlayUI;
     [SerializeField] GameObject AimUI;
     [SerializeField] GameObject PauseUI;
@@ -34,13 +41,59 @@ public class GameManager : MonoBehaviour
         PlayUI.SetActive(true);
         Cursor.lockState = CursorLockMode.Locked;
         PauseUI.SetActive(false);
+        StageInit();
     }
 
+    public void StageInit()
+    {
+        goals = new List<GoalScript>();
+        findGoalObjects();
+
+        
+        seq.makeSeqeunce();
+    }
+    public void findGoalObjects()
+    {
+        GameObject GoalObjectParent = GameObject.Find("GoalsObjects");
+        GoalScript[] gObjs = GoalObjectParent.GetComponentsInChildren<GoalScript>();
+        foreach (GoalScript target in gObjs)
+        {
+            goals.Add(target);
+        }
+    }
+
+    public void resetGoalObjects()
+    {
+        goals = new List<GoalScript>();
+    }
 
     void Update()
     {
+        StageClearCheck();
         // PauseGame();
+
     }
+
+
+    public void StageClearCheck()
+    {
+        if (goals.Count == 0) return;
+
+        foreach (GoalScript target in goals)
+        {
+            if (!target.Trigger) return;
+        }
+
+        resetGoalObjects();
+        // Stage Load;
+    }
+
+    public void StageGameOver()
+    {
+        resetGoalObjects();
+        // reload():
+    }
+
 
     private void PauseGame() {
         if (Input.GetKeyDown(KeyCode.Escape) && !PauseUI.activeSelf)
@@ -118,6 +171,16 @@ public class GameManager : MonoBehaviour
                 }
                 break;
         }
+    }
+
+    public void StageStartSequence()
+    {
+        StageStartUI.SetActive(true);
+    }
+
+    public void StageEndSequence()
+    {
+        StageEndUI.SetActive(false);
     }
 
 }
