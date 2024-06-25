@@ -17,7 +17,7 @@ public enum SequenceMethods
 public class Sequences: MonoBehaviour
 {
     [Header("Internal Setup")]
-    [SerializeField] bool queTrigger;
+    [SerializeField] protected bool queTrigger;
     protected Queue<IEnumerator> QueSeqeunce = new Queue<IEnumerator>();
 
     protected IEnumerator SequencePlay()

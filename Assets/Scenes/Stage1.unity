@@ -1466,7 +1466,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 144893985}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 3.89, y: 1.92, z: -10}
+  m_LocalPosition: {x: -1.79, y: -0.03, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -3670,7 +3670,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 120, y: -150}
+  m_AnchoredPosition: {x: 120, y: 0}
   m_SizeDelta: {x: 300, y: -400}
   m_Pivot: {x: 0, y: 0.5}
 --- !u!114 &372478572
@@ -5156,7 +5156,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -89, y: -150}
+  m_AnchoredPosition: {x: -89, y: 0}
   m_SizeDelta: {x: 300, y: -400}
   m_Pivot: {x: 1, y: 0.5}
 --- !u!114 &567972504
@@ -10336,7 +10336,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1107245297}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: -10}
+  m_LocalPosition: {x: 0, y: 0, z: -3}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -13281,7 +13281,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1439199456}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: -10}
+  m_LocalPosition: {x: 0, y: 0, z: -3}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -13607,7 +13607,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 0}
-  m_AnchoredPosition: {x: 0, y: 60}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: -200, y: 200}
   m_Pivot: {x: 0.5, y: 0}
 --- !u!114 &1480780059
@@ -14264,7 +14264,7 @@ MonoBehaviour:
   AimModel: {fileID: 2090641151}
   defaultAimModelPos: 0
   Muzzle: {fileID: 378141879}
-  rigid: {fileID: 0}
+  rigid: {fileID: 1534004076}
   coll: {fileID: 0}
   PlayerCam: {fileID: 1258141020}
   PlayerAimCam: {fileID: 1901810437}
@@ -17985,10 +17985,10 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
+  - {fileID: 1637492973}
   - {fileID: 1391532572}
   - {fileID: 1946219630}
   - {fileID: 1047938246}
-  - {fileID: 1637492973}
   m_Father: {fileID: 0}
   m_RootOrder: 10
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -18030,7 +18030,7 @@ MonoBehaviour:
   AimModel: {fileID: 1619030836}
   defaultAimModelPos: 0
   Muzzle: {fileID: 1965322145}
-  rigid: {fileID: 0}
+  rigid: {fileID: 1911652987}
   coll: {fileID: 0}
   PlayerCam: {fileID: 2096618025}
   PlayerAimCam: {fileID: 689291343}
@@ -20580,7 +20580,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &2096618026
 Transform:
   m_ObjectHideFlags: 0

@@ -39,8 +39,14 @@ public class TutorialSequence1 : Sequences
         functions.Add(SeqActive(GenerateEffect1, true));
         delays.Add(1f);
 
+        functions.Add(CameraLive(PlayerTag.Player1));
+        delays.Add(0.5f);
+
         functions.Add(InputKeyboardSequence(Player1));
         delays.Add(1f);
+
+        functions.Add(CameraLive(PlayerTag.Player2));
+        delays.Add(0.5f);
 
         functions.Add(SeqActive(GenerateEffect2, true));
         delays.Add(1f);
@@ -56,12 +62,28 @@ public class TutorialSequence1 : Sequences
         yield return null;
     }
 
+    protected IEnumerator CameraLive(PlayerTag _player)
+    {
+        switch (_player)
+        {
+            case PlayerTag.Player1:
+                PlayerManager.instance.StageInitForPlayer1();
+                break;
+            case PlayerTag.Player2:
+                PlayerManager.instance.StageInitForPlayer2();
+                break;
+        }
+
+        yield return null;
+        queTrigger = false;
+    }
+
     protected IEnumerator InputKeyboardSequence(GameObject _player)
     {
         float rotateTime;
         float MovedTime = 0f;
 
-        while (MovedTime > 2f)
+        while (MovedTime < 1.2f)
         {
             float vert = Input.GetAxis("Vertical");
             float hori = Input.GetAxis("Horizontal");
@@ -75,19 +97,17 @@ public class TutorialSequence1 : Sequences
                 _player.GetComponent<PlayerScript>().SightChange(hori);
 
                 MovedTime += Time.deltaTime;
+
+                Vector3 moveDir = Vector3.zero;
+                moveDir.x = hori * PlayerManager.instance.PlayerSpeed;
+                moveDir.y = _player.GetComponent<PlayerScript>().GetRigidbody.velocity.y;
+                _player.GetComponent<PlayerScript>().GetRigidbody.velocity = _player.transform.rotation * moveDir;
             }
-
-            // if (!isMovable) return;
-
-            Vector3 moveDir = Vector3.zero;
-            moveDir.x = hori * _player.GetComponent<PlayerManager>().PlayerSpeed;
-            moveDir.y = _player.GetComponent<PlayerScript>().GetRigidbody.velocity.y;
-            _player.GetComponent<PlayerScript>().GetRigidbody.velocity = _player.transform.rotation * moveDir;
 
             yield return null;
         }
 
-
+        queTrigger = false;
 
     }
 

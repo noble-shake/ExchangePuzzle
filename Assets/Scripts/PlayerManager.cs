@@ -70,7 +70,7 @@ public class PlayerManager: MonoBehaviour
     }
 
     // Stage Initialize
-    public void StageInit()
+    public void StageInitForPlayer1()
     {
         // position setup
         Player1Object.GetComponent<PlayerScript>().playerCam.SetActive(true);
@@ -83,9 +83,22 @@ public class PlayerManager: MonoBehaviour
         rigid = Player1Object.GetComponent<Rigidbody>();
     }
 
+    public void StageInitForPlayer2()
+    {
+        // position setup
+        Player2Object.GetComponent<PlayerScript>().playerCam.SetActive(true);
+        Player1Object.GetComponent<PlayerScript>().playerCam.SetActive(false);
+        Player2Object.GetComponent<Rigidbody>().mass = 1f;
+        Player1Object.GetComponent<Rigidbody>().mass = 1000f;
+        TargetObject = Player2Object;
+        CurrentAimCam = Player2Object.GetComponent<PlayerScript>().GetAimCameraObject();
+        curPlayerID = 0;
+        rigid = Player2Object.GetComponent<Rigidbody>();
+    }
+
     void Start()
     {
-        StageInit();
+        StageInitForPlayer1();
         sequenceInstance = SequenceManager.instance;
 
 

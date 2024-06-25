@@ -1,6 +1,7 @@
 using Newtonsoft.Json;
 using System.Collections;
 using System.Collections.Generic;
+using System.Text;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -94,7 +95,7 @@ public class SequenceManager : MonoBehaviour
             textName.text = contents.info[i].info.CharacterName;
             t_context = text_seq.Dequeue();
             t_spriteName = sprite_seq.Dequeue();
-            t_voiceName = voice_seq.Dequeue();
+            // t_voiceName = voice_seq.Dequeue();
 
             if (t_spriteName != "-")
             {
@@ -112,7 +113,6 @@ public class SequenceManager : MonoBehaviour
             {
                 if (contents.info[i].check_read)
                 {
-                    Debug.Log($"{i}th, Check_read Done");
                     return true;
                 }
                 else
@@ -122,6 +122,8 @@ public class SequenceManager : MonoBehaviour
             });
 
         }
+
+
         isEnd = true;
         CutsceneUI.transform.GetChild(0).gameObject.SetActive(false);
         // GameManager.instance.screenFadeOutEffect();
