@@ -12,8 +12,11 @@ public class Dialogs
     public int ID;
     public string CharacterName;
     public string Context;
-    public string SpriteName;
+    public string LeftSpriteName;
+    public string RightSpriteName;
     public string Comment;
+    public string SpriteSide;
+    
 }
 
 [System.Serializable]
@@ -47,19 +50,20 @@ public class SequenceManager : MonoBehaviour
     [SerializeField] DialogCycle contents;
 
     [Header("Reading Store")]
-    public string t_context;
-    public string t_spriteName;
-    public string t_voiceName;
+    public string temp_context;
+    public string temp_left_spriteName;
+    public string temp_right_spriteName;
     public Queue<string> text_seq = new Queue<string>();
-    public Queue<string> sprite_seq = new Queue<string>();
-    public Queue<string> voice_seq = new Queue<string>();
+    public Queue<string> left_sprite_seq = new Queue<string>();
+    public Queue<string> right_sprite_seq = new Queue<string>();
 
     [Header("Dialog Target")]
     private TextMeshProUGUI textName;
     private TextMeshProUGUI textContext;
+    private Image leftSprite;
+    private Image RightSprite;
     public GameObject DialogBarUI; // DialogName, DialogText
     public float delay;
-    public GameObject CutsceneUI;
 
     [Header("Coroutine Definition")]
     [SerializeField] IEnumerator SequanceIEnum;
@@ -69,13 +73,20 @@ public class SequenceManager : MonoBehaviour
     public bool isEnd;
     public bool SequenceProcessing { get { return isEnd; } set { isEnd = value; } }
 
-    public IEnumerator DialogSystemStart(int _id)
+    public bool dialogEnd;
+    public bool DialogProcessing { get { return dialogEnd; } set { dialogEnd = value; } }
+
+    WaitForSecondsRealtime SequenceWaiting = new WaitForSecondsRealtime(0.3f);
+    WaitForSecondsRealtime NextContextWait = new WaitForSecondsRealtime(0.8f);
+
+    public IEnumerator DialogSystemStart(int _id, GameObject _seqOwner)
     {
         textName = DialogBarUI.GetComponent<DialogBarScript>().dialogName;
         textContext = DialogBarUI.GetComponent<DialogBarScript>().dialogText;
+        leftSprite = DialogBarUI.GetComponent<DialogBarScript>().dialogLeftSprite;
+        RightSprite = DialogBarUI.GetComponent<DialogBarScript>().dialogRightSprite;
 
-        DialogBarUI.gameObject.SetActive(true);
-        // yield return new WaitForSeconds(0.5f);
+        DialogBarUI.SetActive(true);
         // Cutscene UI active
         for (int i = 0; i < ScriptData[_id].Count; i++)
         {
@@ -87,23 +98,62 @@ public class SequenceManager : MonoBehaviour
         for (int i = 0; i < contents.info.Count; i++)
         {
             text_seq.Enqueue(contents.info[i].info.Context);
-            sprite_seq.Enqueue(contents.info[i].info.SpriteName);
+            left_sprite_seq.Enqueue(contents.info[i].info.LeftSpriteName);
+            right_sprite_seq.Enqueue(contents.info[i].info.RightSpriteName);
         }
 
         for (int i = 0; i < contents.info.Count; i++)
         {
             textName.text = contents.info[i].info.CharacterName;
-            t_context = text_seq.Dequeue();
-            t_spriteName = sprite_seq.Dequeue();
-            // t_voiceName = voice_seq.Dequeue();
 
-            if (t_spriteName != "-")
+            string side = contents.info[i].info.SpriteSide;
+
+            EnumSpriteRect _spriteRect = SequenceSpriteManagerClass.GetEnumSide(side);
+
+            switch (_spriteRect)
+            { 
+                case EnumSpriteRect.Left:
+                    leftSprite.gameObject.SetActive(true);
+                    RightSprite.gameObject.SetActive(true);
+                    break;
+                case EnumSpriteRect.Right:
+                    leftSprite.gameObject.SetActive(true);
+                    RightSprite.gameObject.SetActive(true);
+                    break;
+                case EnumSpriteRect.Both:
+                    leftSprite.gameObject.SetActive(true);
+                    RightSprite.gameObject.SetActive(true);
+                    break;
+                case EnumSpriteRect.OnlyLeft:
+                    leftSprite.gameObject.SetActive(true);
+                    RightSprite.gameObject.SetActive(false);
+                    break;
+                case EnumSpriteRect.OnlyRight:
+                    leftSprite.gameObject.SetActive(false);
+                    RightSprite.gameObject.SetActive(true);
+                    break;
+                case EnumSpriteRect.Empty:
+                    leftSprite.gameObject.SetActive(false);
+                    RightSprite.gameObject.SetActive(false);
+                    break;
+            }
+
+            temp_context = text_seq.Dequeue();
+            temp_left_spriteName = left_sprite_seq.Dequeue();
+            temp_right_spriteName = right_sprite_seq.Dequeue();
+
+            if (temp_left_spriteName != "-")
             {
-                // GameManager.instance.screenFadeInEffect();
-                Sprite targetSpr = Resources.Load<Sprite>("Cutscenes/" + t_spriteName);
-                GameObject cutSceneObj = CutsceneUI.transform.GetChild(0).gameObject;
-                cutSceneObj.GetComponent<Image>().sprite = targetSpr;
-                cutSceneObj.SetActive(true);
+                
+                Sprite targetSpr = Resources.Load<Sprite>("SequenceSprites/" + temp_left_spriteName);
+                leftSprite.sprite = targetSpr;
+            }
+
+            if (temp_right_spriteName != "-")
+            {
+
+                Sprite targetSpr = Resources.Load<Sprite>("SequenceSprites/" + temp_right_spriteName);
+                RightSprite.sprite = targetSpr;
             }
 
             SequanceIEnum = SequanceCoroutine(i);
@@ -124,9 +174,11 @@ public class SequenceManager : MonoBehaviour
         }
 
 
-        isEnd = true;
-        CutsceneUI.transform.GetChild(0).gameObject.SetActive(false);
-        // GameManager.instance.screenFadeOutEffect();
+        dialogEnd = true;
+        // _seqOwner.GetComponent<Sequences>().QueTrigger = false;
+        leftSprite.gameObject.SetActive(false);
+        RightSprite.gameObject.SetActive(false);
+        DialogBarUI.SetActive(false);
     }
 
     public IEnumerator SequanceCoroutine(int index)
@@ -135,7 +187,7 @@ public class SequenceManager : MonoBehaviour
         StartCoroutine(SkipIEnum);
         textContext.text = "";
 
-        foreach (char letter in t_context.ToCharArray())
+        foreach (char letter in temp_context.ToCharArray())
         {
             textContext.text += letter;
             yield return new WaitForSeconds(delay);
@@ -148,11 +200,11 @@ public class SequenceManager : MonoBehaviour
 
     public IEnumerator SkipSequanceCoroutine(IEnumerator _seq, int index)
     {
-        yield return new WaitForSecondsRealtime(0.3f);
+        yield return SequenceWaiting;
         // yield return new WaitUntil(() => _interact);
         yield return new WaitUntil(() => Input.GetKey(KeyCode.Z));
         StopCoroutine(_seq);
-        textContext.text = t_context;
+        textContext.text = temp_context;
         IEnumerator nextDialog = nextContext(index);
         StartCoroutine(nextDialog);
     }
@@ -161,7 +213,7 @@ public class SequenceManager : MonoBehaviour
     {
         StopCoroutine(SequanceIEnum);
         StopCoroutine(SkipIEnum);
-        yield return new WaitForSecondsRealtime(0.3f);
+        yield return NextContextWait;
         // yield return new WaitUntil(() => _interact);
         yield return new WaitUntil(() => Input.GetKey(KeyCode.Z));
         DisplayNext(index);

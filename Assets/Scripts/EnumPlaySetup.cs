@@ -2,6 +2,16 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+public enum EnumSpriteRect
+{ 
+    Left,
+    Right,
+    Both,
+    OnlyLeft,
+    OnlyRight,
+    Empty,
+}
+
 public enum EnumStage
 { 
     MainMenu,
@@ -88,5 +98,18 @@ public static class StageManageClass
     public static string NextStageInfo(EnumStage _value)
     {
         return GetStageInfo(++_value);
+    }
+}
+
+public static class SequenceSpriteManagerClass
+{
+    public static EnumSpriteRect GetEnumSide(string _sprite)
+    {
+        return (EnumSpriteRect)System.Enum.Parse(typeof(EnumSpriteRect), _sprite);
+    }
+
+    public static string GetStringSide(EnumSpriteRect _sprite)
+    { 
+        return _sprite.ToString();
     }
 }

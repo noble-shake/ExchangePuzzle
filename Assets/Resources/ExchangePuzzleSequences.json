@@ -3,140 +3,27 @@
         "ID": "0",
         "CharacterName": "가이드요정",
         "Context": "안녕하세요. ExchangePuzzle 을 플레이 해주셔서 감사합니다.",
-        "SpriteName": "FairyIdle",
+        "LeftSpriteName": "Guide",
+        "RightSpriteName": "-",
+        "SpriteSide": "OnlyLeft",
         "Comment": "-"
     },
-    {
-        "ID": "0",
-        "CharacterName": "가이드요정",
-        "Context": "본 게임은 두 명의 플레이어가 최종 목적지에 도달하는 것이 목표입니다.",
-        "SpriteName": "FairyIdle",
-        "Comment": "-"
-    },
-    {
-        "ID": "0",
-        "CharacterName": "가이드요정",
-        "Context": "여기, 당신의 플레이어가 있습니다.",
-        "SpriteName": "FairyIdle",
-        "Comment": "해당 Sequence 이후, 플레이어 1 등장 시킨다."
-    },
-    {
-        "ID": "1",
-        "CharacterName": "가이드요정",
-        "Context": "이동 키는 좌우 (화살표 혹은 \"A D\") 버튼을 눌러서 이동 할 수 있습니다.",
-        "SpriteName": "FairyIdle",
-        "Comment": "플레이어 1 등장 이후,"
-    },
-    {
-        "ID": "1",
-        "CharacterName": "가이드요정",
-        "Context": "하지만, 현재 문에 막혀있어서 나갈 수가 없는 상태죠?",
-        "SpriteName": "FairyIdle",
-        "Comment": "-"
-    },
-    {
-        "ID": "2",
-        "CharacterName": "가이드요정",
-        "Context": "다음은 두번 째 플레이어입니다.",
-        "SpriteName": "FairyIdle",
-        "Comment": "플레이어 2 등장"
-    },
-    {
-        "ID": "3",
-        "CharacterName": "가이드요정",
-        "Context": "C 버튼을 눌러서 플레이어를 교체해서 움직일 수 있습니다.",
-        "SpriteName": "FairyIdle",
-        "Comment": "-"
-    },
-    {
-        "ID": "3",
-        "CharacterName": "가이드요정",
-        "Context": "한번 눌러볼까요?",
-        "SpriteName": "FairyIdle",
-        "Comment": "-"
-    },
-    {
-        "ID": "4",
-        "CharacterName": "가이드요정",
-        "Context": "잘 하셨습니다. 점프 버튼 (X) 을 눌러서 버튼 스위치까지 도달해보세요.",
-        "SpriteName": "FairyIdle",
-        "Comment": "-"
-    },
-    {
-        "ID": "5",
-        "CharacterName": "가이드요정",
-        "Context": "이번에는 벽에 막혀 있어서 지나갈 수가 없는데요?",
-        "SpriteName": "FairyIdle",
-        "Comment": "-"
-    },
-    {
-        "ID": "5",
-        "CharacterName": "가이드요정",
-        "Context": "Z 버튼을 눌러서 조준 모드를 활성화 할 수 있습니다.",
-        "SpriteName": "FairyIdle",
-        "Comment": "-"
-    },
-    {
-        "ID": "5",
-        "CharacterName": "가이드요정",
-        "Context": "플레이어마다 정해진 색이 있고, 발사 버튼 (마우스 왼쪽 버튼)을 눌러서 블록의 색을 변경 할 수 있습니다.",
-        "SpriteName": "FairyIdle",
-        "Comment": "-"
-    },
-    {
-        "ID": "5",
-        "CharacterName": "가이드요정",
-        "Context": "두 플레이어의 색이 모두 존재하면, 서로 포탈로 연결되어 다른 색의 박스로 넘어갈 수 있습니다.",
-        "SpriteName": "FairyIdle",
-        "Comment": "-"
-    },
-    {
-        "ID": "6",
-        "CharacterName": "가이드요정",
-        "Context": "잘 하셨습니다. 벌써 최종 목적지에 도달 했습니다.",
-        "SpriteName": "FairyIdle",
-        "Comment": "-"
-    },
-    {
-        "ID": "6",
-        "CharacterName": "가이드요정",
-        "Context": "각 플레이어 별로 목적지 위에 서 있으면 다음 스테이지로 넘어갈 수 있습니다.",
-        "SpriteName": "FairyIdle",
-        "Comment": "-"
-    },
-    {
-        "ID": "6",
-        "CharacterName": "가이드요정",
-        "Context": "그러면 재밌게 플레이 해주세요.",
-        "SpriteName": "FairyIdle",
-        "Comment": "-"
-    },
-    {
-        "ID": "7",
-        "CharacterName": "가이드요정",
-        "Context": "2스테이지에 오신 걸 환영합니다.",
-        "SpriteName": "FairyIdle",
-        "Comment": "-"
-    },
-    {
-        "ID": "7",
-        "CharacterName": "가이드요정",
-        "Context": "2스테이지는 변경된 박스의 방향에 의해 물리적 연산이 잘 되는지 확인하기 위한 스테이지 입니다.",
-        "SpriteName": "FairyIdle",
-        "Comment": "-"
-    },
-    {
-        "ID": "7",
-        "CharacterName": "가이드요정",
-        "Context": "함정이나 떨어질 경우, 스테이지는 처음부터 다시 시작됩니다.",
-        "SpriteName": "FairyIdle",
-        "Comment": "-"
-    },
-    {
-        "ID": "7",
-        "CharacterName": "가이드요정",
-        "Context": "진행이 막힐 경우, ESC 버튼을 눌러서 다시 시작하면 됩니다.",
-        "SpriteName": "FairyIdle",
-        "Comment": "-"
-    }
+  {
+    "ID": "0",
+    "CharacterName": "가이드요정",
+    "Context": "본 게임은 두 명의 플레이어가 최종 목적지에 도달하는 것이 목표입니다.",
+    "LeftSpriteName": "Guide",
+    "RightSpriteName": "-",
+    "SpriteSide": "OnlyLeft",
+    "Comment": "-"
+  },
+  {
+    "ID": "0",
+    "CharacterName": "가이드요정",
+    "Context": "여기, 당신의 플레이어가 있습니다.",
+    "LeftSpriteName": "Guide",
+    "RightSpriteName": "-",
+    "SpriteSide": "OnlyLeft",
+    "Comment": "-"
+  }
 ]

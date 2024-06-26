@@ -36,6 +36,13 @@ public class TutorialSequence1 : Sequences
         functions.Add(composite());
         delays.Add(1f);
 
+        Vector3 TargetPos = new Vector3(GenerateEffect1.transform.position.x, GenerateEffect1.transform.position.y, Camera2.transform.position.z);
+        functions.Add(SeqObjectWalk(Camera2, TargetPos, 10f));
+        delays.Add(0.3f);
+
+        functions.Add(SeqDialPlay(0, gameObject));
+        delays.Add(0.3f);
+
         functions.Add(SeqActive(GenerateEffect1, true));
         delays.Add(1f);
 
@@ -48,6 +55,10 @@ public class TutorialSequence1 : Sequences
         functions.Add(CameraLive(PlayerTag.Player2));
         delays.Add(0.5f);
 
+        TargetPos = new Vector3(GenerateEffect2.transform.position.x, GenerateEffect2.transform.position.y, Camera2.transform.position.z);
+        functions.Add(SeqObjectWalk(Camera2, TargetPos, 10f));
+        delays.Add(0.3f);
+
         functions.Add(SeqActive(GenerateEffect2, true));
         delays.Add(1f);
 
@@ -56,7 +67,6 @@ public class TutorialSequence1 : Sequences
 
     protected IEnumerator composite()
     {
-        Debug.Log(QueSeqeunce.Count);
         StartCoroutine(SeqActive(Camera1, false));
         StartCoroutine(SeqActive(Camera2, true));
         yield return null;

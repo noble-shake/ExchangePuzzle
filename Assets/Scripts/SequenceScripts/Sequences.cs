@@ -18,7 +18,11 @@ public class Sequences: MonoBehaviour
 {
     [Header("Internal Setup")]
     [SerializeField] protected bool queTrigger;
+    public bool QueTrigger { get { return QueTrigger; } set { QueTrigger = value; } }
+
     protected Queue<IEnumerator> QueSeqeunce = new Queue<IEnumerator>();
+
+    WaitForSecondsRealtime DelaySequencer = new WaitForSecondsRealtime(0f);
 
     protected IEnumerator SequencePlay()
     {
@@ -48,24 +52,27 @@ public class Sequences: MonoBehaviour
 
     protected IEnumerator Task(IEnumerator _method, float delay)
     {
-        yield return new WaitForSeconds(delay);
+        // yield return new WaitForSeconds(delay);
+        DelaySequencer.waitTime = delay;
+        yield return DelaySequencer;
         yield return StartCoroutine(_method);
     }
 
-    protected IEnumerator SeqObjectWalk(GameObject _object, Vector3? _pos = null, float speed = 10f)
+    protected IEnumerator SeqObjectWalk(GameObject _object, Vector3? _pos = null, float speed = 100f)
     {
         while (Vector3.Distance(_object.transform.position, _pos.Value) > 0.001f)
         {
-            Vector3.MoveTowards(_object.transform.position, _pos.Value, speed * Time.deltaTime);
+            _object.transform.position = Vector3.MoveTowards(_object.transform.position, _pos.Value, speed * Time.deltaTime);
             yield return null;
         }
         queTrigger = false;
     }
 
-    protected IEnumerator SeqDialPlay(int _id)
+    protected IEnumerator SeqDialPlay(int _id, GameObject _seqOwner)
     {
-        SequenceManager.instance.DialogSystemStart(_id);
-        yield return null;
+        StartCoroutine(SequenceManager.instance.DialogSystemStart(_id, _seqOwner));
+        yield return new WaitUntil(() => SequenceManager.instance.DialogProcessing == true);
+        SequenceManager.instance.DialogProcessing = false;
         queTrigger = false;
     }
 
@@ -75,4 +82,5 @@ public class Sequences: MonoBehaviour
         yield return null;
         queTrigger = false;
     }
+
 }
