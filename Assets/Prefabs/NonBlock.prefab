@@ -276,7 +276,7 @@ MonoBehaviour:
   MoveSpeed: 0
   moveToPos: {x: 0, y: 0, z: 0}
   MovePoints: []
-  originColor: {r: 0, g: 0, b: 0, a: 0}
+  originColor: {r: 1, g: 1, b: 1, a: 1}
   blockMat: {fileID: 2100000, guid: 748a52e884c8309478a5725b0b3f3027, type: 2}
   currentMat: {fileID: 0}
   meshRenderer: {fileID: 0}
