@@ -46,6 +46,7 @@ public enum BlockType
     Holding,
     Passed,
     Gate,
+    Trap,
 }
 
 

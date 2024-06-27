@@ -22,7 +22,6 @@ public class PortalBullet : MonoBehaviour
     void Start()
     {
         mainCam = Camera.main;
-        // sprRenderer = SpriteObject.GetComponent<SpriteRenderer>();
 
         Destroy(gameObject, 10f);
     }

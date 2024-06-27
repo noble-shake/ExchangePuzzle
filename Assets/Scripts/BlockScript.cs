@@ -233,8 +233,6 @@ public class BlockScript : MonoBehaviour
         DOWN DOWN
         LEFT DOWN
         RIGHT DOWN
-
-
          */
 
         float x = currentRigid.x > 0 ? Mathf.Clamp(currentRigid.x, 1f, 20f) : Mathf.Clamp(currentRigid.x, -20f, -1f);
@@ -359,6 +357,5 @@ public class BlockScript : MonoBehaviour
 			    other.GetComponent<Rigidbody>().AddForce(currentRigid + Vector3.right * 1f, ForceMode.Impulse);
 		    }
 
-        // passedCurTime = passedTime;
     }
 }
