@@ -6,6 +6,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
+
 [System.Serializable]
 public class Dialogs
 {
@@ -18,6 +19,7 @@ public class Dialogs
     public string SpriteSide;
     
 }
+
 
 [System.Serializable]
 public class DialogsRead
