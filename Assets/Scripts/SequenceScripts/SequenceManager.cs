@@ -187,9 +187,22 @@ public class SequenceManager : MonoBehaviour
         StartCoroutine(SkipIEnum);
         textContext.text = "";
 
+        bool SpriteTextCheck = false;
+
         foreach (char letter in temp_context.ToCharArray())
         {
             textContext.text += letter;
+            if (!SpriteTextCheck && letter == '<')
+            { 
+                SpriteTextCheck = true;
+            }
+            if (SpriteTextCheck && letter == '>')
+            {
+                SpriteTextCheck = false;
+            }
+
+            if (SpriteTextCheck) continue;
+
             yield return new WaitForSeconds(delay);
         }
 

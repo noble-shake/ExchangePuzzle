@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEditor.ShaderGraph.Internal;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class TutorialSequence1 : Sequences
 {
@@ -13,7 +14,13 @@ public class TutorialSequence1 : Sequences
     [SerializeField] GameObject Player1;
     [SerializeField] GameObject Player2;
     [SerializeField] GameObject GenerateEffect1;  
-    [SerializeField] GameObject GenerateEffect2;  
+    [SerializeField] GameObject GenerateEffect2;
+    [SerializeField] GameObject MoveGaugeUI;
+    [SerializeField] Slider MoveGauge;
+    [SerializeField] GameObject KeyX;
+    [SerializeField] GameObject KeyC;
+    [SerializeField] GameObject KeyZ;
+    [SerializeField] GameObject KeyMouse;
 
 
     [SerializeField] List<IEnumerator> functions = new List<IEnumerator>();
@@ -21,6 +28,9 @@ public class TutorialSequence1 : Sequences
 
     public void makeSeqeunce()
     {
+        MoveGauge.value = 0f;
+        MoveGauge.maxValue = 2f;
+
         functions.Add(SeqActive(StartUI, true));
         delays.Add(1f);
 
@@ -49,8 +59,14 @@ public class TutorialSequence1 : Sequences
         functions.Add(CameraLive(PlayerTag.Player1));
         delays.Add(0.5f);
 
+        functions.Add(SeqActive(MoveGaugeUI, true));
+        delays.Add(0f);
+
         functions.Add(InputKeyboardSequence(Player1));
         delays.Add(1f);
+
+        functions.Add(SeqActive(MoveGauge.gameObject, false));
+        delays.Add(0f);
 
         functions.Add(CameraLive(PlayerTag.Player2));
         delays.Add(0.5f);
@@ -93,7 +109,7 @@ public class TutorialSequence1 : Sequences
         float rotateTime;
         float MovedTime = 0f;
 
-        while (MovedTime < 1.2f)
+        while (MovedTime < 2f)
         {
             float vert = Input.GetAxis("Vertical");
             float hori = Input.GetAxis("Horizontal");
@@ -107,6 +123,11 @@ public class TutorialSequence1 : Sequences
                 _player.GetComponent<PlayerScript>().SightChange(hori);
 
                 MovedTime += Time.deltaTime;
+                MoveGauge.value = MovedTime;
+                if (MovedTime > 2f)
+                {
+                    MoveGauge.value = 2f;
+                }
 
                 Vector3 moveDir = Vector3.zero;
                 moveDir.x = hori * PlayerManager.instance.PlayerSpeed;
