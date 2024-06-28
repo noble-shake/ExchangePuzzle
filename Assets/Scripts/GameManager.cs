@@ -50,7 +50,7 @@ public class GameManager : MonoBehaviour
         findGoalObjects();
 
         
-        seq.makeSeqeunce();
+        seq.Stage1TutorialSequence1();
     }
     public void findGoalObjects()
     {

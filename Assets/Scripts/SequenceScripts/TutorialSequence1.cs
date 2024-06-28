@@ -23,11 +23,16 @@ public class TutorialSequence1 : Sequences
     [SerializeField] GameObject KeyMouse;
 
 
-    [SerializeField] List<IEnumerator> functions = new List<IEnumerator>();
-    [SerializeField] List<float> delays = new List<float>();
 
-    public void makeSeqeunce()
+
+    [SerializeField] List<IEnumerator> functions;
+    [SerializeField] List<float> delays;
+
+    public void Stage1TutorialSequence1()
     {
+        functions = new List<IEnumerator>();
+        delays = new List<float>();
+
         MoveGauge.value = 0f;
         MoveGauge.maxValue = 2f;
 
@@ -62,8 +67,14 @@ public class TutorialSequence1 : Sequences
         functions.Add(SeqActive(MoveGaugeUI, true));
         delays.Add(0f);
 
+        functions.Add(SeqDialPlay(1, gameObject));
+        delays.Add(0.3f);
+
         functions.Add(InputKeyboardSequence(Player1));
         delays.Add(1f);
+
+        functions.Add(SeqDialPlay(2, gameObject));
+        delays.Add(0.3f);
 
         functions.Add(SeqActive(MoveGauge.gameObject, false));
         delays.Add(0f);
@@ -77,6 +88,15 @@ public class TutorialSequence1 : Sequences
 
         functions.Add(SeqActive(GenerateEffect2, true));
         delays.Add(1f);
+
+        functions.Add(SeqActive(KeyX, true));
+        delays.Add(0f);
+
+        functions.Add(SeqActive(KeyC, true));
+        delays.Add(0f);
+
+        functions.Add(SeqDialPlay(3, gameObject));
+        delays.Add(0.3f);
 
         GenerateSequence(functions, delays);
     }

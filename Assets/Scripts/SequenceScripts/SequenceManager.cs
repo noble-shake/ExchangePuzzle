@@ -17,6 +17,7 @@ public class Dialogs
     public string RightSpriteName;
     public string Comment;
     public string SpriteSide;
+    public string BarSide;
     
 }
 
@@ -55,6 +56,7 @@ public class SequenceManager : MonoBehaviour
     public string temp_context;
     public string temp_left_spriteName;
     public string temp_right_spriteName;
+    public EnumSpriteRect BarUISide;
     public Queue<string> text_seq = new Queue<string>();
     public Queue<string> left_sprite_seq = new Queue<string>();
     public Queue<string> right_sprite_seq = new Queue<string>();
@@ -65,6 +67,7 @@ public class SequenceManager : MonoBehaviour
     private Image leftSprite;
     private Image RightSprite;
     public GameObject DialogBarUI; // DialogName, DialogText
+    public GameObject DialogBarObject; // DialogName, DialogText
     public float delay;
 
     [Header("Coroutine Definition")]
@@ -109,8 +112,22 @@ public class SequenceManager : MonoBehaviour
             textName.text = contents.info[i].info.CharacterName;
 
             string side = contents.info[i].info.SpriteSide;
+            string barSide = contents.info[i].info.BarSide;
 
             EnumSpriteRect _spriteRect = SequenceSpriteManagerClass.GetEnumSide(side);
+            EnumSpriteRect _barRect = SequenceSpriteManagerClass.GetEnumSide(barSide);
+
+            switch (_barRect)
+            {
+                case EnumSpriteRect.Left:
+                    DialogBarObject.transform.localScale = Vector3.one;
+                    break;
+                case EnumSpriteRect.Right:
+                    Vector3 inverseVec = Vector3.one;
+                    inverseVec.x = -1;
+                    DialogBarObject.transform.localScale = inverseVec;
+                    break;
+            }
 
             switch (_spriteRect)
             { 
