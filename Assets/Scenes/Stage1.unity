@@ -14685,7 +14685,7 @@ MonoBehaviour:
   PlayerAimCam: {fileID: 1901810437}
   isGround: 0
   isPassed: 0
-  passedTime: 0.3
+  passedTime: 1
   passedCurTime: 0
   isSelect: 0
   isLeft: 0
@@ -15913,6 +15913,10 @@ MonoBehaviour:
   GenerateEffect2: {fileID: 35667216}
   MoveGaugeUI: {fileID: 1500938211}
   MoveGauge: {fileID: 1067373264}
+  KeyX: {fileID: 0}
+  KeyC: {fileID: 0}
+  KeyZ: {fileID: 0}
+  KeyMouse: {fileID: 0}
   delays: []
 --- !u!1001 &1643796966
 PrefabInstance:
@@ -18506,7 +18510,7 @@ MonoBehaviour:
   PlayerAimCam: {fileID: 689291343}
   isGround: 0
   isPassed: 0
-  passedTime: 0.3
+  passedTime: 1
   passedCurTime: 0
   isSelect: 0
   isLeft: 0

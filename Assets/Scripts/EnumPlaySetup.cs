@@ -74,7 +74,7 @@ public static class BlockColoring
             case BlockColorTag.Player1:
                 return new Color(80f / 255f, 188f / 255f, 223f / 255f, 1f);
             case BlockColorTag.Player2:
-                return new Color(68f / 255f, 0f / 255f, 82f / 255f, 1f);
+                return new Color(255f / 255f, 255f / 255f, 0f, 1f);
             case BlockColorTag.Etc:
                 break;
 
