@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Runtime.InteropServices.WindowsRuntime;
 using UnityEngine;
 
 public enum EnumSpriteRect
@@ -29,6 +30,7 @@ public enum PlayerTag
 { 
     Player1,
     Player2,
+    None,
 }
 
 public enum GateSwitchType
@@ -57,6 +59,103 @@ public enum BlockColorTag
     Player2,
     Etc,
 }
+
+public enum EnumDimension
+{ 
+    UP,
+    DOWN,
+    LEFT,
+    RIGHT,
+}
+
+public static class DimensionClass
+{
+    public static EnumDimension GetFromFixedDimension(Vector3 _vec)
+    {
+        if (_vec == Vector3.up)
+        {
+            return EnumDimension.UP;
+        }
+        else if (_vec == Vector3.down)
+        {
+            return EnumDimension.DOWN;
+        }
+        else if (_vec == Vector3.left)
+        {
+            return EnumDimension.LEFT;
+        }
+        else if (_vec == Vector3.right)
+        {
+            return EnumDimension.RIGHT;
+        }
+        return EnumDimension.UP;
+    }
+
+    public static EnumDimension GetFromDynamicDimension(Vector3 _vec)
+    {
+        Vector3 dimVector;
+        float targetDim = Mathf.Max(Mathf.Abs(_vec.x), Mathf.Abs(_vec.y)) == Mathf.Abs(_vec.x) ?  _vec.x : _vec.y;
+        if (targetDim >= 0)
+        {
+            if (targetDim == _vec.x)
+            {
+                dimVector = Vector3.right;
+            }
+            else
+            {
+                dimVector = Vector3.up;
+            }
+        }
+        else
+        {
+            if (targetDim == _vec.x)
+            {
+                dimVector = Vector3.left;
+            }
+            else
+            {
+                dimVector = Vector3.down;
+            }
+        }
+
+        if (dimVector == Vector3.up)
+        {
+            return EnumDimension.UP;
+        }
+        else if (dimVector == Vector3.down)
+        {
+            return EnumDimension.DOWN;
+        }
+        else if (dimVector == Vector3.left)
+        {
+            return EnumDimension.LEFT;
+        }
+        else if (dimVector == Vector3.right)
+        {
+            return EnumDimension.RIGHT;
+        }
+        return EnumDimension.UP;
+    }
+
+    public static Vector3 GetFromDimensionDirection(EnumDimension _dim)
+    {
+        switch (_dim)
+        { 
+            case EnumDimension.UP:
+                return Vector3.up;
+            case EnumDimension.DOWN:
+                return Vector3.down;
+            case EnumDimension.LEFT:
+                return Vector3.left;
+            case EnumDimension.RIGHT:
+                return Vector3.right;
+            default:
+                return Vector3.zero;
+        }
+    }
+}
+
+
 
 public static class BlockColoring
 { 

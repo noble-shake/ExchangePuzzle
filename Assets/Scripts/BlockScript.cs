@@ -105,14 +105,14 @@ public class BlockScript : MonoBehaviour
         }
     }
 
-    public void changeColorFromPlayer(int _playerID) {
-        if (_playerID == 0)
+    public void changeColorFromPlayer(PlayerTag _playerID) {
+        if (PlayerTag.Player1 == _playerID)
         {
             // currentMat.SetColor("_Color", Color.black);
             // blockMat.color = Color.red;
             currentMat.color = BlockColoring.GetBlockColor(BlockColorTag.Player1);
         }
-        else if (_playerID == 1)
+        else if (PlayerTag.Player2 == _playerID)
         {
             // currentMat.SetColor("_Color", new Color(80f / 255f, 188f / 255f, 223f / 255f, 1f));
             currentMat.color = BlockColoring.GetBlockColor(BlockColorTag.Player2);
@@ -130,29 +130,31 @@ public class BlockScript : MonoBehaviour
     public void createDimension(Vector3 _norm) 
     {
         Vector3 DimensionPostion;
+        EnumDimension dimm = DimensionClass.GetFromDynamicDimension(_norm);
+        DimensionPostion = DimensionClass.GetFromDimensionDirection(dimm);
 
-        if (Mathf.Abs(_norm.x) > Mathf.Abs(_norm.y))
-        {
-            if (_norm.x > 0)
-            {
-                DimensionPostion = Vector3.right; // 2;
-            }
-            else
-            {
-                DimensionPostion = Vector3.left; // 2;
-            }
-        }
-        else
-        {
-            if (_norm.y < 0)
-            {
-                DimensionPostion = Vector3.down; // 2;
-            }
-            else
-            {
-                DimensionPostion = Vector3.up; // 2;
-            }
-        }
+        //if (Mathf.Abs(_norm.x) > Mathf.Abs(_norm.y))
+        //{
+        //    if (_norm.x > 0)
+        //    {
+        //        DimensionPostion = Vector3.right; // 2;
+        //    }
+        //    else
+        //    {
+        //        DimensionPostion = Vector3.left; // 2;
+        //    }
+        //}
+        //else
+        //{
+        //    if (_norm.y < 0)
+        //    {
+        //        DimensionPostion = Vector3.down; // 2;
+        //    }
+        //    else
+        //    {
+        //        DimensionPostion = Vector3.up; // 2;
+        //    }
+        //}
 
         WarpDirection = DimensionPostion;
 
@@ -166,13 +168,22 @@ public class BlockScript : MonoBehaviour
         
         if (WarpDirection == Vector3.zero) return;
         // blockColl.enabled = false;
-        dimensionCollObj.transform.position = transform.position + WarpDirection / 1.3f; 
+        dimensionCollObj.transform.position = transform.position + WarpDirection; 
         dimensionCollObj.SetActive(true);
 
-        if (WarpDirection == Vector3.left || WarpDirection == Vector3.right)
+        if (WarpDirection == Vector3.left)
         {
             dimensionCollRenderObj.transform.rotation = Quaternion.Euler(0, 0, 90);
         }
+        else if (WarpDirection == Vector3.right)
+        {
+            dimensionCollRenderObj.transform.rotation = Quaternion.Euler(0, 0, -90);
+        }
+    }
+
+    public void closeDimension()
+    {
+        dimensionCollObj.SetActive(false);
     }
 
     public void shutDownDimension() 
@@ -183,7 +194,7 @@ public class BlockScript : MonoBehaviour
         dimensionCollRenderObj.transform.rotation = transform.rotation;
         WarpDirection = Vector3.zero;
         UnSyncronizeBlock();
-        changeColorFromPlayer(-1);
+        changeColorFromPlayer(PlayerTag.None);
         dimensionCollObj.SetActive(false);
     }
 
@@ -237,26 +248,27 @@ public class BlockScript : MonoBehaviour
         currentRigid = new Vector3(x, y, 0f);
 
 
-				if (WarpDirection == Vector3.up && TargetWarpDirection == Vector3.up)
+		if (WarpDirection == Vector3.up && TargetWarpDirection == Vector3.up)
         {
-      			currentRigid = -currentRigid;
+            currentRigid.y = (Mathf.Abs(currentRigid.x) + Mathf.Abs(currentRigid.y));
             currentRigid.x = 0f;
-			      other.GetComponent<Rigidbody>().velocity = Vector3.zero;
-            other.GetComponent<Rigidbody>().AddForce(currentRigid, ForceMode.Impulse);
+            other.GetComponent<Rigidbody>().velocity = Vector3.zero;
+            other.GetComponent<Rigidbody>().AddForce(currentRigid + Vector3.up, ForceMode.Impulse);
         }
         else if (WarpDirection == Vector3.down && TargetWarpDirection == Vector3.up)
         {
-			      currentRigid.x = 0f;
-			      other.GetComponent<Rigidbody>().velocity = Vector3.zero;
-            other.GetComponent<Rigidbody>().AddForce(currentRigid, ForceMode.Impulse);
+            currentRigid.y = Mathf.Abs(currentRigid.x) + Mathf.Abs(currentRigid.y);
+            currentRigid.x = 0f;
+            other.GetComponent<Rigidbody>().velocity = Vector3.zero;
+            other.GetComponent<Rigidbody>().AddForce(currentRigid + Vector3.up, ForceMode.Impulse);
         }
         else if (WarpDirection == Vector3.left && TargetWarpDirection == Vector3.up)
 		{
-			      currentRigid.y = Mathf.Abs(currentRigid.x) + Mathf.Abs(currentRigid.y);
-			      currentRigid.x = 0f;   
+			currentRigid.y = Mathf.Abs(currentRigid.x) + Mathf.Abs(currentRigid.y);
+			currentRigid.x = 0f;   
 
             other.GetComponent<Rigidbody>().velocity = Vector3.zero;
-            other.GetComponent<Rigidbody>().AddForce(currentRigid, ForceMode.Impulse);
+            other.GetComponent<Rigidbody>().AddForce(currentRigid + Vector3.up, ForceMode.Impulse);
         }
         else if (WarpDirection == Vector3.right && TargetWarpDirection == Vector3.up)
         {
@@ -264,21 +276,21 @@ public class BlockScript : MonoBehaviour
 			      currentRigid.x = 0f;
       			currentRigid = -currentRigid;
 			      other.GetComponent<Rigidbody>().velocity = Vector3.zero;
-            other.GetComponent<Rigidbody>().AddForce(currentRigid, ForceMode.Impulse);
+            other.GetComponent<Rigidbody>().AddForce(currentRigid + Vector3.up, ForceMode.Impulse);
         }
         else if (WarpDirection == Vector3.up && TargetWarpDirection == Vector3.down)
         {
 			      currentRigid.y = Mathf.Abs(currentRigid.x) + Mathf.Abs(currentRigid.y);
 			      currentRigid.x = 0f;
 			      other.GetComponent<Rigidbody>().velocity = Vector3.zero;
-            other.GetComponent<Rigidbody>().AddForce(currentRigid, ForceMode.Impulse);
+            other.GetComponent<Rigidbody>().AddForce(currentRigid + Vector3.down, ForceMode.Impulse);
         }
         else if (WarpDirection == Vector3.down && TargetWarpDirection == Vector3.down)
         {
-	          currentRigid.x = 0f;
-	          currentRigid = -currentRigid;
+            currentRigid.y = -(Mathf.Abs(currentRigid.x) + Mathf.Abs(currentRigid.y));
+            currentRigid.x = 0f;
             other.GetComponent<Rigidbody>().velocity = Vector3.zero;
-            other.GetComponent<Rigidbody>().AddForce(currentRigid, ForceMode.Impulse);
+            other.GetComponent<Rigidbody>().AddForce(currentRigid + Vector3.down, ForceMode.Impulse);
         }
         else if (WarpDirection == Vector3.left && TargetWarpDirection == Vector3.down)
         {
@@ -286,7 +298,7 @@ public class BlockScript : MonoBehaviour
 			      currentRigid.x = 0f;
 			      currentRigid = -currentRigid;
 			      other.GetComponent<Rigidbody>().velocity = Vector3.zero;
-            other.GetComponent<Rigidbody>().AddForce(currentRigid, ForceMode.Impulse);
+            other.GetComponent<Rigidbody>().AddForce(currentRigid + Vector3.down, ForceMode.Impulse);
         }
         else if (WarpDirection == Vector3.right && TargetWarpDirection == Vector3.down)
         {
@@ -294,35 +306,35 @@ public class BlockScript : MonoBehaviour
 			      currentRigid.x = 0f;
 			      currentRigid = -currentRigid;
 			      other.GetComponent<Rigidbody>().velocity = Vector3.zero;
-            other.GetComponent<Rigidbody>().AddForce(currentRigid, ForceMode.Impulse);
+            other.GetComponent<Rigidbody>().AddForce(currentRigid + Vector3.down, ForceMode.Impulse);
         }
         else if (WarpDirection == Vector3.up && TargetWarpDirection == Vector3.left)
         {
             currentRigid.x = -(Mathf.Abs(currentRigid.x) + Mathf.Abs(currentRigid.y));
             currentRigid.y = 0f;
             other.GetComponent<Rigidbody>().velocity = Vector3.zero;
-            other.GetComponent<Rigidbody>().AddForce(currentRigid, ForceMode.Impulse);
+            other.GetComponent<Rigidbody>().AddForce(currentRigid + Vector3.left, ForceMode.Impulse);
         }
         else if (WarpDirection == Vector3.down && TargetWarpDirection == Vector3.left)
         {
 			      currentRigid.x = -(Mathf.Abs(currentRigid.x) + Mathf.Abs(currentRigid.y));
 			      currentRigid.y = 0f;
 			      other.GetComponent<Rigidbody>().velocity = Vector3.zero;
-            other.GetComponent<Rigidbody>().AddForce(currentRigid, ForceMode.Impulse);
+            other.GetComponent<Rigidbody>().AddForce(currentRigid + Vector3.left, ForceMode.Impulse);
         }
         else if (WarpDirection == Vector3.left && TargetWarpDirection == Vector3.left)
         {
-			      currentRigid.x = -(Mathf.Abs(currentRigid.x) + Mathf.Abs(currentRigid.y));
-			      currentRigid.y = 0f;
-			      other.GetComponent<Rigidbody>().velocity = Vector3.zero;
-            other.GetComponent<Rigidbody>().AddForce(currentRigid, ForceMode.Impulse);
+			currentRigid.x = -(Mathf.Abs(currentRigid.x) + Mathf.Abs(currentRigid.y));
+			currentRigid.y = 0f;
+			other.GetComponent<Rigidbody>().velocity = Vector3.zero;
+            other.GetComponent<Rigidbody>().AddForce(currentRigid + Vector3.left * 4f, ForceMode.Impulse);
         }
         else if (WarpDirection == Vector3.right && TargetWarpDirection == Vector3.left)
         {
-			      currentRigid.x = -(Mathf.Abs(currentRigid.x) + Mathf.Abs(currentRigid.y));
-			      currentRigid.y = 0f;
-			      other.GetComponent<Rigidbody>().velocity = Vector3.zero;
-            other.GetComponent<Rigidbody>().AddForce(currentRigid, ForceMode.Impulse);
+			currentRigid.x = -(Mathf.Abs(currentRigid.x) + Mathf.Abs(currentRigid.y));
+			currentRigid.y = 0f;
+			other.GetComponent<Rigidbody>().velocity = Vector3.zero;
+            other.GetComponent<Rigidbody>().AddForce(currentRigid + Vector3.left, ForceMode.Impulse);
         }
         else if (WarpDirection == Vector3.up && TargetWarpDirection == Vector3.right)
         {
@@ -351,7 +363,7 @@ public class BlockScript : MonoBehaviour
 			    currentRigid.x = Mathf.Abs(currentRigid.x) + Mathf.Abs(currentRigid.y);
 			    currentRigid.y = 0f;
 			    other.GetComponent<Rigidbody>().velocity = Vector3.zero;
-			    other.GetComponent<Rigidbody>().AddForce(currentRigid + Vector3.right * 1f, ForceMode.Impulse);
+			    other.GetComponent<Rigidbody>().AddForce(currentRigid + Vector3.right * 4f, ForceMode.Impulse);
 		    }
 
     }

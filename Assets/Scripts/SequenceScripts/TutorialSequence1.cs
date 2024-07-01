@@ -136,6 +136,8 @@ public class TutorialSequence1 : Sequences
 
             if (hori != 0)
             {
+                _player.GetComponent<PlayerScript>().animWalk = true;
+
                 if (hori > 0.5f && _player.GetComponent<PlayerScript>().DirectionCheck || hori < -0.5f && !_player.GetComponent<PlayerScript>().DirectionCheck)
                 {
                     rotateTime = 90f;
@@ -153,6 +155,10 @@ public class TutorialSequence1 : Sequences
                 moveDir.x = hori * PlayerManager.instance.PlayerSpeed;
                 moveDir.y = _player.GetComponent<PlayerScript>().GetRigidbody.velocity.y;
                 _player.GetComponent<PlayerScript>().GetRigidbody.velocity = _player.transform.rotation * moveDir;
+            }
+            else
+            {
+                _player.GetComponent<PlayerScript>().animWalk = false;
             }
 
             yield return null;

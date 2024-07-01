@@ -32,7 +32,7 @@
     {
         "ID": "1",
         "CharacterName": "퍼렁이",
-        "Context": "퍼렁이",
+        "Context": "퍼렁이 등장 !",
         "LeftSpriteName": "Guide",
         "RightSpriteName": "Player1Off",
         "SpriteSide": "Right",
@@ -79,16 +79,16 @@
         "BarSide": "Right",
         "Comment": "-"
     },
-  {
-    "ID": "3",
-    "CharacterName": "가이드",
-    "Context": "캐릭터는  <sprite name=\"KeyC\">  버튼을 눌러서 교체할 수 있습니다.",
-    "LeftSpriteName": "Guide",
-    "RightSpriteName": "Player2Off",
-    "SpriteSide": "Both",
-    "BarSide": "Left",
-    "Comment": "-"
-  },
+    {
+        "ID": "3",
+        "CharacterName": "가이드",
+        "Context": "캐릭터는  <sprite name=\"KeyC\">  버튼을 눌러서 교체할 수 있습니다.",
+        "LeftSpriteName": "Guide",
+        "RightSpriteName": "Player2Off",
+        "SpriteSide": "Both",
+        "BarSide": "Left",
+        "Comment": "-"
+    },
     {
         "ID": "3",
         "CharacterName": "가이드",
@@ -203,6 +203,16 @@
         "ID": "6",
         "CharacterName": "가이드",
         "Context": "함정에 떨어질 경우 스테이지는 처음부터 다시 시작됩니다.",
+        "LeftSpriteName": "Guide",
+        "RightSpriteName": "-",
+        "SpriteSide": "OnlyLeft",
+        "BarSide": "Left",
+        "Comment": "-"
+    },
+    {
+        "ID": "6",
+        "CharacterName": "가이드",
+        "Context": "진행이 막힐 경우 ESC 버튼을 눌러서 다시 시작 버튼을 누르시면 됩니다.",
         "LeftSpriteName": "Guide",
         "RightSpriteName": "-",
         "SpriteSide": "OnlyLeft",

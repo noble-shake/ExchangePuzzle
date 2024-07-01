@@ -1,11 +1,13 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 using Unity.Burst.CompilerServices;
 using Unity.VisualScripting;
 using UnityEditor.SceneManagement;
 using UnityEngine;
 using UnityEngine.UI;
+using static UnityEditor.Experimental.GraphView.GraphView;
 
 public class PlayerManager: MonoBehaviour
 {
@@ -53,7 +55,7 @@ public class PlayerManager: MonoBehaviour
     [Header("Player Object")]
     [SerializeField] PlayerScript Player1Object;
     [SerializeField] PlayerScript Player2Object;
-    [SerializeField] int curPlayerID;
+    [SerializeField] PlayerTag curPlayerID;
     [SerializeField] PlayerScript TargetObject;
     [SerializeField] Rigidbody rigid;
 
@@ -79,7 +81,7 @@ public class PlayerManager: MonoBehaviour
         Player2Object.GetComponent<Rigidbody>().mass = 1000f;
         TargetObject = Player1Object;
         CurrentAimCam = Player1Object.GetComponent<PlayerScript>().GetAimCameraObject();
-        curPlayerID = 0;
+        curPlayerID = PlayerTag.Player1;
         rigid = Player1Object.GetComponent<Rigidbody>();
     }
 
@@ -92,7 +94,7 @@ public class PlayerManager: MonoBehaviour
         Player1Object.GetComponent<Rigidbody>().mass = 1000f;
         TargetObject = Player2Object;
         CurrentAimCam = Player2Object.GetComponent<PlayerScript>().GetAimCameraObject();
-        curPlayerID = 0;
+        curPlayerID = PlayerTag.Player2;
         rigid = Player2Object.GetComponent<Rigidbody>();
     }
 
@@ -109,12 +111,113 @@ public class PlayerManager: MonoBehaviour
     {
         if (sequenceInstance.SequenceProcessing) return;
 
+
         CharacterExchange();
         CharacterMove();
         CharacterJump();
         CharacterAimMode();
         CharacterAimRotate();
+        CharacterAimSpriteCheck();
         CharacterShoot();
+    }
+
+    private void CharacterAimSpriteCheck()
+    {
+        if (!isAiming)
+        {
+            if(Player1Object.LookAtFront) Player1Object.LookAtFront = false;
+            if(Player1Object.LookAtBack) Player1Object.LookAtBack = false;
+            if(Player2Object.LookAtFront) Player2Object.LookAtFront = false;
+            if(Player2Object.LookAtBack) Player2Object.LookAtBack= false;
+
+            return;
+        }
+
+        switch (curPlayerID)
+        { 
+            case PlayerTag.Player1:
+                if (Player2Object.transform.position.x >= CurrentAimCam.transform.position.x)
+                {
+                    if (Player2Object.DirectionCheck)
+                    {
+                        Player2Object.LookAtFront = true;
+                        if (Player2Object.LookAtBack)
+                        {
+                            Player2Object.LookAtBack = false;
+                        }
+                    }
+                    else
+                    {
+                        Player2Object.LookAtBack = true;
+                        if (Player2Object.LookAtFront)
+                        {
+                            Player2Object.LookAtFront= false;
+                        }
+                    }
+                }
+                else
+                {
+                    if (Player2Object.DirectionCheck)
+                    {
+                        Player2Object.LookAtBack = true;
+                        if (Player2Object.LookAtFront)
+                        {
+                            Player2Object.LookAtFront= false;
+                        }
+                    }
+                    else
+                    {
+                        Player2Object.LookAtFront= true;
+                        if (Player2Object.LookAtBack)
+                        {
+                            Player2Object.LookAtBack= false;
+                        }
+                    }
+                }
+
+                break;
+            case PlayerTag.Player2:
+                if (Player1Object.transform.position.x >= CurrentAimCam.transform.position.x)
+                {
+                    if (Player1Object.DirectionCheck)
+                    {
+                        Player1Object.LookAtFront = true;
+                        if (Player1Object.LookAtBack)
+                        {
+                            Player1Object.LookAtBack = false;
+                        }
+                    }
+                    else
+                    {
+                        Player1Object.LookAtBack = true;
+                        if (Player1Object.LookAtFront)
+                        {
+                            Player1Object.LookAtFront = false;
+                        }
+                    }
+                }
+                else
+                {
+                    if (Player1Object.DirectionCheck)
+                    {
+                        Player1Object.LookAtBack = true;
+                        if (Player1Object.LookAtFront)
+                        {
+                            Player1Object.LookAtFront = false;
+                        }
+                    }
+                    else
+                    {
+                        Player1Object.LookAtFront = true;
+                        if (Player1Object.LookAtBack)
+                        {
+                            Player1Object.LookAtBack = false;
+                        }
+                    }
+                }
+                break;
+        }
+
     }
 
     private void CharacterShoot()
@@ -125,12 +228,29 @@ public class PlayerManager: MonoBehaviour
             if (Physics.Raycast(CurrentAimCam.transform.position, CurrentAimCam.transform.forward, out RaycastHit hit, Mathf.Infinity, LayerMask.GetMask("Ground")))
             {
 
-                TargetObject.ShotPoint.transform.LookAt(hit.point);
+                if (!TargetObject.GetComponent<PlayerScript>().DirectionCheck)
+                {
+                    TargetObject.ShotPointRight.transform.LookAt(hit.point);
+                }
+                else {
+                    TargetObject.ShotPointLeft.transform.LookAt(hit.point);
+                }
+
+                
+                
             }
 
+            if (!TargetObject.GetComponent<PlayerScript>().DirectionCheck)
+            {
+                GameObject go = Instantiate(BulletPrefab, TargetObject.ShotPointRight.position, TargetObject.ShotPointRight.rotation);
+                go.GetComponent<PortalBullet>().SetBulletInspector(curPlayerID);
+            }
+            else
+            {
+                GameObject go = Instantiate(BulletPrefab, TargetObject.ShotPointLeft.position, TargetObject.ShotPointLeft.rotation);
+                go.GetComponent<PortalBullet>().SetBulletInspector(curPlayerID);
+            }
 
-            GameObject go = Instantiate(BulletPrefab, TargetObject.ShotPoint.position, TargetObject.ShotPoint.rotation);
-            go.GetComponent<PortalBullet>().SetBulletInspector(curPlayerID);
         }
     }
 
@@ -149,6 +269,7 @@ public class PlayerManager: MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.C))
         {
+            TargetObject.GetComponent<PlayerScript>().animWalk = false;
             isFirstChar = !isFirstChar;
             exCurCool = exCool;
             // isMovable = false;
@@ -157,7 +278,7 @@ public class PlayerManager: MonoBehaviour
             // Character Controller Change
             if (isFirstChar)
             {
-                curPlayerID = 1;
+                curPlayerID = PlayerTag.Player2;
                 Player1Object.GetComponent<PlayerScript>().playerCam.SetActive(false);
                 Player1Object.GetComponent<PlayerScript>().CharacterSelect = false; // isSelect On/Off
                 Player2Object.GetComponent<PlayerScript>().playerCam.SetActive(true);
@@ -170,7 +291,7 @@ public class PlayerManager: MonoBehaviour
             }
             else
             {
-                curPlayerID = 0;
+                curPlayerID = PlayerTag.Player1;
                 Player1Object.GetComponent<PlayerScript>().playerCam.SetActive(true);
                 Player1Object.GetComponent<PlayerScript>().CharacterSelect = false;
                 Player2Object.GetComponent<PlayerScript>().playerCam.SetActive(false);
@@ -182,22 +303,57 @@ public class PlayerManager: MonoBehaviour
                 rigid = Player1Object.GetComponent<Rigidbody>();
             }
         }
+    }
 
+    public void CharacterExchangeEvent(PlayerTag _player)
+    {
+        if (curPlayerID == _player) return;
 
-
+        if (_player == PlayerTag.Player2)
+        {
+            curPlayerID = PlayerTag.Player2;
+            Player1Object.GetComponent<PlayerScript>().playerCam.SetActive(false);
+            Player1Object.GetComponent<PlayerScript>().CharacterSelect = false; // isSelect On/Off
+            Player2Object.GetComponent<PlayerScript>().playerCam.SetActive(true);
+            Player2Object.GetComponent<PlayerScript>().CharacterSelect = true;
+            Player1Object.GetComponent<Rigidbody>().mass = 1000f;
+            Player2Object.GetComponent<Rigidbody>().mass = 1f;
+            TargetObject = Player2Object;
+            CurrentAimCam = Player2Object.GetComponent<PlayerScript>().GetAimCameraObject();
+            rigid = Player2Object.GetComponent<Rigidbody>();
+        }
+        else
+        {
+            curPlayerID = PlayerTag.Player1;
+            Player1Object.GetComponent<PlayerScript>().playerCam.SetActive(true);
+            Player1Object.GetComponent<PlayerScript>().CharacterSelect = false;
+            Player2Object.GetComponent<PlayerScript>().playerCam.SetActive(false);
+            Player2Object.GetComponent<PlayerScript>().CharacterSelect = true;
+            Player1Object.GetComponent<Rigidbody>().mass = 1f;
+            Player2Object.GetComponent<Rigidbody>().mass = 1000f;
+            TargetObject = Player1Object;
+            CurrentAimCam = Player1Object.GetComponent<PlayerScript>().GetAimCameraObject();
+            rigid = Player1Object.GetComponent<Rigidbody>();
+        }
     }
 
     private void CharacterMove() {
         float vert = Input.GetAxis("Vertical");
         float hori = Input.GetAxis("Horizontal");
 
-        if(hori != 0)
+        if (hori != 0)
         {
+            TargetObject.animWalk = true;
+
             if (hori > 0.5f && TargetObject.DirectionCheck || hori < -0.5f && !TargetObject.DirectionCheck)
             {
                 rotateTime = 90f;
             }
             TargetObject.SightChange(hori);
+        }
+        else
+        {
+            TargetObject.animWalk = false;
         }
         
 
@@ -235,6 +391,7 @@ public class PlayerManager: MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.Z) && !isAiming)
         {
+            
             aimCurCool = aimCool;
             TargetObject.GetComponent<PlayerScript>().playerAimCam.SetActive(true);
             isAiming = true;
@@ -284,13 +441,17 @@ public class PlayerManager: MonoBehaviour
         // transform.rotation = Quaternion.Euler(0f, rotateValue.y, 0f);
         CurrentAimCam.transform.rotation = Quaternion.Euler(rotateValue.x, rotateValue.y, 0f);
 
+
         if (!TargetObject.GetComponent<PlayerScript>().DirectionCheck)
         {
+
             TargetObject.GetComponent<PlayerScript>().CharacterArm.rotation = Quaternion.Euler(0f, 0f, -rotateValue.x);
+            TargetObject.GetComponent<PlayerScript>().CharacterHead.rotation = Quaternion.Euler(0f, 0f, -rotateValue.x);
         }
         else
         {
             TargetObject.GetComponent<PlayerScript>().CharacterArm.rotation = Quaternion.Euler(0f, 0f, rotateValue.x);
+            TargetObject.GetComponent<PlayerScript>().CharacterHead.rotation = Quaternion.Euler(0f, 0f, rotateValue.x);
         }
         
 

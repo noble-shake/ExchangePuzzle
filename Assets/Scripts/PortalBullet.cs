@@ -9,12 +9,11 @@ public class PortalBullet : MonoBehaviour
     [SerializeField] Camera mainCam;
     [SerializeField] GameObject SpriteObject;
     [SerializeField] SpriteRenderer sprRenderer;
-    [SerializeField] Sprite Player1BulletSprite;
-    [SerializeField] Sprite Player2BulletSprite;
+    [SerializeField] Sprite PlayerBulletSprite;
 
     [Header("Owner Setup")]
-    [SerializeField] int PlayerID;
-    [SerializeField] public int pid { get { return PlayerID; } set { PlayerID = value; } }
+    [SerializeField] PlayerTag PlayerID;
+    [SerializeField] public PlayerTag pid { get { return PlayerID; } set { PlayerID = value; } }
     [SerializeField] CapsuleCollider bulletColl;
     [SerializeField] float bulletSpeed;
 
@@ -22,19 +21,21 @@ public class PortalBullet : MonoBehaviour
     void Start()
     {
         mainCam = Camera.main;
+        // sprRenderer = GetComponent<SpriteRenderer>();
+        // sprRenderer.sprite = PlayerBulletSprite;
 
         Destroy(gameObject, 10f);
     }
 
-    public void SetBulletInspector(int _PlayerID)
+    public void SetBulletInspector(PlayerTag _PlayerID)
     { 
         PlayerID = _PlayerID;
         switch (_PlayerID) {
-            case 0:
-                sprRenderer.sprite = Player1BulletSprite;
+            case PlayerTag.Player1:
+                sprRenderer.color = BlockColoring.GetBlockColor(BlockColorTag.Player1);
                 break;
-            case 1:
-                sprRenderer.sprite = Player2BulletSprite;
+            case PlayerTag.Player2:
+                sprRenderer.color = BlockColoring.GetBlockColor(BlockColorTag.Player2);
                 break;
         }
     }

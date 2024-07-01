@@ -53,8 +53,8 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 0.5, y: 0.5, z: 0.5}
-  m_Center: {x: 0, y: 0, z: 0}
+  m_Size: {x: 0.20163772, y: 0.27913445, z: 0.5}
+  m_Center: {x: -0.013561875, y: -0.056185126, z: 0}
 --- !u!114 &4252138439195101548
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -80,7 +80,7 @@ GameObject:
   - component: {fileID: 2122962292253713598}
   - component: {fileID: 7578295776308171101}
   - component: {fileID: 5359207662762116632}
-  m_Layer: 6
+  m_Layer: 0
   m_Name: Cylinder
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -95,7 +95,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1545071491414710698}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: -0.182, z: 0}
   m_LocalScale: {x: 1, y: 0.1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -271,6 +271,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: de5292ca55d40bb408e1f22b843d1283, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  blockType: 0
+  MoveInverse: 0
+  MoveSpeed: 0
+  moveToPos: {x: 0, y: 0, z: 0}
+  MovePoints: []
   originColor: {r: 0, g: 0, b: 0, a: 0}
   blockMat: {fileID: 2100000, guid: 748a52e884c8309478a5725b0b3f3027, type: 2}
   currentMat: {fileID: 0}
