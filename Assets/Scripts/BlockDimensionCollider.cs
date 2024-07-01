@@ -23,6 +23,7 @@ public class BlockDimensionCollider : MonoBehaviour
         if (other.CompareTag("player"))
         {
             ParentObj.TriggerOnDimensionObject(other);
+            //StartCoroutine(ParentObj.TriggerOnDimensionObject(other));
         }
     }
 

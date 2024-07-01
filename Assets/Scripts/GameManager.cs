@@ -27,8 +27,11 @@ public class GameManager : MonoBehaviour
     [SerializeField] Button btnPauseContinue;
     [SerializeField] Button btnEndNextStage;
     [SerializeField] Button btnEndMainMenu;
+    [SerializeField] bool isPaused;
     public GameObject WarpBlock1 { get { return WarpConnectBlock1; } set { WarpConnectBlock1 = value; } }
     public GameObject WarpBlock2 { get { return WarpConnectBlock2; } set { WarpConnectBlock2 = value; } }
+
+    public bool PauseEvent { get { return isPaused; } set { isPaused = value; } }
 
     private void Awake()
     {
@@ -84,6 +87,7 @@ public class GameManager : MonoBehaviour
         Time.timeScale = 1f;
         PauseUI.SetActive(false);
         Cursor.lockState = CursorLockMode.Locked;
+        PauseEvent = false;
     }
 
     public void BtnNextStage()
@@ -149,12 +153,14 @@ public class GameManager : MonoBehaviour
             Time.timeScale = 0f;
             PauseUI.SetActive(true);
             Cursor.lockState = CursorLockMode.Confined;
+            PauseEvent = true;
         }
         else if (Input.GetKeyDown(KeyCode.Escape) && PauseUI.activeSelf)
         {
             Time.timeScale = 1f;
             PauseUI.SetActive(false);
             Cursor.lockState = CursorLockMode.Locked;
+            PauseEvent = false;
         }
     }
 

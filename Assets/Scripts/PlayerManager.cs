@@ -136,7 +136,7 @@ public class PlayerManager: MonoBehaviour
         switch (curPlayerID)
         { 
             case PlayerTag.Player1:
-                if (Player2Object.transform.position.x >= CurrentAimCam.transform.position.x)
+                if (Player2Object.transform.position.x >= Player1Object.transform.position.x)
                 {
                     if (Player2Object.DirectionCheck)
                     {
@@ -157,7 +157,7 @@ public class PlayerManager: MonoBehaviour
                 }
                 else
                 {
-                    if (Player2Object.DirectionCheck)
+                    if (!Player2Object.DirectionCheck)
                     {
                         Player2Object.LookAtBack = true;
                         if (Player2Object.LookAtFront)
@@ -177,7 +177,7 @@ public class PlayerManager: MonoBehaviour
 
                 break;
             case PlayerTag.Player2:
-                if (Player1Object.transform.position.x >= CurrentAimCam.transform.position.x)
+                if (Player1Object.transform.position.x >= Player2Object.transform.position.x)
                 {
                     if (Player1Object.DirectionCheck)
                     {
@@ -198,7 +198,7 @@ public class PlayerManager: MonoBehaviour
                 }
                 else
                 {
-                    if (Player1Object.DirectionCheck)
+                    if (!Player1Object.DirectionCheck)
                     {
                         Player1Object.LookAtBack = true;
                         if (Player1Object.LookAtFront)
@@ -223,6 +223,8 @@ public class PlayerManager: MonoBehaviour
     private void CharacterShoot()
     {
         if (!isAiming) return;
+        if (GameManager.instance.PauseEvent) return;
+
         if (Input.GetMouseButtonDown(0))
         {
             if (Physics.Raycast(CurrentAimCam.transform.position, CurrentAimCam.transform.forward, out RaycastHit hit, Mathf.Infinity, LayerMask.GetMask("Ground")))
@@ -453,8 +455,6 @@ public class PlayerManager: MonoBehaviour
             TargetObject.GetComponent<PlayerScript>().CharacterArm.rotation = Quaternion.Euler(0f, 0f, rotateValue.x);
             TargetObject.GetComponent<PlayerScript>().CharacterHead.rotation = Quaternion.Euler(0f, 0f, rotateValue.x);
         }
-        
-
     }
 
     public void PlayerGenerate(int _gen)

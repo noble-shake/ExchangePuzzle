@@ -78,6 +78,7 @@ public class PlayerScript : MonoBehaviour
         passedCurTime -= Time.deltaTime;
         if (passedCurTime < 0)
         {
+            isPassed = false;
             passedCurTime = 0f;
         }
     }
@@ -123,7 +124,7 @@ public class PlayerScript : MonoBehaviour
         {
             animJump = false;
             isGround = true;
-            isPassed = false;
+            //isPassed = false;
 
         }
         else
@@ -136,34 +137,28 @@ public class PlayerScript : MonoBehaviour
     public void SightChange(float direction)
     {
         Vector3 scaleVec = SpriteChild.localScale;
-        // Vector3 scaleAimVec = AimTracer.localScale;
-        // Vector3 rotateVec = PlayerAimCam.transform.rotation.eulerAngles;
+
         if (direction > 0.5 && isLeft)
         {
             isLeft = false;
             scaleVec.x = Mathf.Abs(scaleVec.x);
-            // scaleAimVec.x = Mathf.Abs(scaleAimVec.x);
-            // rotateVec.y = 90f;
+
 
             SpriteChild.localScale = scaleVec;
-            // AimTracer.localScale = scaleAimVec;
-            // PlayerAimCam.transform.rotation = Quaternion.Euler(rotateVec);
+            FrontSprite.transform.localScale = scaleVec;
+            BackSprite.transform.localScale = scaleVec;
+
         }
         else if (direction < -0.5 && !isLeft)
         {
             isLeft = true;
             scaleVec.x = -Mathf.Abs(scaleVec.x);
-            // scaleAimVec.x = -Mathf.Abs(scaleAimVec.x);
-            // rotateVec.y = -90f;
+
 
             SpriteChild.localScale = scaleVec;
-            // AimTracer.localScale = scaleAimVec;
-            // PlayerAimCam.transform.rotation = Quaternion.Euler(rotateVec);
-        }
+            FrontSprite.transform.localScale = scaleVec;
+            BackSprite.transform.localScale = scaleVec;
 
-        if(!PlayerAimCam.activeSelf)
-        {
-                // GunModelReset();
 
         }
 
