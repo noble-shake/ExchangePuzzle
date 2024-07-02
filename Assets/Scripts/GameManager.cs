@@ -148,6 +148,8 @@ public class GameManager : MonoBehaviour
 
 
     private void PauseGame() {
+        if (SequenceManager.instance.SequenceProcessing) return;
+
         if (Input.GetKeyDown(KeyCode.Escape) && !PauseUI.activeSelf)
         {
             Time.timeScale = 0f;
@@ -189,6 +191,7 @@ public class GameManager : MonoBehaviour
                 }
                 WarpBlock1 = _block;
                 WarpBlock1.GetComponent<BlockScript>().changeColorFromPlayer(PlayerTag.Player1);
+                PlayerManager.instance.AimColorChange(_playerID, true);
                 if (WarpBlock2 != null && WarpBlock1 != WarpBlock2)
                 {
                     WarpBlock1.GetComponent<BlockScript>().SynchronizeBlock(WarpBlock2.GetComponent<BlockScript>());
@@ -198,10 +201,10 @@ public class GameManager : MonoBehaviour
                 }
                 if (WarpBlock1 == WarpBlock2 && WarpBlock1 != null && WarpBlock2 !=null)
                 {
-                    // WarpBlock2.GetComponent<BlockScript>().shutDownDimension();
                     WarpBlock2.GetComponent<BlockScript>().UnSyncronizeBlock();
                     WarpBlock2.GetComponent<BlockScript>().closeDimension();
                     WarpBlock2 = null;
+                    PlayerManager.instance.AimColorChange(PlayerTag.Player2, false);
                 }
                 break;
             case PlayerTag.Player2:
@@ -212,6 +215,7 @@ public class GameManager : MonoBehaviour
                 }
                 WarpBlock2 = _block;
                 WarpBlock2.GetComponent<BlockScript>().changeColorFromPlayer(PlayerTag.Player2);
+                PlayerManager.instance.AimColorChange(_playerID, true);
                 if (WarpBlock1 != null && WarpBlock1 != WarpBlock2)
                 {
                     WarpBlock1.GetComponent<BlockScript>().SynchronizeBlock(WarpBlock2.GetComponent<BlockScript>());
@@ -222,11 +226,11 @@ public class GameManager : MonoBehaviour
 
                 if (WarpBlock1 == WarpBlock2 && WarpBlock1 != null && WarpBlock2 != null)
                 {
-                    // WarpBlock1.GetComponent<BlockScript>().shutDownDimension();
                     WarpBlock1.GetComponent<BlockScript>().UnSyncronizeBlock();
                     WarpBlock1.GetComponent<BlockScript>().closeDimension();
 
                     WarpBlock1 = null;
+                    PlayerManager.instance.AimColorChange(PlayerTag.Player1, false);
                 }
                 break;
         }

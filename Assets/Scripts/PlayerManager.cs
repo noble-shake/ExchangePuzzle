@@ -32,6 +32,8 @@ public class PlayerManager: MonoBehaviour
     [SerializeField] GameObject CurrentAimCam;
     [SerializeField] GameObject ChracterPortrait;
     [SerializeField] GameObject BulletPrefab;
+    [SerializeField] GameObject AimUI;
+    [SerializeField] GameObject TracingPushBlock;
 
     [Header("Player Control")]
     [SerializeField] float moveSpeed;
@@ -77,12 +79,13 @@ public class PlayerManager: MonoBehaviour
         // position setup
         Player1Object.GetComponent<PlayerScript>().playerCam.SetActive(true);
         Player2Object.GetComponent<PlayerScript>().playerCam.SetActive(false);
-        Player1Object.GetComponent<Rigidbody>().mass = 1f;
-        Player2Object.GetComponent<Rigidbody>().mass = 1000f;
+        // Player1Object.GetComponent<Rigidbody>().mass = 1f;
+        // Player2Object.GetComponent<Rigidbody>().mass = 1000f;
         TargetObject = Player1Object;
         CurrentAimCam = Player1Object.GetComponent<PlayerScript>().GetAimCameraObject();
         curPlayerID = PlayerTag.Player1;
         rigid = Player1Object.GetComponent<Rigidbody>();
+        TracingPushBlock.GetComponent<PreventPushObject>().Tracing = Player2Object;
     }
 
     public void StageInitForPlayer2()
@@ -90,17 +93,19 @@ public class PlayerManager: MonoBehaviour
         // position setup
         Player2Object.GetComponent<PlayerScript>().playerCam.SetActive(true);
         Player1Object.GetComponent<PlayerScript>().playerCam.SetActive(false);
-        Player2Object.GetComponent<Rigidbody>().mass = 1f;
-        Player1Object.GetComponent<Rigidbody>().mass = 1000f;
+        // Player2Object.GetComponent<Rigidbody>().mass = 1f;
+        // Player1Object.GetComponent<Rigidbody>().mass = 1000f;
         TargetObject = Player2Object;
         CurrentAimCam = Player2Object.GetComponent<PlayerScript>().GetAimCameraObject();
         curPlayerID = PlayerTag.Player2;
         rigid = Player2Object.GetComponent<Rigidbody>();
+        TracingPushBlock.GetComponent<PreventPushObject>().Tracing = Player1Object;
     }
 
     void Start()
     {
         StageInitForPlayer1();
+        AimUI.SetActive(false);
         sequenceInstance = SequenceManager.instance;
 
 
@@ -119,6 +124,7 @@ public class PlayerManager: MonoBehaviour
         CharacterAimRotate();
         CharacterAimSpriteCheck();
         CharacterShoot();
+        
     }
 
     private void CharacterAimSpriteCheck()
@@ -157,7 +163,7 @@ public class PlayerManager: MonoBehaviour
                 }
                 else
                 {
-                    if (!Player2Object.DirectionCheck)
+                    if (Player2Object.DirectionCheck)
                     {
                         Player2Object.LookAtBack = true;
                         if (Player2Object.LookAtFront)
@@ -198,7 +204,7 @@ public class PlayerManager: MonoBehaviour
                 }
                 else
                 {
-                    if (!Player1Object.DirectionCheck)
+                    if (Player1Object.DirectionCheck)
                     {
                         Player1Object.LookAtBack = true;
                         if (Player1Object.LookAtFront)
@@ -285,11 +291,12 @@ public class PlayerManager: MonoBehaviour
                 Player1Object.GetComponent<PlayerScript>().CharacterSelect = false; // isSelect On/Off
                 Player2Object.GetComponent<PlayerScript>().playerCam.SetActive(true);
                 Player2Object.GetComponent<PlayerScript>().CharacterSelect = true;
-                Player1Object.GetComponent<Rigidbody>().mass = 1000f;
-                Player2Object.GetComponent<Rigidbody>().mass = 1f;
+                // Player1Object.GetComponent<Rigidbody>().mass = 1000f;
+                // Player2Object.GetComponent<Rigidbody>().mass = 1f;
                 TargetObject = Player2Object;
                 CurrentAimCam = Player2Object.GetComponent<PlayerScript>().GetAimCameraObject();
                 rigid = Player2Object.GetComponent<Rigidbody>();
+                TracingPushBlock.GetComponent<PreventPushObject>().Tracing = Player1Object;
             }
             else
             {
@@ -298,11 +305,12 @@ public class PlayerManager: MonoBehaviour
                 Player1Object.GetComponent<PlayerScript>().CharacterSelect = false;
                 Player2Object.GetComponent<PlayerScript>().playerCam.SetActive(false);
                 Player2Object.GetComponent<PlayerScript>().CharacterSelect = true;
-                Player1Object.GetComponent<Rigidbody>().mass = 1f;
-                Player2Object.GetComponent<Rigidbody>().mass = 1000f;
+                // Player1Object.GetComponent<Rigidbody>().mass = 1f;
+                // Player2Object.GetComponent<Rigidbody>().mass = 1000f;
                 TargetObject = Player1Object;
                 CurrentAimCam = Player1Object.GetComponent<PlayerScript>().GetAimCameraObject();
                 rigid = Player1Object.GetComponent<Rigidbody>();
+                TracingPushBlock.GetComponent<PreventPushObject>().Tracing = Player2Object;
             }
         }
     }
@@ -318,8 +326,8 @@ public class PlayerManager: MonoBehaviour
             Player1Object.GetComponent<PlayerScript>().CharacterSelect = false; // isSelect On/Off
             Player2Object.GetComponent<PlayerScript>().playerCam.SetActive(true);
             Player2Object.GetComponent<PlayerScript>().CharacterSelect = true;
-            Player1Object.GetComponent<Rigidbody>().mass = 1000f;
-            Player2Object.GetComponent<Rigidbody>().mass = 1f;
+            // Player1Object.GetComponent<Rigidbody>().mass = 1000f;
+            // Player2Object.GetComponent<Rigidbody>().mass = 1f;
             TargetObject = Player2Object;
             CurrentAimCam = Player2Object.GetComponent<PlayerScript>().GetAimCameraObject();
             rigid = Player2Object.GetComponent<Rigidbody>();
@@ -331,8 +339,8 @@ public class PlayerManager: MonoBehaviour
             Player1Object.GetComponent<PlayerScript>().CharacterSelect = false;
             Player2Object.GetComponent<PlayerScript>().playerCam.SetActive(false);
             Player2Object.GetComponent<PlayerScript>().CharacterSelect = true;
-            Player1Object.GetComponent<Rigidbody>().mass = 1f;
-            Player2Object.GetComponent<Rigidbody>().mass = 1000f;
+            // Player1Object.GetComponent<Rigidbody>().mass = 1f;
+            // Player2Object.GetComponent<Rigidbody>().mass = 1000f;
             TargetObject = Player1Object;
             CurrentAimCam = Player1Object.GetComponent<PlayerScript>().GetAimCameraObject();
             rigid = Player1Object.GetComponent<Rigidbody>();
@@ -393,7 +401,7 @@ public class PlayerManager: MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.Z) && !isAiming)
         {
-            
+            AimUI.SetActive(true);
             aimCurCool = aimCool;
             TargetObject.GetComponent<PlayerScript>().playerAimCam.SetActive(true);
             isAiming = true;
@@ -401,6 +409,7 @@ public class PlayerManager: MonoBehaviour
         }
         else if (Input.GetKeyDown(KeyCode.Z) && isAiming)
         {
+            AimUI.SetActive(false);
             aimCurCool = aimCool;
             TargetObject.GetComponent<PlayerScript>().playerCam.SetActive(true);
             isAiming = false;
@@ -473,6 +482,12 @@ public class PlayerManager: MonoBehaviour
                 break;
         }
 
+    }
+
+    public void AimColorChange(PlayerTag _playerID, bool _active)
+    {
+        AimColorTag targetAimObj = _playerID == PlayerTag.Player1 ? AimColorTag.Blue : AimColorTag.Yellow;
+        AimUI.GetComponent<AimEffectScript>().AlphaChange(targetAimObj, _active);
     }
 
 }

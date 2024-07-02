@@ -57,7 +57,7 @@ public class PlayerScript : MonoBehaviour
     public bool animJump { set { anim.SetBool("OnJump", value); } }
 
     public bool LookAtFront { get { return FrontSprite.activeSelf; } set { FrontSprite.SetActive(value); } }
-    public bool LookAtBack { get { return BackSprite.activeSelf; } set { FrontSprite.SetActive(value); } }
+    public bool LookAtBack { get { return BackSprite.activeSelf; } set { BackSprite.SetActive(value); } }
 
     // Start is called before the first frame update
     void Start()
@@ -124,7 +124,6 @@ public class PlayerScript : MonoBehaviour
         {
             animJump = false;
             isGround = true;
-            //isPassed = false;
 
         }
         else
