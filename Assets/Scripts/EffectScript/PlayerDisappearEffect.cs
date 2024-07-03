@@ -2,8 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerGenerateEffect : MonoBehaviour
+public class PlayerDisappearEffect : MonoBehaviour
 {
+    [SerializeField] Animation anim;
     [SerializeField] GameObject OwnPlayer;
 
 
@@ -14,13 +15,12 @@ public class PlayerGenerateEffect : MonoBehaviour
 
     private void OnEnable()
     {
-        Invoke("GeneratePlayer", 2f);
+        OwnPlayer.SetActive(false);
+        Invoke("DisappearPlayer", 2f);
     }
 
-    public void GeneratePlayer()
+    public void DisappearPlayer()
     { 
-        OwnPlayer.transform.position = transform.position;
-        OwnPlayer.SetActive(true);
         gameObject.SetActive(false);
     }
 

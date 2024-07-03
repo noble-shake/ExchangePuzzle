@@ -61,6 +61,9 @@ public class PlayerManager: MonoBehaviour
     [SerializeField] PlayerScript TargetObject;
     [SerializeField] Rigidbody rigid;
 
+    public PlayerScript RegistryPlayer1 {  get { return Player1Object; } set { Player1Object = value; } }
+    public PlayerScript RegistryPlayer2 {  get { return Player2Object; } set { Player2Object = value; } }
+
     private void Awake()
     {
         if (instance == null)
@@ -107,16 +110,12 @@ public class PlayerManager: MonoBehaviour
         StageInitForPlayer1();
         AimUI.SetActive(false);
         sequenceInstance = SequenceManager.instance;
-
-
     }
 
 
     void Update()
     {
         if (sequenceInstance.SequenceProcessing) return;
-
-
         CharacterExchange();
         CharacterMove();
         CharacterJump();

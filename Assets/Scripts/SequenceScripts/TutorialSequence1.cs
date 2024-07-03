@@ -2,8 +2,10 @@ using OpenCover.Framework.Model;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEditor.ShaderGraph.Internal;
+using UnityEditorInternal;
 using UnityEngine;
 using UnityEngine.UI;
+using static UnityEngine.Rendering.DebugUI;
 
 public class TutorialSequence1 : Sequences
 {
@@ -11,8 +13,8 @@ public class TutorialSequence1 : Sequences
     [SerializeField] GameObject StartUI;
     [SerializeField] GameObject Camera1;
     [SerializeField] GameObject Camera2;
-    [SerializeField] GameObject Player1;
-    [SerializeField] GameObject Player2;
+    [SerializeField] PlayerScript Player1;
+    [SerializeField] PlayerScript Player2;
     [SerializeField] GameObject GenerateEffect1;  
     [SerializeField] GameObject GenerateEffect2;
     [SerializeField] GameObject MoveGaugeUI;
@@ -22,14 +24,14 @@ public class TutorialSequence1 : Sequences
     [SerializeField] GameObject KeyZ;
     [SerializeField] GameObject KeyMouse;
 
-
-
-
     [SerializeField] List<IEnumerator> functions;
     [SerializeField] List<float> delays;
 
     public void Stage1TutorialSequence1()
     {
+        Player1 = PlayerManager.instance.RegistryPlayer1;
+        Player2 = PlayerManager.instance.RegistryPlayer2;
+
         functions = new List<IEnumerator>();
         delays = new List<float>();
 
@@ -70,7 +72,7 @@ public class TutorialSequence1 : Sequences
         functions.Add(SeqDialPlay(1, gameObject));
         delays.Add(0.3f);
 
-        functions.Add(InputKeyboardSequence(Player1));
+        functions.Add(InputKeyboardSequence(Player1.gameObject));
         delays.Add(1f);
 
         functions.Add(SeqDialPlay(2, gameObject));
@@ -136,6 +138,7 @@ public class TutorialSequence1 : Sequences
 
             if (hori != 0)
             {
+                
                 _player.GetComponent<PlayerScript>().animWalk = true;
 
                 if (hori > 0.5f && _player.GetComponent<PlayerScript>().DirectionCheck || hori < -0.5f && !_player.GetComponent<PlayerScript>().DirectionCheck)
@@ -158,6 +161,7 @@ public class TutorialSequence1 : Sequences
             }
             else
             {
+                
                 _player.GetComponent<PlayerScript>().animWalk = false;
             }
 

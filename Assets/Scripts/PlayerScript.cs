@@ -62,13 +62,17 @@ public class PlayerScript : MonoBehaviour
 
     public bool WallCheck { get { return wallStep; } set { wallStep = value; } }
 
-    // Start is called before the first frame update
+    private void Awake()
+    {
+        // anim = GetComponent<Animator>();
+    }
+
     void Start()
     {
         PlayerAimCam.SetActive(false);
         // defaultAimModelPos = AimModel.transform.position.z;
         colorUpdate();
-        anim = GetComponent<Animator>();
+        
 
         FrontSprite.SetActive(false);
         BackSprite.SetActive(false);
@@ -125,13 +129,19 @@ public class PlayerScript : MonoBehaviour
     private void JumpCheck() {
         if (Physics.Raycast(LegColl.transform.position, -transform.up, out RaycastHit hitGround, 1.1f, LayerMask.GetMask("Ground")))
         {
-
+            animJump = false;
+            isGround = true;
+            return;
+        }
+        else if (Physics.Raycast(LegColl.transform.position, -transform.up, out RaycastHit hitWall, 1.1f, LayerMask.GetMask("Wall")))
+        {
             animJump = false;
             isGround = true;
             return;
         }
         else if (Physics.Raycast(LegColl.transform.position, -transform.up, out RaycastHit hitPlayer, 1.1f, LayerMask.GetMask("Player")))
         {
+
             if (hitPlayer.collider.GetComponent<PlayerScript>().playerTag != playerTag)
             {
                 animJump = false;

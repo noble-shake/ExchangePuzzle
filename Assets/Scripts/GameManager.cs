@@ -13,6 +13,8 @@ public class GameManager : MonoBehaviour
 
     [Header("External Setup")]
     [SerializeField] List<GoalScript> goals;
+    [SerializeField] PlayerDisappearEffect disappearEffectPlayer1;
+    [SerializeField] PlayerDisappearEffect disappearEffectPlayer2;
 
     [Header("Game UI")]
     [SerializeField] GameObject StageStartUI;
@@ -75,6 +77,7 @@ public class GameManager : MonoBehaviour
     public void BtnRetry()
     {
         Debug.Log("Retry");
+        StageManager.instance.ResetStage();
     }
 
     public void BtnMainMenu()
@@ -136,6 +139,7 @@ public class GameManager : MonoBehaviour
             if (!target.Trigger) return;
         }
 
+        Debug.Log("Clear ?");
         resetGoalObjects();
         // Stage Load;
     }
