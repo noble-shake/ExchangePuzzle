@@ -295,6 +295,7 @@ public class PlayerManager: MonoBehaviour
                 // Player2Object.GetComponent<Rigidbody>().mass = 1f;
                 TargetObject = Player2Object;
                 CurrentAimCam = Player2Object.GetComponent<PlayerScript>().GetAimCameraObject();
+                Player1Object.GetComponent<Rigidbody>().velocity = rigid.velocity;
                 rigid = Player2Object.GetComponent<Rigidbody>();
                 TracingPushBlock.GetComponent<PreventPushObject>().Tracing = Player1Object;
             }
@@ -309,6 +310,7 @@ public class PlayerManager: MonoBehaviour
                 // Player2Object.GetComponent<Rigidbody>().mass = 1000f;
                 TargetObject = Player1Object;
                 CurrentAimCam = Player1Object.GetComponent<PlayerScript>().GetAimCameraObject();
+                Player2Object.GetComponent<Rigidbody>().velocity = rigid.velocity;
                 rigid = Player1Object.GetComponent<Rigidbody>();
                 TracingPushBlock.GetComponent<PreventPushObject>().Tracing = Player2Object;
             }
@@ -355,7 +357,7 @@ public class PlayerManager: MonoBehaviour
         {
             TargetObject.animWalk = true;
 
-            if (hori > 0.5f && TargetObject.DirectionCheck || hori < -0.5f && !TargetObject.DirectionCheck)
+            if (hori > 0.2f && TargetObject.DirectionCheck || hori < -0.2f && !TargetObject.DirectionCheck)
             {
                 rotateTime = 90f;
             }
@@ -371,7 +373,7 @@ public class PlayerManager: MonoBehaviour
 
         if (TargetObject.PassedCheck) return;
 
-        // if (!isMovable) return;
+        // if (TargetObject.WallCheck) return;
 
         Vector3 moveDir = Vector3.zero;
         moveDir.x = hori * moveSpeed;

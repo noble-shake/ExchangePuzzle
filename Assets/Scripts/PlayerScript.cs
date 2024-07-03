@@ -9,9 +9,10 @@ public class PlayerScript : MonoBehaviour
     [SerializeField] PlayerTag playerTag;
     [SerializeField] List<SpriteRenderer> ColorParts;
     [SerializeField] Transform SpriteChild;
-
+    [SerializeField] bool wallStep;
     [SerializeField] float defaultAimModelPos;
-    
+
+    [SerializeField] Collider LegColl;
     [SerializeField] Transform MuzzleRight;
     [SerializeField] Transform MuzzleLeft;
 
@@ -59,6 +60,8 @@ public class PlayerScript : MonoBehaviour
     public bool LookAtFront { get { return FrontSprite.activeSelf; } set { FrontSprite.SetActive(value); } }
     public bool LookAtBack { get { return BackSprite.activeSelf; } set { BackSprite.SetActive(value); } }
 
+    public bool WallCheck { get { return wallStep; } set { wallStep = value; } }
+
     // Start is called before the first frame update
     void Start()
     {
@@ -76,7 +79,7 @@ public class PlayerScript : MonoBehaviour
     {
         JumpCheck();
         passedCurTime -= Time.deltaTime;
-        if (passedCurTime < 0)
+        if (passedCurTime <= 0)
         {
             isPassed = false;
             passedCurTime = 0f;
@@ -120,10 +123,28 @@ public class PlayerScript : MonoBehaviour
     }
 
     private void JumpCheck() {
-        if (Physics.Raycast(transform.position, -transform.up, out RaycastHit hitGround, 1.1f, LayerMask.GetMask("Ground")) || Physics.Raycast(transform.position, -transform.up, out RaycastHit hitPlayer, 1.1f, LayerMask.GetMask("Player")))
+        if (Physics.Raycast(LegColl.transform.position, -transform.up, out RaycastHit hitGround, 1.1f, LayerMask.GetMask("Ground")))
         {
+
             animJump = false;
             isGround = true;
+            return;
+        }
+        else if (Physics.Raycast(LegColl.transform.position, -transform.up, out RaycastHit hitPlayer, 1.1f, LayerMask.GetMask("Player")))
+        {
+            if (hitPlayer.collider.GetComponent<PlayerScript>().playerTag != playerTag)
+            {
+                animJump = false;
+                isGround = true;
+                return;
+            }
+            else
+            {
+                animJump = true;
+                isGround = false;
+                return;
+            }
+
 
         }
         else
@@ -184,6 +205,16 @@ public class PlayerScript : MonoBehaviour
     public GameObject GetCameraObject()
     {
         return PlayerCam;
+    }
+
+    public void WallTriggerEnter(Collider coll)
+    {
+        wallStep = true;
+    }
+
+    public void WallTriggerExit(Collider coll)
+    {
+        wallStep = false;
     }
 
 }
