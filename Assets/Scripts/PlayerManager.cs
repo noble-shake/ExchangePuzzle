@@ -1,13 +1,4 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Runtime.CompilerServices;
-using Unity.Burst.CompilerServices;
-using Unity.VisualScripting;
-using UnityEditor.SceneManagement;
 using UnityEngine;
-using UnityEngine.UI;
-using static UnityEditor.Experimental.GraphView.GraphView;
 
 public class PlayerManager: MonoBehaviour
 {
@@ -35,6 +26,8 @@ public class PlayerManager: MonoBehaviour
     [SerializeField] GameObject AimUI;
     [SerializeField] GameObject TracingPushBlock;
 
+    public bool isAimUIActive { get { return AimUI.activeSelf; } }
+
     [Header("Player Control")]
     [SerializeField] float moveSpeed;
     [SerializeField] float jumpForce;
@@ -53,10 +46,16 @@ public class PlayerManager: MonoBehaviour
     [SerializeField] Vector3 rotateValue;
     [SerializeField] float rotateTime;
     [SerializeField] float rotateSpeed;
+    bool eventHappend;
+
+    public bool EventHappend { get { return eventHappend; } set { eventHappend = value; } }
 
     [Header("Player Object")]
     [SerializeField] PlayerScript Player1Object;
     [SerializeField] PlayerScript Player2Object;
+    [SerializeField] PlayerScript Player1Prefab;
+    [SerializeField] PlayerScript Player2Prefab;
+
     [SerializeField] PlayerTag curPlayerID;
     [SerializeField] PlayerScript TargetObject;
     [SerializeField] Rigidbody rigid;
@@ -82,8 +81,6 @@ public class PlayerManager: MonoBehaviour
         // position setup
         Player1Object.GetComponent<PlayerScript>().playerCam.SetActive(true);
         Player2Object.GetComponent<PlayerScript>().playerCam.SetActive(false);
-        // Player1Object.GetComponent<Rigidbody>().mass = 1f;
-        // Player2Object.GetComponent<Rigidbody>().mass = 1000f;
         TargetObject = Player1Object;
         CurrentAimCam = Player1Object.GetComponent<PlayerScript>().GetAimCameraObject();
         curPlayerID = PlayerTag.Player1;
@@ -96,8 +93,6 @@ public class PlayerManager: MonoBehaviour
         // position setup
         Player2Object.GetComponent<PlayerScript>().playerCam.SetActive(true);
         Player1Object.GetComponent<PlayerScript>().playerCam.SetActive(false);
-        // Player2Object.GetComponent<Rigidbody>().mass = 1f;
-        // Player1Object.GetComponent<Rigidbody>().mass = 1000f;
         TargetObject = Player2Object;
         CurrentAimCam = Player2Object.GetComponent<PlayerScript>().GetAimCameraObject();
         curPlayerID = PlayerTag.Player2;
@@ -107,15 +102,26 @@ public class PlayerManager: MonoBehaviour
 
     void Start()
     {
-        StageInitForPlayer1();
         AimUI.SetActive(false);
         sequenceInstance = SequenceManager.instance;
+    }
+
+    public void GeneratePlayers()
+    {
+        Player1Object = Instantiate(Player1Prefab);
+        Player1Object.gameObject.SetActive(false);
+
+        Player2Object = Instantiate(Player2Prefab);
+        Player2Object.gameObject.SetActive(false);
     }
 
 
     void Update()
     {
         if (sequenceInstance.SequenceProcessing) return;
+        if (TargetObject == null) return;
+        if (eventHappend) return;
+
         CharacterExchange();
         CharacterMove();
         CharacterJump();
@@ -294,7 +300,7 @@ public class PlayerManager: MonoBehaviour
                 // Player2Object.GetComponent<Rigidbody>().mass = 1f;
                 TargetObject = Player2Object;
                 CurrentAimCam = Player2Object.GetComponent<PlayerScript>().GetAimCameraObject();
-                Player1Object.GetComponent<Rigidbody>().velocity = rigid.velocity;
+                // Player1Object.GetComponent<Rigidbody>().velocity = rigid.velocity;
                 rigid = Player2Object.GetComponent<Rigidbody>();
                 TracingPushBlock.GetComponent<PreventPushObject>().Tracing = Player1Object;
             }
@@ -309,7 +315,7 @@ public class PlayerManager: MonoBehaviour
                 // Player2Object.GetComponent<Rigidbody>().mass = 1000f;
                 TargetObject = Player1Object;
                 CurrentAimCam = Player1Object.GetComponent<PlayerScript>().GetAimCameraObject();
-                Player2Object.GetComponent<Rigidbody>().velocity = rigid.velocity;
+                // Player2Object.GetComponent<Rigidbody>().velocity = rigid.velocity;
                 rigid = Player1Object.GetComponent<Rigidbody>();
                 TracingPushBlock.GetComponent<PreventPushObject>().Tracing = Player2Object;
             }
@@ -365,6 +371,7 @@ public class PlayerManager: MonoBehaviour
         else
         {
             TargetObject.animWalk = false;
+            return;
         }
         
 
@@ -423,7 +430,6 @@ public class PlayerManager: MonoBehaviour
 
     private void CharacterAimRotate()
     {
-        // if (!isAiming) return;
 
         float mouseX = Input.GetAxisRaw("Mouse X") * mouseSensivity / 2 * Time.deltaTime;
         float mouseY = Input.GetAxisRaw("Mouse Y") * mouseSensivity / 2 * Time.deltaTime;

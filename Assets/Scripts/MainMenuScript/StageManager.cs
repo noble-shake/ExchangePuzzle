@@ -16,20 +16,29 @@ public class StageManager : MonoBehaviour
         if (instance == null)
         {
             instance = this;
+            DontDestroyOnLoad(gameObject);
         }
         else
         { 
             Destroy(instance);
-            DontDestroyOnLoad(gameObject);
         }
+
+        
     }
 
     private void Start()
     {
+        PlayerPrefs.SetInt("Stage1", 1);
     }
-    void Update()
-    {
 
+    public EnumStage getCurrentStage()
+    {
+        return CurrentStage;
+    }
+
+    public void setCurrentStage(EnumStage _stage)
+    { 
+        CurrentStage = _stage;
     }
 
     public void ResetStage()
@@ -37,9 +46,15 @@ public class StageManager : MonoBehaviour
         SceneManager.LoadSceneAsync(StageManageClass.GetStageInfo(CurrentStage));
     }
 
-    public void NextStage()
+    public void StageIn(EnumStage _stage)
     {
-         SceneManager.LoadSceneAsync(StageManageClass.NextStageInfo(CurrentStage));
+         SceneManager.LoadSceneAsync(StageManageClass.GetStageInfo(_stage));
+    }
+
+    public void LoadMainMenu()
+    {
+        setCurrentStage(EnumStage.MainMenu);
+        SceneManager.LoadSceneAsync(StageManageClass.GetStageInfo(EnumStage.MainMenu));
     }
 
 }

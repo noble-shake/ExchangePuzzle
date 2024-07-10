@@ -40,6 +40,8 @@ public class PlayerScript : MonoBehaviour
     [SerializeField] bool isSelect;
     [SerializeField] bool isLeft;
 
+    public float InfinityDimension { set { passedCurTime = value; } }
+
     public Transform ShotPointRight { get { return MuzzleRight; } }
     public Transform ShotPointLeft { get { return MuzzleLeft; } }
     public Transform CharacterArm { get { return AimTracer; } }

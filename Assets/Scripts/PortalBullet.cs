@@ -56,15 +56,29 @@ public class PortalBullet : MonoBehaviour
         {
             if (other.GetComponent<BlockScript>().getBlockType() == BlockType.Normal || other.GetComponent<BlockScript>().getBlockType() == BlockType.Moving)
             {
-                Vector3 collisionPoint = other.ClosestPoint(transform.position);
-                Vector3 collisionNormal = transform.position - collisionPoint;
-                // Debug.Log(collisionPoint);
-                // Debug.Log(collisionNormal);
-                // change Block
+                Vector3 errorVec = transform.position - other.gameObject.transform.position;
+                Vector3 collisionPoint;
+                if (Mathf.Abs(errorVec.x) >= Mathf.Abs(errorVec.y))
+                {
+                    if (errorVec.x > 0) { collisionPoint = Vector3.right; }
+                    else { collisionPoint = Vector3.left; }
+
+                }
+                else
+                {
+
+                    if (errorVec.y > 0) { collisionPoint = Vector3.up; }
+                    else { collisionPoint = Vector3.down; }
+
+                }
+
+
+                //Vector3 collisionPoint = other.ClosestPoint(transform.position);
+                //Vector3 collisionNormal = transform.position - collisionPoint;
 
                 GameManager.instance.RegistryBlock(other.gameObject, pid);
                 BlockScript go = other.GetComponent<BlockScript>();
-                go.createDimension(collisionNormal);
+                go.createDimension(collisionPoint);
 
                 Destroy(gameObject);
             }
@@ -84,4 +98,5 @@ public class PortalBullet : MonoBehaviour
 
         }
     }
+
 }

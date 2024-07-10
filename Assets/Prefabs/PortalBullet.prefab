@@ -53,7 +53,7 @@ MonoBehaviour:
   PlayerBulletSprite: {fileID: 21300000, guid: e2f1aa260defbad48ad6076da844e137, type: 3}
   PlayerID: 0
   bulletColl: {fileID: 0}
-  bulletSpeed: 3
+  bulletSpeed: 10
 --- !u!54 &-6974431425430691033
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -100,10 +100,10 @@ CapsuleCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 0.26
+  m_Radius: 0.29
   m_Height: 0.71
   m_Direction: 2
-  m_Center: {x: 0, y: 0, z: -0.17}
+  m_Center: {x: 0, y: 0, z: -0.15}
 --- !u!1 &8536542815747084932
 GameObject:
   m_ObjectHideFlags: 0

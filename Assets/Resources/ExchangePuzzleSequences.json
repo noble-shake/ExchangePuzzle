@@ -7,7 +7,7 @@
         "RightSpriteName": "-",
         "SpriteSide": "OnlyLeft",
         "BarSide": "Left",
-        "Comment": "-"
+        "Comment": "튜토리얼"
     },
     {
         "ID": "0",
@@ -42,7 +42,7 @@
     {
         "ID": "1",
         "CharacterName": "가이드",
-        "Context": "이동 키는 좌우  <sprite name=\"KeyA\">   <sprite name=\"KeyD\">  버튼을 눌러서 이동 할 수 있습니다.",
+        "Context": "이동 키는 좌우 <sprite name=\"KeyA\"> <sprite name=\"KeyD\"> 버튼을 눌러서 이동 할 수 있습니다.",
         "LeftSpriteName": "Guide",
         "RightSpriteName": "Player1Off",
         "SpriteSide": "Both",
@@ -82,7 +82,7 @@
     {
         "ID": "3",
         "CharacterName": "가이드",
-        "Context": "캐릭터는  <sprite name=\"KeyC\">  버튼을 눌러서 교체할 수 있습니다.",
+        "Context": "캐릭터는 <sprite name=\"KeyC\"> 버튼을 눌러서 교체할 수 있습니다.",
         "LeftSpriteName": "Guide",
         "RightSpriteName": "Player2Off",
         "SpriteSide": "Both",
@@ -92,7 +92,7 @@
     {
         "ID": "3",
         "CharacterName": "가이드",
-        "Context": "점프 버튼  <sprite name=\"KeyX\">  을 눌러서 버튼 스위치까지 도달해보세요.",
+        "Context": "점프 버튼 <sprite name=\"KeyX\"> 을 눌러서 버튼 스위치까지 도달해보세요.",
         "LeftSpriteName": "Guide",
         "RightSpriteName": "Player2Off",
         "SpriteSide": "Left",
@@ -107,7 +107,7 @@
         "RightSpriteName": "Player2Off",
         "SpriteSide": "Left",
         "BarSide": "Left",
-        "Comment": "-"
+        "Comment": "1스테이지 중앙"
     },
     {
         "ID": "4",
@@ -122,7 +122,7 @@
     {
         "ID": "4",
         "CharacterName": "노랭이",
-        "Context": "포탈 건은  <sprite name=\"KeyZ\">  버튼을 눌러서 조준 모드를 활성화 할 수 있습니다.",
+        "Context": "포탈 건은 <sprite name=\"KeyZ\"> 버튼을 눌러서 조준 모드를 활성화 할 수 있습니다.",
         "LeftSpriteName": "Player1Off",
         "RightSpriteName": "Player2",
         "SpriteSide": "Right",
@@ -157,12 +157,12 @@
         "RightSpriteName": "-",
         "SpriteSide": "OnlyLeft",
         "BarSide": "Left",
-        "Comment": "-"
+        "Comment": "1스테이지 도착"
     },
     {
         "ID": "5",
         "CharacterName": "가이드",
-        "Context": "각 플레이어 별로 목적지 위에 서 있으면 다음 스테이지로 넘어갈 수 있습니다.",
+        "Context": "각 플레이어 색에 맞는 목적지 위에 서 있으면 다음 스테이지로 넘어갈 수 있습니다.",
         "LeftSpriteName": "Guide",
         "RightSpriteName": "-",
         "SpriteSide": "OnlyLeft",
@@ -181,8 +181,88 @@
     },
     {
         "ID": "6",
+        "CharacterName": "퍼렁이",
+        "Context": "이번에는 움직이는 벽이 있구나?",
+        "LeftSpriteName": "Player1",
+        "RightSpriteName": "-",
+        "SpriteSide": "OnlyLeft",
+        "BarSide": "Left",
+        "Comment": "2스테이지 시작"
+    },
+    {
+        "ID": "6",
+        "CharacterName": "노랭이",
+        "Context": "이동 차원이 벽안에 있을 경우에는 이동이 되지 않으니까 타이밍 맞춰서 들어가야 할거야",
+        "LeftSpriteName": "Player1Off",
+        "RightSpriteName": "Player2",
+        "SpriteSide": "Right",
+        "BarSide": "Right",
+        "Comment": "-"
+    },
+    {
+        "ID": "6",
+        "CharacterName": "퍼렁이",
+        "Context": "좋아 한번 시도해보자!",
+        "LeftSpriteName": "Player1",
+        "RightSpriteName": "Player2Off",
+        "SpriteSide": "Left",
+        "BarSide": "Left",
+        "Comment": "-"
+    },
+    {
+        "ID": "7",
+        "CharacterName": "노랭이",
+        "Context": "잠깐. 이번에는 목적지가 너무 높은 곳에 있는 데?",
+        "LeftSpriteName": "Player2",
+        "RightSpriteName": "Player1Off",
+        "SpriteSide": "Left",
+        "BarSide": "Left",
+        "Comment": "-"
+    },
+    {
+        "ID": "7",
+        "CharacterName": "퍼렁이",
+        "Context": "아래에 있는 블록들을 연결한 뒤에 중력의 힘을 이용해볼까?",
+        "LeftSpriteName": "Player2Off",
+        "RightSpriteName": "Player1",
+        "SpriteSide": "Right",
+        "BarSide": "Right",
+        "Comment": "-"
+    },
+  {
+    "ID": "7",
+    "CharacterName": "가이드",
+    "Context": "블록을 통과 할 때, 캐릭터가 가진 관성을 그대로 이동합니다. 번갈아 이동하면 힘이 플레이어에게 크게 작용하죠.",
+    "LeftSpriteName": "Guide",
+    "RightSpriteName": "-",
+    "SpriteSide": "OnlyLeft",
+    "BarSide": "Left",
+    "Comment": "-"
+  },
+  {
+    "ID": "8",
+    "CharacterName": "퍼랭이",
+    "Context": "블록들을 잘 타고 넘어가보자. 다시 시도는 ESC 버튼을 눌러서 하면 되.",
+    "LeftSpriteName": "Player1",
+    "RightSpriteName": "-",
+    "SpriteSide": "OnlyLeft",
+    "BarSide": "Left",
+    "Comment": "3 스테이지"
+  },
+    {
+        "ID": "9",
+        "CharacterName": "노랭이",
+        "Context": "저 불길하게 생긴 블록은 뭐지? 닿지 않도록 조심해...",
+        "LeftSpriteName": "Player2",
+        "RightSpriteName": "-",
+        "SpriteSide": "OnlyLeft",
+        "BarSide": "Left",
+        "Comment": "4 스테이지 시작"
+    },
+    {
+        "ID": "9",
         "CharacterName": "가이드",
-        "Context": "2스테이지에 오신 걸 환영합니다.",
+        "Context": "함정 블록은 생긴 것처럼 닿으면 게임 오버를 당하게 됩니다.",
         "LeftSpriteName": "Guide",
         "RightSpriteName": "-",
         "SpriteSide": "OnlyLeft",
@@ -190,33 +270,83 @@
         "Comment": "-"
     },
     {
-        "ID": "6",
-        "CharacterName": "가이드",
-        "Context": "2스테이지는 변경된 박스의 방향에 의해 물리적 연산이 잘 되는지 확인하기 위한 스테이지 입니다.",
-        "LeftSpriteName": "Guide",
-        "RightSpriteName": "-",
-        "SpriteSide": "OnlyLeft",
+        "ID": "10",
+        "CharacterName": "퍼랭이",
+        "Context": "이번에는 그냥 통과해서는 도착하지 못할 것 같은데...",
+        "LeftSpriteName": "Player1",
+        "RightSpriteName": "Player2Off",
+        "SpriteSide": "Left",
         "BarSide": "Left",
+        "Comment": "5스테이지 시작"
+    },
+    {
+        "ID": "10",
+        "CharacterName": "노랭이",
+        "Context": "천장과 바닥을 연결하면, 점점 빨라지지 않을까?",
+        "LeftSpriteName": "Player1Off",
+        "RightSpriteName": "Player2",
+        "SpriteSide": "Right",
+        "BarSide": "Right",
         "Comment": "-"
     },
     {
-        "ID": "6",
-        "CharacterName": "가이드",
-        "Context": "함정에 떨어질 경우 스테이지는 처음부터 다시 시작됩니다.",
-        "LeftSpriteName": "Guide",
-        "RightSpriteName": "-",
-        "SpriteSide": "OnlyLeft",
+        "ID": "11",
+        "CharacterName": "노랭이",
+        "Context": "마지막 스테이지구나... 그동안 배운걸 써먹자",
+        "LeftSpriteName": "Player2",
+        "RightSpriteName": "Player1Off",
+        "SpriteSide": "Left",
         "BarSide": "Left",
+        "Comment": "마지막 스테이지"
+    },
+    {
+        "ID": "11",
+        "CharacterName": "퍼랭이",
+        "Context": "벌써 이렇게 끝난다니 좀 아쉬운걸",
+        "LeftSpriteName": "Player2Off",
+        "RightSpriteName": "Player1",
+        "SpriteSide": "Right",
+        "BarSide": "Right",
         "Comment": "-"
     },
     {
-        "ID": "6",
-        "CharacterName": "가이드",
-        "Context": "진행이 막힐 경우 ESC 버튼을 눌러서 다시 시작 버튼을 누르시면 됩니다.",
-        "LeftSpriteName": "Guide",
-        "RightSpriteName": "-",
-        "SpriteSide": "OnlyLeft",
+        "ID": "11",
+        "CharacterName": "노랭이",
+        "Context": "열심히 머리 쥐어짠 스테이지들이였는데.. 그래도 다음엔 더 대단한 걸 만들게 되지 않을까? 아마도.",
+        "LeftSpriteName": "Player2",
+        "RightSpriteName": "Player1Off",
+        "SpriteSide": "Left",
         "BarSide": "Left",
         "Comment": "-"
-    }
+    },
+  {
+    "ID": "12",
+    "CharacterName": "가이드",
+    "Context": "최종 스테이지를 클리어 하셨습니다. 끝까지 플레이 해주셔서 감사합니다.",
+    "LeftSpriteName": "Guide",
+    "RightSpriteName": "-",
+    "SpriteSide": "OnlyLeft",
+    "BarSide": "Left",
+    "Comment": "마지막 스테이지 끝"
+  },
+  {
+    "ID": "12",
+    "CharacterName": "가이드",
+    "Context": "개발자 정보는 메인 메뉴의 Credit 버튼을 눌러주시면 됩니다.",
+    "LeftSpriteName": "Guide",
+    "RightSpriteName": "-",
+    "SpriteSide": "OnlyLeft",
+    "BarSide": "Left",
+    "Comment": "-"
+  },
+  {
+    "ID": "13",
+    "CharacterName": "가이드",
+    "Context": "함정 블록에 닿았습니다..!",
+    "LeftSpriteName": "Guide",
+    "RightSpriteName": "-",
+    "SpriteSide": "OnlyLeft",
+    "BarSide": "Left",
+    "Comment": null
+  }
 ]

@@ -1,8 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
-using UnityEditor.Rendering;
 using UnityEngine;
-using static UnityEditor.Experimental.GraphView.GraphView;
 
 public class TutorialSequence3 : Sequences
 {
@@ -28,15 +26,6 @@ public class TutorialSequence3 : Sequences
 
         GenerateSequence(functions, delays);
     }
-
-    //private void OnCollisionEnter(Collision collision)
-    //{
-    //    if (collision.gameObject.GetComponent<PlayerScript>().player == PlayerTag.Player2 && !SequenceTrigger)
-    //    {
-    //        SequenceTrigger = true;
-    //        Stage1TutorialSequence2();
-    //    }
-    //}
 
     private void OnTriggerEnter(Collider other)
     {

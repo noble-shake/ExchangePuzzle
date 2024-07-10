@@ -4,13 +4,7 @@ using UnityEngine;
 
 public class PlayerGenerateEffect : MonoBehaviour
 {
-    [SerializeField] PlayerScript OwnPlayer;
-
-
-    void Start()
-    {
-        
-    }
+    public PlayerTag playerTag;
 
     private void OnEnable()
     {
@@ -19,29 +13,22 @@ public class PlayerGenerateEffect : MonoBehaviour
 
     public void GeneratePlayer()
     {
-        PlayerScript go = Instantiate(OwnPlayer);
 
-        if (go.player == PlayerTag.Player1)
+        if (playerTag == PlayerTag.Player1)
         {
-            PlayerManager.instance.RegistryPlayer1 = go;
+            PlayerManager.instance.StageInitForPlayer1();
+            PlayerScript OwnPlayer = PlayerManager.instance.RegistryPlayer1;
+            OwnPlayer.transform.position = transform.position;
+            OwnPlayer.gameObject.SetActive(true);
         }
         else
         {
-            PlayerManager.instance.RegistryPlayer2 = go;
-
+            PlayerManager.instance.StageInitForPlayer2();
+            PlayerScript OwnPlayer = PlayerManager.instance.RegistryPlayer2;
+            OwnPlayer.transform.position = transform.position;
+            OwnPlayer.gameObject.SetActive(true);
         }
 
-        
-        
-        
-        go.transform.position = transform.position;
-        go.gameObject.SetActive(true);
         gameObject.SetActive(false);
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
     }
 }

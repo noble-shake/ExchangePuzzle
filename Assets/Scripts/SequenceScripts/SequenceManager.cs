@@ -84,6 +84,25 @@ public class SequenceManager : MonoBehaviour
     WaitForSecondsRealtime SequenceWaiting = new WaitForSecondsRealtime(0.3f);
     WaitForSecondsRealtime NextContextWait = new WaitForSecondsRealtime(0.8f);
 
+    private void Awake()
+    {
+        if (instance == null)
+        {
+            instance = this;
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
+    }
+
+    // Start is called before the first frame update
+    void Start()
+    {
+        ScriptData = new Dictionary<int, List<DialogsRead>>();
+        JsonDeserialized();
+    }
+
     public IEnumerator DialogSystemStart(int _id, GameObject _seqOwner)
     {
         textName = DialogBarUI.GetComponent<DialogBarScript>().dialogName;
@@ -234,7 +253,7 @@ public class SequenceManager : MonoBehaviour
     {
         yield return SequenceWaiting;
         // yield return new WaitUntil(() => _interact);
-        yield return new WaitUntil(() => Input.GetKey(KeyCode.Z));
+        yield return new WaitUntil(() => Input.anyKeyDown);
         StopCoroutine(_seq);
         textContext.text = temp_context;
         IEnumerator nextDialog = nextContext(index);
@@ -247,7 +266,7 @@ public class SequenceManager : MonoBehaviour
         StopCoroutine(SkipIEnum);
         yield return NextContextWait;
         // yield return new WaitUntil(() => _interact);
-        yield return new WaitUntil(() => Input.GetKey(KeyCode.Z));
+        yield return new WaitUntil(() => Input.anyKeyDown);
         DisplayNext(index);
     }
 
@@ -277,24 +296,7 @@ public class SequenceManager : MonoBehaviour
     }
 
 
-    private void Awake()
-    {
-        if (instance == null)
-        {
-            instance = this;
-        }
-        else
-        {
-            Destroy(gameObject);
-        }
-    }
 
-    // Start is called before the first frame update
-    void Start()
-    {
-        ScriptData = new Dictionary<int, List<DialogsRead>>();
-        JsonDeserialized();
-    }
 
     private void HandleSequence(bool _bool)
     {

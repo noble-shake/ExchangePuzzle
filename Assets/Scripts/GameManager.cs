@@ -9,8 +9,6 @@ public class GameManager : MonoBehaviour
 {
     public static GameManager instance;
 
-    [SerializeField] TutorialSequence1 seq;
-
     [Header("External Setup")]
     [SerializeField] List<GoalScript> goals;
     [SerializeField] PlayerDisappearEffect disappearEffectPlayer1;
@@ -19,6 +17,7 @@ public class GameManager : MonoBehaviour
     [Header("Game UI")]
     [SerializeField] GameObject StageStartUI;
     [SerializeField] GameObject StageEndUI;
+    [SerializeField] GameObject GameOverUI;
     [SerializeField] GameObject PlayUI;
     [SerializeField] GameObject AimUI;
     [SerializeField] GameObject PauseUI;
@@ -29,7 +28,10 @@ public class GameManager : MonoBehaviour
     [SerializeField] Button btnPauseContinue;
     [SerializeField] Button btnEndNextStage;
     [SerializeField] Button btnEndMainMenu;
+    [SerializeField] Button btnOverMainMenu;
+    [SerializeField] Button btnOverRetry;
     [SerializeField] bool isPaused;
+    bool isClear;
     public GameObject WarpBlock1 { get { return WarpConnectBlock1; } set { WarpConnectBlock1 = value; } }
     public GameObject WarpBlock2 { get { return WarpConnectBlock2; } set { WarpConnectBlock2 = value; } }
 
@@ -61,8 +63,18 @@ public class GameManager : MonoBehaviour
         Button btnEndObject2 = btnEndMainMenu.GetComponent<Button>();
         btnEndObject2.onClick.AddListener(BtnMainMenu);
 
-        // btnNextStage.onClick.AddListener(BtnNextStage);
+        Button btnOverRetryObject = btnOverMainMenu.GetComponent<Button>();
+        btnOverRetryObject.onClick.AddListener(BtnMainMenu);
 
+        Button btnOverMainMenuObject2 = btnOverRetry.GetComponent<Button>();
+        btnOverMainMenuObject2.onClick.AddListener(BtnRetry);
+
+        StageStartUI.SetActive(false);
+        StageEndUI.SetActive(false);
+        GameOverUI.SetActive(false);
+        PlayUI.SetActive(false);
+        AimUI.SetActive(false);
+        PauseUI.SetActive(false);
     }
 
     void Start()
@@ -71,18 +83,24 @@ public class GameManager : MonoBehaviour
         Cursor.lockState = CursorLockMode.Locked;
         PauseUI.SetActive(false);
 
+
+
+        PlayerManager.instance.GeneratePlayers();
         StageInit();
     }
 
     public void BtnRetry()
     {
-        Debug.Log("Retry");
+        Time.timeScale = 1f;
         StageManager.instance.ResetStage();
+        
     }
 
     public void BtnMainMenu()
     {
-        Debug.Log("MainMenu Load");
+        Time.timeScale = 1f;
+        StageManager.instance.LoadMainMenu();
+        
     }
 
     public void BtnContinue()
@@ -96,17 +114,19 @@ public class GameManager : MonoBehaviour
     public void BtnNextStage()
     {
         Debug.Log("NextStage Load");
+        Time.timeScale = 1f;
+        StageManager.instance.setCurrentStage(StageManageClass.NextStageEnum(StageManager.instance.getCurrentStage()));
+        StageManager.instance.StageIn(StageManager.instance.getCurrentStage());
+        
     }
-
 
     public void StageInit()
     {
         goals = new List<GoalScript>();
         findGoalObjects();
-
-        
-        seq.Stage1TutorialSequence1();
     }
+
+
     public void findGoalObjects()
     {
         GameObject GoalObjectParent = GameObject.Find("GoalsObjects");
@@ -139,29 +159,47 @@ public class GameManager : MonoBehaviour
             if (!target.Trigger) return;
         }
 
-        Debug.Log("Clear ?");
-        resetGoalObjects();
-        // Stage Load;
+        if (isClear) return;
+
+        isClear = true;
+        // string nextPhase = StageManageClass.GetStageInfo(StageManager.instance.getCurrentStage());
+        string nextPhase = StageManageClass.NextStageString(StageManager.instance.getCurrentStage());
+        Debug.Log(nextPhase);
+        if (nextPhase != "AllClear")
+        {
+            PlayerPrefs.SetInt(nextPhase, 1);
+        }
+
+        PlayerManager.instance.EventHappend = true;
+        Cursor.lockState = CursorLockMode.Confined;
+        StageEndUI.SetActive(true);
+        // Time.timeScale = 0f;
     }
 
     public void StageGameOver()
     {
-        resetGoalObjects();
-        // reload():
+        PlayerManager.instance.EventHappend = true;
+        Cursor.lockState = CursorLockMode.Confined;
+        if (!GameOverUI.activeSelf)
+        {
+            Time.timeScale = 0f;
+        }
+        GameOverUI.SetActive(true);
+        
     }
 
 
     private void PauseGame() {
         if (SequenceManager.instance.SequenceProcessing) return;
 
-        if (Input.GetKeyDown(KeyCode.Escape) && !PauseUI.activeSelf)
+        if (Input.GetKeyDown(KeyCode.Escape) && !PauseUI.activeSelf && !StageEndUI.activeSelf && !GameOverUI.activeSelf && PlayerManager.instance.isAimUIActive == false)
         {
             Time.timeScale = 0f;
             PauseUI.SetActive(true);
             Cursor.lockState = CursorLockMode.Confined;
             PauseEvent = true;
         }
-        else if (Input.GetKeyDown(KeyCode.Escape) && PauseUI.activeSelf)
+        else if (Input.GetKeyDown(KeyCode.Escape) && PauseUI.activeSelf && !StageEndUI.activeSelf && !GameOverUI.activeSelf && PlayerManager.instance.isAimUIActive == false)
         {
             Time.timeScale = 1f;
             PauseUI.SetActive(false);
@@ -239,15 +277,4 @@ public class GameManager : MonoBehaviour
                 break;
         }
     }
-
-    public void StageStartSequence()
-    {
-        StageStartUI.SetActive(true);
-    }
-
-    public void StageEndSequence()
-    {
-        StageEndUI.SetActive(false);
-    }
-
 }

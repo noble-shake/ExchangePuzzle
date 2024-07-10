@@ -22,9 +22,6 @@ public enum EnumStage
     Stage4,
     Stage5,
     Stage6,
-    Stage7,
-    Stage8,
-    Stage9,
 }
 public enum PlayerTag
 { 
@@ -195,9 +192,18 @@ public static class StageManageClass
         return GetStageInfo(_value);
     }
 
-    public static string NextStageInfo(EnumStage _value)
+    public static string NextStageString(EnumStage _value)
     {
+        if (_value == EnumStage.Stage6) return "AllClear";
+
         return GetStageInfo(++_value);
+    }
+
+    public static EnumStage NextStageEnum(EnumStage _value)
+    {
+        if (_value == EnumStage.Stage6) return EnumStage.MainMenu;
+
+        return ++_value;
     }
 }
 
