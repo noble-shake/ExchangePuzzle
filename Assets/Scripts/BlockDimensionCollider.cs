@@ -20,15 +20,18 @@ public class BlockDimensionCollider : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
+
+        if (other.CompareTag("block"))
+        {
+            Debug.Log("BlockCheck Coll");
+            ParentObj.BlockCheck = true;
+            return;
+        }
         if (other.CompareTag("player"))
         {
             ParentObj.TriggerOnDimensionObject(other);
-            //StartCoroutine(ParentObj.TriggerOnDimensionObject(other));
         }
-        else if (other.CompareTag("block"))
-        {
-            ParentObj.BlockCheck = true;
-        }
+
     }
 
     private void OnTriggerStay(Collider other)

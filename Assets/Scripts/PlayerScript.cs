@@ -129,19 +129,19 @@ public class PlayerScript : MonoBehaviour
     }
 
     private void JumpCheck() {
-        if (Physics.Raycast(LegColl.transform.position, -transform.up, out RaycastHit hitGround, 1.1f, LayerMask.GetMask("Ground")))
+        if (Physics.Raycast(LegColl.transform.position, -transform.up, out RaycastHit hitGround, 1f, LayerMask.GetMask("Ground")))
         {
             animJump = false;
             isGround = true;
             return;
         }
-        else if (Physics.Raycast(LegColl.transform.position, -transform.up, out RaycastHit hitWall, 1.1f, LayerMask.GetMask("Wall")))
+        else if (Physics.Raycast(LegColl.transform.position, -transform.up, out RaycastHit hitWall, 1f, LayerMask.GetMask("Wall")))
         {
             animJump = false;
             isGround = true;
             return;
         }
-        else if (Physics.Raycast(LegColl.transform.position, -transform.up, out RaycastHit hitPlayer, 1.1f, LayerMask.GetMask("Player")))
+        else if (Physics.Raycast(LegColl.transform.position, -transform.up, out RaycastHit hitPlayer, 1f, LayerMask.GetMask("Player")))
         {
 
             if (hitPlayer.collider.GetComponent<PlayerScript>().playerTag != playerTag)

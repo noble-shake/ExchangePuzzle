@@ -26,4 +26,6 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Stage6.unity
     guid: 11135777cfb72394688aea409d0888a8
-  m_configObjects: {}
+  m_configObjects:
+    com.unity.addressableassets: {fileID: 11400000, guid: b0f36f0bad399a4438ea9ce8452995b9, type: 2}
+    com.unity.localization.settings: {fileID: 11400000, guid: f40a6c95c6f45164688e288831d433d7, type: 2}

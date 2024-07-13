@@ -392,7 +392,9 @@ public class PlayerManager: MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.X) && TargetObject.GroundCheck)
         {
-            rigid.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
+            TargetObject.GroundCheck = false;
+            // rigid.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
+            rigid.velocity =  Vector3.up * jumpForce;
         }
     }
 
