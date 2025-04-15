@@ -285,7 +285,6 @@ public class PlayerManager: MonoBehaviour
             TargetObject.GetComponent<PlayerScript>().animWalk = false;
             isFirstChar = !isFirstChar;
             exCurCool = exCool;
-            // isMovable = false;
 
             // Camera Change
             // Character Controller Change
@@ -296,11 +295,8 @@ public class PlayerManager: MonoBehaviour
                 Player1Object.GetComponent<PlayerScript>().CharacterSelect = false; // isSelect On/Off
                 Player2Object.GetComponent<PlayerScript>().playerCam.SetActive(true);
                 Player2Object.GetComponent<PlayerScript>().CharacterSelect = true;
-                // Player1Object.GetComponent<Rigidbody>().mass = 1000f;
-                // Player2Object.GetComponent<Rigidbody>().mass = 1f;
                 TargetObject = Player2Object;
                 CurrentAimCam = Player2Object.GetComponent<PlayerScript>().GetAimCameraObject();
-                // Player1Object.GetComponent<Rigidbody>().velocity = rigid.velocity;
                 rigid = Player2Object.GetComponent<Rigidbody>();
                 TracingPushBlock.GetComponent<PreventPushObject>().Tracing = Player1Object;
             }
@@ -311,11 +307,8 @@ public class PlayerManager: MonoBehaviour
                 Player1Object.GetComponent<PlayerScript>().CharacterSelect = false;
                 Player2Object.GetComponent<PlayerScript>().playerCam.SetActive(false);
                 Player2Object.GetComponent<PlayerScript>().CharacterSelect = true;
-                // Player1Object.GetComponent<Rigidbody>().mass = 1f;
-                // Player2Object.GetComponent<Rigidbody>().mass = 1000f;
                 TargetObject = Player1Object;
                 CurrentAimCam = Player1Object.GetComponent<PlayerScript>().GetAimCameraObject();
-                // Player2Object.GetComponent<Rigidbody>().velocity = rigid.velocity;
                 rigid = Player1Object.GetComponent<Rigidbody>();
                 TracingPushBlock.GetComponent<PreventPushObject>().Tracing = Player2Object;
             }

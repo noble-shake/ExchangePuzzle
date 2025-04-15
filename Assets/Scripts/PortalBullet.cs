@@ -56,7 +56,27 @@ public class PortalBullet : MonoBehaviour
         {
             if (other.GetComponent<BlockScript>().getBlockType() == BlockType.Normal || other.GetComponent<BlockScript>().getBlockType() == BlockType.Moving)
             {
-                Vector3 errorVec = transform.position - other.gameObject.transform.position;
+                Vector3 errorVec = ((Vector2)transform.position - (Vector2)other.gameObject.transform.position);
+                float angle = Mathf.Atan2(errorVec.y, errorVec.x) * Mathf.Rad2Deg + 180f;
+
+                if (-45f > angle && angle >= 45f)
+                { 
+                    
+                }
+                else if (135f > angle && angle >= f)
+                {
+
+                }
+                if (-45f > angle && angle >= 45f)
+                {
+
+                }
+                if (-45f > angle && angle >= 45f)
+                {
+
+                }
+
+
                 Vector3 collisionPoint;
                 if (Mathf.Abs(errorVec.x) >= Mathf.Abs(errorVec.y))
                 {
