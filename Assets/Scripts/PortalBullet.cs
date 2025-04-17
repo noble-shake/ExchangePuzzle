@@ -56,45 +56,28 @@ public class PortalBullet : MonoBehaviour
         {
             if (other.GetComponent<BlockScript>().getBlockType() == BlockType.Normal || other.GetComponent<BlockScript>().getBlockType() == BlockType.Moving)
             {
-                Vector3 errorVec = ((Vector2)transform.position - (Vector2)other.gameObject.transform.position);
+                Vector3 errorVec = ((Vector2)other.gameObject.transform.position - (Vector2)transform.position);
                 float angle = Mathf.Atan2(errorVec.y, errorVec.x) * Mathf.Rad2Deg + 180f;
 
-                if (-45f > angle && angle >= 45f)
-                { 
-                    
-                }
-                else if (135f > angle && angle >= f)
-                {
-
-                }
-                if (-45f > angle && angle >= 45f)
-                {
-
-                }
-                if (-45f > angle && angle >= 45f)
-                {
-
-                }
-
+                Debug.Log(angle);
 
                 Vector3 collisionPoint;
-                if (Mathf.Abs(errorVec.x) >= Mathf.Abs(errorVec.y))
+                if ((315f <= angle && angle <=360f) || 45f> angle &&  angle >= 0f)
                 {
-                    if (errorVec.x > 0) { collisionPoint = Vector3.right; }
-                    else { collisionPoint = Vector3.left; }
-
+                    collisionPoint = Vector3.right;
+                }
+                else if (135f > angle && angle >= 45f)
+                {
+                    collisionPoint = Vector3.up;
+                }
+                else if (225f > angle && angle >= 135f)
+                {
+                    collisionPoint = Vector3.left;
                 }
                 else
                 {
-
-                    if (errorVec.y > 0) { collisionPoint = Vector3.up; }
-                    else { collisionPoint = Vector3.down; }
-
+                    collisionPoint = Vector3.down;
                 }
-
-
-                //Vector3 collisionPoint = other.ClosestPoint(transform.position);
-                //Vector3 collisionNormal = transform.position - collisionPoint;
 
                 GameManager.instance.RegistryBlock(other.gameObject, pid);
                 BlockScript go = other.GetComponent<BlockScript>();

@@ -142,10 +142,10 @@ public class TutorialSequence1 : Sequences
 
             if (hori != 0)
             {
-                
                 _player.GetComponent<PlayerScript>().animWalk = true;
 
-                if (hori > 0.5f && _player.GetComponent<PlayerScript>().DirectionCheck || hori < -0.5f && !_player.GetComponent<PlayerScript>().DirectionCheck)
+                if (hori > 0.5f && _player.GetComponent<PlayerScript>().DirectionCheck || hori < -0.5f 
+                    && !_player.GetComponent<PlayerScript>().DirectionCheck)
                 {
                     rotateTime = 90f;
                 }
@@ -165,13 +165,11 @@ public class TutorialSequence1 : Sequences
             }
             else
             {
-                
                 _player.GetComponent<PlayerScript>().animWalk = false;
             }
 
             yield return null;
         }
-
         queTrigger = false;
 
     }

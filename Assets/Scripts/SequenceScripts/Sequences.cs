@@ -35,7 +35,6 @@ public class Sequences: MonoBehaviour
         SequenceManager.instance.SequenceProcessing = false;
 
     }
-
     protected void GenerateSequence(List<IEnumerator> methods, List<float> delays)
     {
         SequenceManager.instance.SequenceProcessing = true;
@@ -52,7 +51,6 @@ public class Sequences: MonoBehaviour
 
     protected IEnumerator Task(IEnumerator _method, float delay)
     {
-        // yield return new WaitForSeconds(delay);
         DelaySequencer.waitTime = delay;
         yield return DelaySequencer;
         yield return StartCoroutine(_method);

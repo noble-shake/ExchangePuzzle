@@ -229,4 +229,10 @@ public class PlayerScript : MonoBehaviour
         wallStep = false;
     }
 
+    public void ControlEarn(bool isOn)
+    {
+        playerCam.SetActive(isOn);
+        CharacterSelect = isOn; // isSelect On/Off
+    }
+
 }

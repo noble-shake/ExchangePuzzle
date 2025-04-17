@@ -79,7 +79,7 @@ public class GameManager : MonoBehaviour
 
     void Start()
     {
-        PlayUI.SetActive(true);
+        // PlayUI.SetActive(true);
         Cursor.lockState = CursorLockMode.Locked;
         PauseUI.SetActive(false);
 
@@ -208,17 +208,8 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    public void PlayerUIChange() {
-        if (PlayUI.activeSelf)
-        {
-            PlayUI.SetActive(false);
-            AimUI.SetActive(true);
-        }
-        else
-        {
-            PlayUI.SetActive(true);
-            AimUI.SetActive(false);
-        }
+    public void PlayerUIChange(bool isOn) {
+            AimUI.SetActive(isOn);
     }
 
     public void RegistryBlock(GameObject _block, PlayerTag _playerID)

@@ -32,7 +32,7 @@ public class PlayerManager: MonoBehaviour
     [SerializeField] float moveSpeed;
     [SerializeField] float jumpForce;
     [SerializeField] bool isMovable;
-    [SerializeField] bool isFirstChar;
+    PlayerTag CurrentTag;
 
     public float PlayerSpeed { get { return moveSpeed; } set { moveSpeed = value; } }
 
@@ -102,6 +102,7 @@ public class PlayerManager: MonoBehaviour
 
     void Start()
     {
+        CurrentTag = PlayerTag.Player1;
         AimUI.SetActive(false);
         sequenceInstance = SequenceManager.instance;
     }
@@ -240,17 +241,14 @@ public class PlayerManager: MonoBehaviour
         {
             if (Physics.Raycast(CurrentAimCam.transform.position, CurrentAimCam.transform.forward, out RaycastHit hit, Mathf.Infinity, LayerMask.GetMask("Ground")))
             {
-
                 if (!TargetObject.GetComponent<PlayerScript>().DirectionCheck)
                 {
                     TargetObject.ShotPointRight.transform.LookAt(hit.point);
                 }
-                else {
+                else 
+                {
                     TargetObject.ShotPointLeft.transform.LookAt(hit.point);
                 }
-
-                
-                
             }
 
             if (!TargetObject.GetComponent<PlayerScript>().DirectionCheck)
@@ -274,7 +272,6 @@ public class PlayerManager: MonoBehaviour
         if (exCurCool < 0f)
         { 
             exCurCool = 0f;
-            // isMovable = true;
         }
 
         if (exCurCool > 0f) return;
@@ -283,34 +280,30 @@ public class PlayerManager: MonoBehaviour
         if (Input.GetKeyDown(KeyCode.C))
         {
             TargetObject.GetComponent<PlayerScript>().animWalk = false;
-            isFirstChar = !isFirstChar;
+            CurrentTag = (CurrentTag == PlayerTag.Player1 ? PlayerTag.Player2 : PlayerTag.Player1);
+
             exCurCool = exCool;
 
-            // Camera Change
-            // Character Controller Change
-            if (isFirstChar)
-            {
-                curPlayerID = PlayerTag.Player2;
-                Player1Object.GetComponent<PlayerScript>().playerCam.SetActive(false);
-                Player1Object.GetComponent<PlayerScript>().CharacterSelect = false; // isSelect On/Off
-                Player2Object.GetComponent<PlayerScript>().playerCam.SetActive(true);
-                Player2Object.GetComponent<PlayerScript>().CharacterSelect = true;
-                TargetObject = Player2Object;
-                CurrentAimCam = Player2Object.GetComponent<PlayerScript>().GetAimCameraObject();
-                rigid = Player2Object.GetComponent<Rigidbody>();
-                TracingPushBlock.GetComponent<PreventPushObject>().Tracing = Player1Object;
-            }
-            else
-            {
-                curPlayerID = PlayerTag.Player1;
-                Player1Object.GetComponent<PlayerScript>().playerCam.SetActive(true);
-                Player1Object.GetComponent<PlayerScript>().CharacterSelect = false;
-                Player2Object.GetComponent<PlayerScript>().playerCam.SetActive(false);
-                Player2Object.GetComponent<PlayerScript>().CharacterSelect = true;
-                TargetObject = Player1Object;
-                CurrentAimCam = Player1Object.GetComponent<PlayerScript>().GetAimCameraObject();
-                rigid = Player1Object.GetComponent<Rigidbody>();
-                TracingPushBlock.GetComponent<PreventPushObject>().Tracing = Player2Object;
+            switch (CurrentTag)
+            { 
+                case PlayerTag.Player1:
+                    curPlayerID = PlayerTag.Player1;
+                    Player1Object.GetComponent<PlayerScript>().ControlEarn(true);
+                    Player2Object.GetComponent<PlayerScript>().ControlEarn(false);
+                    TargetObject = Player1Object;
+                    CurrentAimCam = Player1Object.GetComponent<PlayerScript>().GetAimCameraObject();
+                    rigid = Player1Object.GetComponent<Rigidbody>();
+                    TracingPushBlock.GetComponent<PreventPushObject>().Tracing = Player2Object;
+                    break;
+                case PlayerTag.Player2:
+                    curPlayerID = PlayerTag.Player2;
+                    Player1Object.GetComponent<PlayerScript>().ControlEarn(false);
+                    Player2Object.GetComponent<PlayerScript>().ControlEarn(true);
+                    TargetObject = Player2Object;
+                    CurrentAimCam = Player2Object.GetComponent<PlayerScript>().GetAimCameraObject();
+                    rigid = Player2Object.GetComponent<Rigidbody>();
+                    TracingPushBlock.GetComponent<PreventPushObject>().Tracing = Player1Object;
+                    break;
             }
         }
     }
@@ -383,7 +376,7 @@ public class PlayerManager: MonoBehaviour
     private void CharacterJump() {
         if (isAiming) return;
 
-        if (Input.GetKeyDown(KeyCode.X) && TargetObject.GroundCheck)
+        if ((Input.GetKeyDown(KeyCode.X) || Input.GetKeyDown(KeyCode.Space)) && TargetObject.GroundCheck)
         {
             TargetObject.GroundCheck = false;
             // rigid.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
@@ -408,7 +401,7 @@ public class PlayerManager: MonoBehaviour
             aimCurCool = aimCool;
             TargetObject.GetComponent<PlayerScript>().playerAimCam.SetActive(true);
             isAiming = true;
-            GameManager.instance.PlayerUIChange();
+            GameManager.instance.PlayerUIChange(true);
         }
         else if (Input.GetKeyDown(KeyCode.Z) && isAiming)
         {
@@ -416,7 +409,7 @@ public class PlayerManager: MonoBehaviour
             aimCurCool = aimCool;
             TargetObject.GetComponent<PlayerScript>().playerCam.SetActive(true);
             isAiming = false;
-            GameManager.instance.PlayerUIChange();
+            GameManager.instance.PlayerUIChange(false);
             TargetObject.GunModelReset();
         }
 
@@ -430,9 +423,7 @@ public class PlayerManager: MonoBehaviour
         float mouseY = Input.GetAxisRaw("Mouse Y") * mouseSensivity / 2 * Time.deltaTime;
 
         rotateValue.x -= (mouseY + mouseX);
-        //rotateValue.y += mouseX;
         rotateValue.x = Mathf.Clamp(rotateValue.x, -60f, 60f);
-        // DirectionCheck
 
         rotateTime -= Time.deltaTime * rotateSpeed;
         if (rotateTime < 0f)
@@ -448,10 +439,6 @@ public class PlayerManager: MonoBehaviour
             rotateValue.y = 90f - rotateTime;
         }
 
-        //rotateValue.y = Mathf.Clamp(rotateValue.y, 0f, 60f);
-
-        // Character, Camera
-        // transform.rotation = Quaternion.Euler(0f, rotateValue.y, 0f);
         CurrentAimCam.transform.rotation = Quaternion.Euler(rotateValue.x, rotateValue.y, 0f);
 
 
